@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygt.cancel_appointment.mapper.CancelAppointmentsMapper">
+    
+    <resultMap type="CancelAppointments" id="CancelAppointmentsResult">
+        <result property="appointmentId"    column="appointment_id"    />
+        <result property="doctorId"    column="doctor_id"    />
+        <result property="medicalRecordNumber"    column="medical_record_number"    />
+        <result property="name"    column="name"    />
+        <result property="gender"    column="gender"    />
+        <result property="age"    column="age"    />
+        <result property="dob"    column="dob"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="address"    column="address"    />
+        <result property="settlementType"    column="settlement_type"    />
+        <result property="clinicDate"    column="clinic_date"    />
+        <result property="session"    column="session"    />
+        <result property="department"    column="department"    />
+        <result property="registrationType"    column="registration_type"    />
+        <result property="attendingDoctor"    column="attending_doctor"    />
+        <result property="initialQuota"    column="initial_quota"    />
+        <result property="usedQuota"    column="used_quota"    />
+        <result property="medicalRecordStatus"    column="medical_record_status"    />
+        <result property="receivableAmount"    column="receivable_amount"    />
+        <result property="paymentMethod"    column="payment_method"    />
+    </resultMap>
+
+    <sql id="selectCancelAppointmentsVo">
+        select appointment_id, doctor_id, medical_record_number, name, gender, age, dob, id_number, address, settlement_type, clinic_date, session, department, registration_type, attending_doctor, initial_quota, used_quota, medical_record_status, receivable_amount, payment_method from appointments
+    </sql>
+
+    <select id="selectCancelAppointmentsList" parameterType="CancelAppointments" resultMap="CancelAppointmentsResult">
+        <include refid="selectCancelAppointmentsVo"/>
+        <where>  
+            <if test="medicalRecordNumber != null  and medicalRecordNumber != ''"> and medical_record_number = #{medicalRecordNumber}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectCancelAppointmentsByAppointmentId" parameterType="Long" resultMap="CancelAppointmentsResult">
+        <include refid="selectCancelAppointmentsVo"/>
+        where appointment_id = #{appointmentId}
+    </select>
+
+    <insert id="insertCancelAppointments" parameterType="CancelAppointments" useGeneratedKeys="true" keyProperty="appointmentId">
+        insert into appointments
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="doctorId != null">doctor_id,</if>
+            <if test="medicalRecordNumber != null">medical_record_number,</if>
+            <if test="name != null">name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="age != null">age,</if>
+            <if test="dob != null">dob,</if>
+            <if test="idNumber != null">id_number,</if>
+            <if test="address != null">address,</if>
+            <if test="settlementType != null">settlement_type,</if>
+            <if test="clinicDate != null">clinic_date,</if>
+            <if test="session != null">session,</if>
+            <if test="department != null">department,</if>
+            <if test="registrationType != null">registration_type,</if>
+            <if test="attendingDoctor != null">attending_doctor,</if>
+            <if test="initialQuota != null">initial_quota,</if>
+            <if test="usedQuota != null">used_quota,</if>
+            <if test="medicalRecordStatus != null">medical_record_status,</if>
+            <if test="receivableAmount != null">receivable_amount,</if>
+            <if test="paymentMethod != null">payment_method,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="doctorId != null">#{doctorId},</if>
+            <if test="medicalRecordNumber != null">#{medicalRecordNumber},</if>
+            <if test="name != null">#{name},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="age != null">#{age},</if>
+            <if test="dob != null">#{dob},</if>
+            <if test="idNumber != null">#{idNumber},</if>
+            <if test="address != null">#{address},</if>
+            <if test="settlementType != null">#{settlementType},</if>
+            <if test="clinicDate != null">#{clinicDate},</if>
+            <if test="session != null">#{session},</if>
+            <if test="department != null">#{department},</if>
+            <if test="registrationType != null">#{registrationType},</if>
+            <if test="attendingDoctor != null">#{attendingDoctor},</if>
+            <if test="initialQuota != null">#{initialQuota},</if>
+            <if test="usedQuota != null">#{usedQuota},</if>
+            <if test="medicalRecordStatus != null">#{medicalRecordStatus},</if>
+            <if test="receivableAmount != null">#{receivableAmount},</if>
+            <if test="paymentMethod != null">#{paymentMethod},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCancelAppointments" parameterType="CancelAppointments">
+        update appointments
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="doctorId != null">doctor_id = #{doctorId},</if>
+            <if test="medicalRecordNumber != null">medical_record_number = #{medicalRecordNumber},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="dob != null">dob = #{dob},</if>
+            <if test="idNumber != null">id_number = #{idNumber},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="settlementType != null">settlement_type = #{settlementType},</if>
+            <if test="clinicDate != null">clinic_date = #{clinicDate},</if>
+            <if test="session != null">session = #{session},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="registrationType != null">registration_type = #{registrationType},</if>
+            <if test="attendingDoctor != null">attending_doctor = #{attendingDoctor},</if>
+            <if test="initialQuota != null">initial_quota = #{initialQuota},</if>
+            <if test="usedQuota != null">used_quota = #{usedQuota},</if>
+            <if test="medicalRecordStatus != null">medical_record_status = #{medicalRecordStatus},</if>
+            <if test="receivableAmount != null">receivable_amount = #{receivableAmount},</if>
+            <if test="paymentMethod != null">payment_method = #{paymentMethod},</if>
+        </trim>
+        where appointment_id = #{appointmentId}
+    </update>
+
+    <delete id="deleteCancelAppointmentsByAppointmentId" parameterType="Long">
+        delete from appointments where appointment_id = #{appointmentId}
+    </delete>
+
+    <delete id="deleteCancelAppointmentsByAppointmentIds" parameterType="String">
+        delete from appointments where appointment_id in 
+        <foreach item="appointmentId" collection="array" open="(" separator="," close=")">
+            #{appointmentId}
+        </foreach>
+    </delete>
+</mapper>
