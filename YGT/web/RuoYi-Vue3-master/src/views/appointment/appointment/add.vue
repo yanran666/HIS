@@ -296,6 +296,7 @@
 <script setup>
 import { ElMessage } from "element-plus";
 const formRef = ref();
+import { addAppointment } from '@/api/appointment';
 const data = reactive({
   formData: {
     field104: undefined,
@@ -476,7 +477,15 @@ const field130Options = ref([
 function submitForm() {
   formRef.value.validate((valid) => {
     if (!valid) return;
-    // TODO 提交表单
+    // 提交表单
+    addAppointment(formData.value)
+      .then((response) => {
+        ElMessage.success('挂号成功');
+        resetForm();
+      })
+      .catch((error) => {
+        ElMessage.error('挂号失败: ' + error.message);
+      });
   });
 }
 /**
