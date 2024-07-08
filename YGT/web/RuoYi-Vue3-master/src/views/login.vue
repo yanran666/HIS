@@ -6,7 +6,7 @@
       :rules="loginRules"
       class="login-form"
     >
-      <h3 class="title">医管通医院信息管理系统</h3>
+      <h3 class="title">医管通医疗预约系统</h3>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -76,7 +76,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2024 ylsf.ygt All Rights Reserved.</span>
+      <span>Copyright © 2021-2025 ylsf.ygt All Rights Reserved.</span>
     </div>
   </div>
 </template>
