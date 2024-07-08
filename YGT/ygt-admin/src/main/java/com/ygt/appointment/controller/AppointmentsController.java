@@ -1,4 +1,5 @@
-package com.ygt.cancel_appointment.controller;
+package com.ygt.appointment.controller;
+
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -18,33 +19,33 @@ import com.ygt.common.annotation.Log;
 import com.ygt.common.core.controller.BaseController;
 import com.ygt.common.core.domain.AjaxResult;
 import com.ygt.common.enums.BusinessType;
-import com.ygt.cancel_appointment.domain.CancelAppointments;
-import com.ygt.cancel_appointment.service.ICancelAppointmentsService;
+import com.ygt.appointment.domain.Appointments;
+import com.ygt.appointment.service.IAppointmentsService;
 import com.ygt.common.utils.poi.ExcelUtil;
 import com.ygt.common.core.page.TableDataInfo;
 
 /**
  * 退号Controller
- * 
+ *
  * @author yhp
  * @date 2024-07-08
  */
 @RestController
-@RequestMapping("/cancel_appointment/cancel_appointment")
-public class CancelAppointmentsController extends BaseController
+@RequestMapping("/appointment/appointment")
+public class AppointmentsController extends BaseController
 {
     @Autowired
-    private ICancelAppointmentsService cancelAppointmentsService;
+    private IAppointmentsService AppointmentsService;
 
     /**
      * 查询退号列表
      */
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:list')")
     @GetMapping("/list")
-    public TableDataInfo list(CancelAppointments cancelAppointments)
+    public TableDataInfo list(Appointments Appointments)
     {
         startPage();
-        List<CancelAppointments> list = cancelAppointmentsService.selectCancelAppointmentsList(cancelAppointments);
+        List<Appointments> list = AppointmentsService.selectAppointmentsList(Appointments);
         return getDataTable(list);
     }
 
@@ -54,10 +55,10 @@ public class CancelAppointmentsController extends BaseController
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:export')")
     @Log(title = "退号", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, CancelAppointments cancelAppointments)
+    public void export(HttpServletResponse response, Appointments Appointments)
     {
-        List<CancelAppointments> list = cancelAppointmentsService.selectCancelAppointmentsList(cancelAppointments);
-        ExcelUtil<CancelAppointments> util = new ExcelUtil<CancelAppointments>(CancelAppointments.class);
+        List<Appointments> list = AppointmentsService.selectAppointmentsList(Appointments);
+        ExcelUtil<Appointments> util = new ExcelUtil<Appointments>(Appointments.class);
         util.exportExcel(response, list, "退号数据");
     }
 
@@ -68,7 +69,7 @@ public class CancelAppointmentsController extends BaseController
     @GetMapping(value = "/{appointmentId}")
     public AjaxResult getInfo(@PathVariable("appointmentId") Long appointmentId)
     {
-        return success(cancelAppointmentsService.selectCancelAppointmentsByAppointmentId(appointmentId));
+        return success(AppointmentsService.selectAppointmentsByAppointmentId(appointmentId));
     }
 
     /**
@@ -77,9 +78,9 @@ public class CancelAppointmentsController extends BaseController
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:add')")
     @Log(title = "退号", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody CancelAppointments cancelAppointments)
+    public AjaxResult add(@RequestBody Appointments Appointments)
     {
-        return toAjax(cancelAppointmentsService.insertCancelAppointments(cancelAppointments));
+        return toAjax(AppointmentsService.insertAppointments(Appointments));
     }
 
     /**
@@ -88,9 +89,9 @@ public class CancelAppointmentsController extends BaseController
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:edit')")
     @Log(title = "退号", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody CancelAppointments cancelAppointments)
+    public AjaxResult edit(@RequestBody Appointments Appointments)
     {
-        return toAjax(cancelAppointmentsService.updateCancelAppointments(cancelAppointments));
+        return toAjax(AppointmentsService.updateAppointments(Appointments));
     }
 
     /**
@@ -98,9 +99,9 @@ public class CancelAppointmentsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:remove')")
     @Log(title = "退号", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{appointmentIds}")
+    @DeleteMapping("/{appointmentIds}")
     public AjaxResult remove(@PathVariable Long[] appointmentIds)
     {
-        return toAjax(cancelAppointmentsService.deleteCancelAppointmentsByAppointmentIds(appointmentIds));
+        return toAjax(AppointmentsService.deleteAppointmentsByAppointmentIds(appointmentIds));
     }
 }
