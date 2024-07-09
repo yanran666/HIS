@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row :gutter="10">
+    <el-row :gutter="20" class="basic">
       <el-form
         ref="formRef"
         :model="formData"
@@ -497,4 +497,9 @@ function resetForm() {
   formRef.value.resetFields();
 }
 </script>
-<style></style>
+<style>
+.basic {
+  margin: 50px;
+  padding-left: 100px;
+}
+</style>
