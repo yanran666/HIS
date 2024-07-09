@@ -70,7 +70,7 @@
         <div style="float: right">
           <router-link class="link-type" :to="'/register'"
             >立即注册</router-link
-            >
+          >
         </div>
       </el-form-item>
     </el-form>
@@ -94,7 +94,7 @@ const { proxy } = getCurrentInstance();
 
 const loginForm = ref({
   username: "admin",
-  password: "admin123",
+  // password: "admin123",
   rememberMe: false,
   code: "",
   uuid: "",

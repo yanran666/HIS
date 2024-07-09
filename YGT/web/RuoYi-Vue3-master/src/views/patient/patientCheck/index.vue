@@ -98,6 +98,14 @@
           <el-button
             link
             type="primary"
+            icon="Add"
+            @click="handleCreate"
+            v-hasPermi="['patient:patientCheck:edit']"
+            >创建病历</el-button
+          >
+          <el-button
+            link
+            type="primary"
             icon="Edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['patient:patientCheck:edit']"
@@ -207,7 +215,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script setup name="PatientCheck">
 import {
   listPatientCheck,
@@ -216,8 +223,11 @@ import {
   addPatientCheck,
   updatePatientCheck,
 } from "@/api/patient/patientCheck";
+import { ref, reactive, toRefs, getCurrentInstance } from "vue";
+import { useRouter } from "vue-router";
 
 const { proxy } = getCurrentInstance();
+const router = useRouter();
 
 const patientCheckList = ref([]);
 const open = ref(false);
@@ -302,6 +312,10 @@ function handleSelectionChange(selection) {
   ids.value = selection.map((item) => item.appointmentId);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
+}
+
+function handleCreate() {
+  router.push("/diagnose/records");
 }
 
 /** 新增按钮操作 */

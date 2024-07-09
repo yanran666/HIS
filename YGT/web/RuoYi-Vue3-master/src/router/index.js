@@ -27,6 +27,19 @@ import Layout from '@/layout'
 // 公共路由
 export const constantRoutes = [
   {
+    path: '/records',
+    component: Layout,
+    children: [
+      {
+        path: 'add',
+        component: () => import('@/views/records/records/add.vue'),
+        name: 'AddRecord',
+        meta: { title: '添加病历', icon: 'edit', permissions: ['patient:patientCheck:edit'] }
+      }
+    ]
+  },
+  
+  {
     path: '/redirect',
     component: Layout,
     hidden: true,
