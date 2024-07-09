@@ -5,12 +5,12 @@
         ref="formRef"
         :model="formData"
         :rules="rules"
-        size="small"
-        label-width="78px"
+        size="large"
+        label-width="79px"
         label-position="left"
       >
         <el-col :span="24">
-          <el-row gutter="15">
+          <el-row gutter="10">
             <el-col :span="8">
               <el-form-item label="病历号" prop="medicalRecordNumber">
                 <el-input
