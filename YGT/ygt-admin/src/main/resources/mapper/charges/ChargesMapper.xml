@@ -17,10 +17,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="category"    column="category"    />
         <result property="specification"    column="specification"    />
         <result property="issueDate"    column="issue_date"    />
+        <result property="amount"    column="amount"    />
     </resultMap>
 
     <sql id="selectChargesVo">
-        select charge_id, appointment_id, medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification, issue_date from charges
+        select charge_id, appointment_id, medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification, issue_date, amount from charges
     </sql>
 
     <select id="selectChargesList" parameterType="Charges" resultMap="ChargesResult">
@@ -36,10 +37,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where charge_id = #{chargeId}
     </select>
 
-    <insert id="insertCharges" parameterType="Charges">
+    <insert id="insertCharges" parameterType="Charges" useGeneratedKeys="true" keyProperty="chargeId">
         insert into charges
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="chargeId != null">charge_id,</if>
             <if test="appointmentId != null">appointment_id,</if>
             <if test="medicalRecordNumber != null">medical_record_number,</if>
             <if test="patientName != null">patient_name,</if>
@@ -51,9 +51,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="category != null">category,</if>
             <if test="specification != null">specification,</if>
             <if test="issueDate != null">issue_date,</if>
+            <if test="amount != null">amount,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="chargeId != null">#{chargeId},</if>
             <if test="appointmentId != null">#{appointmentId},</if>
             <if test="medicalRecordNumber != null">#{medicalRecordNumber},</if>
             <if test="patientName != null">#{patientName},</if>
@@ -65,6 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="category != null">#{category},</if>
             <if test="specification != null">#{specification},</if>
             <if test="issueDate != null">#{issueDate},</if>
+            <if test="amount != null">#{amount},</if>
          </trim>
     </insert>
 
@@ -82,6 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="category != null">category = #{category},</if>
             <if test="specification != null">specification = #{specification},</if>
             <if test="issueDate != null">issue_date = #{issueDate},</if>
+            <if test="amount != null">amount = #{amount},</if>
         </trim>
         where charge_id = #{chargeId}
     </update>

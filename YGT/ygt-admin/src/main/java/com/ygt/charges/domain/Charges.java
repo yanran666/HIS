@@ -3,7 +3,6 @@ package com.ygt.charges.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ygt.appointment.domain.Appointments;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ygt.common.annotation.Excel;
@@ -60,6 +59,10 @@ public class Charges extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "开立时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date issueDate;
+
+    /** 数量 */
+    @Excel(name = "数量")
+    private String amount;
 
     public void setChargeId(Long chargeId) 
     {
@@ -169,6 +172,15 @@ public class Charges extends BaseEntity
     {
         return issueDate;
     }
+    public void setAmount(String amount) 
+    {
+        this.amount = amount;
+    }
+
+    public String getAmount() 
+    {
+        return amount;
+    }
 
     @Override
     public String toString() {
@@ -185,6 +197,7 @@ public class Charges extends BaseEntity
             .append("category", getCategory())
             .append("specification", getSpecification())
             .append("issueDate", getIssueDate())
+            .append("amount", getAmount())
             .toString();
     }
 }
