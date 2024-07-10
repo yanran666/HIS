@@ -29,7 +29,7 @@
         >
       </el-form-item>
       <div class="patient-info">
-        <el-form :model="chargesList" label-width="120px">
+        <el-form :model="refundList" label-width="120px">
           <el-col :span="24">
             <el-row gutter="10">
               <el-col :span="3">
@@ -82,12 +82,12 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['cancel_appointment:cancel_appointment:remove']"
-        >收费结算</el-button>
+        >退费结算</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table :data="chargesList" @selection-change="handleSelectionChange">
+    <el-table :data="refundList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="收费ID" align="center" prop="chargeId" />
       <el-table-column label="项目名称" align="center" prop="itemName" />
@@ -109,18 +109,18 @@
   </div>
 </template>
 
-<script setup name="Charges">
+<script setup name="refund">
 import {
-  listCharges,
-  getCharges,
-  delCharges,
-  addCharges,
-  updateCharges,
-} from "@/api/charges/charges";
+  listRefund,
+  getRefund,
+  delRefund,
+  addRefund,
+  updateRefund,
+} from "@/api/refund/refund";
 
 const { proxy } = getCurrentInstance();
 
-const chargesList = ref([]);
+const refundList = ref([]);
 const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -151,8 +151,8 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询收费列表 */
 function getList() {
   loading.value = true;
-  listCharges(queryParams.value).then((response) => {
-    chargesList.value = response.rows;
+  listrefund(queryParams.value).then((response) => {
+    refundList.value = response.rows;
     total.value = response.total;
     loading.value = false;
     idNumber.value = response.rows[0].idNumber;
@@ -179,7 +179,7 @@ function reset() {
     issueDate: null,
     amount: null,
   };
-  proxy.resetForm("chargesRef");
+  proxy.resetForm("refundRef");
 }
 
 /** 搜索按钮操作 */
@@ -212,7 +212,7 @@ function handleAdd() {
 function handleUpdate(row) {
   reset();
   const _chargeId = row.chargeId || ids.value;
-  getCharges(_chargeId).then((response) => {
+  getrefund(_chargeId).then((response) => {
     form.value = response.data;
     open.value = true;
     title.value = "修改收费";
@@ -221,16 +221,16 @@ function handleUpdate(row) {
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["chargesRef"].validate((valid) => {
+  proxy.$refs["refundRef"].validate((valid) => {
     if (valid) {
       if (form.value.chargeId != null) {
-        updateCharges(form.value).then((response) => {
+        updaterefund(form.value).then((response) => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addCharges(form.value).then((response) => {
+        addrefund(form.value).then((response) => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -246,7 +246,7 @@ function handleDelete(row) {
   proxy.$modal
     .confirm('是否确认删除收费编号为"' + _chargeIds + '"的数据项？')
     .then(function () {
-      return delCharges(_chargeIds);
+      return delrefund(_chargeIds);
     })
     .then(() => {
       getList();
@@ -258,11 +258,11 @@ function handleDelete(row) {
 /** 导出按钮操作 */
 function handleExport() {
   proxy.download(
-    "charges/charges/export",
+    "refund/refund/export",
     {
       ...queryParams.value,
     },
-    `charges_${new Date().getTime()}.xlsx`
+    `refund_${new Date().getTime()}.xlsx`
   );
 }
 </script>
