@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygt.diseases.mapper.DiseasesMapper">
+    
+    <resultMap type="Diseases" id="DiseasesResult">
+        <result property="diseaseId"    column="disease_id"    />
+        <result property="diseaseCode"    column="disease_code"    />
+        <result property="diseaseName"    column="disease_name"    />
+        <result property="icdCode"    column="icd_code"    />
+        <result property="diseaseType"    column="disease_type"    />
+    </resultMap>
+
+    <sql id="selectDiseasesVo">
+        select disease_id, disease_code, disease_name, icd_code, disease_type from diseases
+    </sql>
+
+    <select id="selectDiseasesList" parameterType="Diseases" resultMap="DiseasesResult">
+        <include refid="selectDiseasesVo"/>
+        <where>  
+            <if test="diseaseName != null  and diseaseName != ''"> and disease_name like concat('%', #{diseaseName}, '%')</if>
+            <if test="icdCode != null  and icdCode != ''"> and icd_code = #{icdCode}</if>
+            <if test="diseaseType != null  and diseaseType != ''"> and disease_type = #{diseaseType}</if>
+        </where>
+    </select>
+    
+    <select id="selectDiseasesByDiseaseId" parameterType="Long" resultMap="DiseasesResult">
+        <include refid="selectDiseasesVo"/>
+        where disease_id = #{diseaseId}
+    </select>
+
+    <insert id="insertDiseases" parameterType="Diseases" useGeneratedKeys="true" keyProperty="diseaseId">
+        insert into diseases
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="diseaseCode != null">disease_code,</if>
+            <if test="diseaseName != null">disease_name,</if>
+            <if test="icdCode != null">icd_code,</if>
+            <if test="diseaseType != null">disease_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="diseaseCode != null">#{diseaseCode},</if>
+            <if test="diseaseName != null">#{diseaseName},</if>
+            <if test="icdCode != null">#{icdCode},</if>
+            <if test="diseaseType != null">#{diseaseType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDiseases" parameterType="Diseases">
+        update diseases
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="diseaseCode != null">disease_code = #{diseaseCode},</if>
+            <if test="diseaseName != null">disease_name = #{diseaseName},</if>
+            <if test="icdCode != null">icd_code = #{icdCode},</if>
+            <if test="diseaseType != null">disease_type = #{diseaseType},</if>
+        </trim>
+        where disease_id = #{diseaseId}
+    </update>
+
+    <delete id="deleteDiseasesByDiseaseId" parameterType="Long">
+        delete from diseases where disease_id = #{diseaseId}
+    </delete>
+
+    <delete id="deleteDiseasesByDiseaseIds" parameterType="String">
+        delete from diseases where disease_id in 
+        <foreach item="diseaseId" collection="array" open="(" separator="," close=")">
+            #{diseaseId}
+        </foreach>
+    </delete>
+</mapper>
