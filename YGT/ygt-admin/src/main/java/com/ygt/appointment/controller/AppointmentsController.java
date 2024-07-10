@@ -82,7 +82,8 @@ public class AppointmentsController extends BaseController
     {
         AjaxResult result = toAjax(AppointmentsService.insertAppointments(Appointments));
         if (result.isSuccess()){
-            result =  toAjax(AppointmentsService.insertCharges(Appointments));
+            AppointmentsService.insertCharges(Appointments);
+            result =  toAjax(AppointmentsService.insertRefund(Appointments));
         }
         return result;
     }
