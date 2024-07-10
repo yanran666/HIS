@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygt.charges.mapper.ChargesMapper">
+    
+    <resultMap type="Charges" id="ChargesResult">
+        <result property="chargeId"    column="charge_id"    />
+        <result property="appointmentId"    column="appointment_id"    />
+        <result property="medicalRecordNumber"    column="medical_record_number"    />
+        <result property="patientName"    column="patient_name"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="age"    column="age"    />
+        <result property="gender"    column="gender"    />
+        <result property="itemName"    column="item_name"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="category"    column="category"    />
+        <result property="specification"    column="specification"    />
+        <result property="issueDate"    column="issue_date"    />
+    </resultMap>
+
+    <sql id="selectChargesVo">
+        select charge_id, appointment_id, medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification, issue_date from charges
+    </sql>
+
+    <select id="selectChargesList" parameterType="Charges" resultMap="ChargesResult">
+        <include refid="selectChargesVo"/>
+        <where>  
+            <if test="medicalRecordNumber != null "> and medical_record_number = #{medicalRecordNumber}</if>
+            <if test="patientName != null  and patientName != ''"> and patient_name like concat('%', #{patientName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectChargesByChargeId" parameterType="Long" resultMap="ChargesResult">
+        <include refid="selectChargesVo"/>
+        where charge_id = #{chargeId}
+    </select>
+
+    <insert id="insertCharges" parameterType="Charges">
+        insert into charges
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chargeId != null">charge_id,</if>
+            <if test="appointmentId != null">appointment_id,</if>
+            <if test="medicalRecordNumber != null">medical_record_number,</if>
+            <if test="patientName != null">patient_name,</if>
+            <if test="idNumber != null">id_number,</if>
+            <if test="age != null">age,</if>
+            <if test="gender != null">gender,</if>
+            <if test="itemName != null">item_name,</if>
+            <if test="unitPrice != null">unit_price,</if>
+            <if test="category != null">category,</if>
+            <if test="specification != null">specification,</if>
+            <if test="issueDate != null">issue_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chargeId != null">#{chargeId},</if>
+            <if test="appointmentId != null">#{appointmentId},</if>
+            <if test="medicalRecordNumber != null">#{medicalRecordNumber},</if>
+            <if test="patientName != null">#{patientName},</if>
+            <if test="idNumber != null">#{idNumber},</if>
+            <if test="age != null">#{age},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="itemName != null">#{itemName},</if>
+            <if test="unitPrice != null">#{unitPrice},</if>
+            <if test="category != null">#{category},</if>
+            <if test="specification != null">#{specification},</if>
+            <if test="issueDate != null">#{issueDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCharges" parameterType="Charges">
+        update charges
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appointmentId != null">appointment_id = #{appointmentId},</if>
+            <if test="medicalRecordNumber != null">medical_record_number = #{medicalRecordNumber},</if>
+            <if test="patientName != null">patient_name = #{patientName},</if>
+            <if test="idNumber != null">id_number = #{idNumber},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="itemName != null">item_name = #{itemName},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="issueDate != null">issue_date = #{issueDate},</if>
+        </trim>
+        where charge_id = #{chargeId}
+    </update>
+
+    <delete id="deleteChargesByChargeId" parameterType="Long">
+        delete from charges where charge_id = #{chargeId}
+    </delete>
+
+    <delete id="deleteChargesByChargeIds" parameterType="String">
+        delete from charges where charge_id in 
+        <foreach item="chargeId" collection="array" open="(" separator="," close=")">
+            #{chargeId}
+        </foreach>
+    </delete>
+</mapper>
