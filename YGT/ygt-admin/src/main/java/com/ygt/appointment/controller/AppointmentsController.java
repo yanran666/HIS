@@ -25,7 +25,7 @@ import com.ygt.common.utils.poi.ExcelUtil;
 import com.ygt.common.core.page.TableDataInfo;
 
 /**
- * 退号Controller
+ * 挂号Controller
  *
  * @author yhp
  * @date 2024-07-08
@@ -38,7 +38,7 @@ public class AppointmentsController extends BaseController
     private IAppointmentsService AppointmentsService;
 
     /**
-     * 查询退号列表
+     * 查询挂号列表
      */
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:list')")
     @GetMapping("/list")
@@ -50,20 +50,20 @@ public class AppointmentsController extends BaseController
     }
 
     /**
-     * 导出退号列表
+     * 导出挂号列表
      */
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:export')")
-    @Log(title = "退号", businessType = BusinessType.EXPORT)
+    @Log(title = "挂号", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Appointments Appointments)
     {
         List<Appointments> list = AppointmentsService.selectAppointmentsList(Appointments);
         ExcelUtil<Appointments> util = new ExcelUtil<Appointments>(Appointments.class);
-        util.exportExcel(response, list, "退号数据");
+        util.exportExcel(response, list, "挂号数据");
     }
 
     /**
-     * 获取退号详细信息
+     * 获取挂号详细信息
      */
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:query')")
     @GetMapping(value = "/{appointmentId}")
@@ -73,21 +73,25 @@ public class AppointmentsController extends BaseController
     }
 
     /**
-     * 新增退号
+     * 新增挂号
      */
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:add')")
-    @Log(title = "退号", businessType = BusinessType.INSERT)
+    @Log(title = "挂号", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Appointments Appointments)
     {
-        return toAjax(AppointmentsService.insertAppointments(Appointments));
+        AjaxResult result = toAjax(AppointmentsService.insertAppointments(Appointments));
+        if (result.isSuccess()){
+            result =  toAjax(AppointmentsService.insertCharges(Appointments));
+        }
+        return result;
     }
 
     /**
-     * 修改退号
+     * 修改挂号
      */
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:edit')")
-    @Log(title = "退号", businessType = BusinessType.UPDATE)
+    @Log(title = "挂号", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Appointments Appointments)
     {
@@ -95,10 +99,10 @@ public class AppointmentsController extends BaseController
     }
 
     /**
-     * 删除退号
+     * 删除挂号
      */
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:remove')")
-    @Log(title = "退号", businessType = BusinessType.DELETE)
+    @Log(title = "挂号", businessType = BusinessType.DELETE)
     @DeleteMapping("/{appointmentIds}")
     public AjaxResult remove(@PathVariable Long[] appointmentIds)
     {

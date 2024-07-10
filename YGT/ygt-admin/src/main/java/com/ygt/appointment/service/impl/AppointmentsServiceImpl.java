@@ -55,7 +55,17 @@ public class AppointmentsServiceImpl implements IAppointmentsService
     {
         return AppointmentsMapper.insertAppointments(Appointments);
     }
-
+    /**
+     * 新增挂号
+     *
+     * @param Appointments 挂号
+     * @return 结果
+     */
+    @Override
+    public int insertCharges(Appointments Appointments)
+    {
+        return AppointmentsMapper.insertCharges(Appointments);
+    }
     /**
      * 修改挂号
      *
