@@ -133,6 +133,7 @@
 <script setup>
 import { ElMessage } from "element-plus";
 import { listRecords, getRecords, delRecords } from "@/api/records/records";
+import { addRecords } from "@/api/records/records";
 import AddRecordDialog from "@/views/diseases/diseases/AddRecordDialog.vue";
 const dialogVisible = ref(false);
 const formRef = ref();
@@ -188,11 +189,18 @@ function getList() {
 function handleSelectionChange(selection) {
   ids.value = selection.map((item) => item.medicalRecordId);
 }
-
 function submitForm() {
   formRef.value.validate((valid) => {
     if (!valid) return;
-    // TODO 提交表单
+    // 提交表单
+    addRecords(formData.value)
+      .then((response) => {
+        ElMessage.success("添加成功");
+        resetForm();
+      })
+      .catch((error) => {
+        ElMessage.error("添加失败: " + error.message);
+      });
   });
 }
 

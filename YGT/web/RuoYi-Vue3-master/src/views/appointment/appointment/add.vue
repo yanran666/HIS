@@ -484,7 +484,7 @@ function submitForm() {
         resetForm();
       })
       .catch((error) => {
-        ElMessage.error("挂号失败: " + error.message);
+        ElMessage.error("挂号失败: 请检查病历号是否重复");
       });
   });
 }
