@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="base">
     <el-form
       ref="formRef"
       :model="formData"
@@ -57,9 +57,13 @@
           :style="{ width: '100%' }"
         ></el-input>
       </el-form-item>
-      <el-form-item label-width="106px" label="体格检查" prop="field106">
+      <el-form-item
+        label-width="106px"
+        label="体格检查"
+        prop="physicalExamination"
+      >
         <el-input
-          v-model="formData.field106"
+          v-model="formData.physicalExamination"
           type="text"
           placeholder="请输入体格检查"
           clearable
@@ -67,70 +71,52 @@
         ></el-input>
       </el-form-item>
 
-      <el-form-item>
-        <div class="app-container">
-          <el-form
-            :model="queryParams"
-            ref="queryRef"
-            :inline="true"
-            v-show="showSearch"
-            label-width="68px"
-          >
-          </el-form>
-
+      <el-form-item label-width="106px" label="诊断">
+        <div>
           <el-table
             v-loading="loading"
             :data="recordsList"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="55" align="center" />
+            <el-table-column type="selection" width="50" align="center" />
             <el-table-column
               label="病历ID"
               align="center"
               prop="medicalRecordId"
+              width="110px"
             />
             <el-table-column
               label="疾病编码"
               align="center"
               prop="diseaseCode"
+              width="110px"
             />
             <el-table-column
               label="疾病名称"
               align="center"
               prop="diseaseName"
+              width="100px"
             />
             <el-table-column
               label="国际ICD编码"
               align="center"
               prop="icdCode"
+              width="150px"
             />
             <el-table-column
               label="疾病类型"
               align="center"
               prop="diseaseType"
+              width="100px"
             />
             <el-table-column
-              label="操作"
-              align="center"
-              class-name="small-padding fixed-width"
+              width="100px
+            "
             >
-              <template #default="scope">
-                <el-button
-                  link
-                  type="primary"
-                  icon="Edit"
-                  @click="handleUpdate(scope.row)"
-                  v-hasPermi="['records:records:edit']"
-                  >修改</el-button
-                >
-                <el-button
-                  link
-                  type="primary"
-                  icon="Delete"
-                  @click="handleDelete(scope.row)"
-                  v-hasPermi="['records:records:remove']"
-                  >删除</el-button
-                >
+              <template #header>
+                <el-button>
+                  
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -220,7 +206,7 @@ const data = reactive({
     treatmentHistory: undefined,
     pastHistory: undefined,
     allergyHistory: undefined,
-    field106: undefined,
+    physicalExamination: undefined,
   },
   rules: {
     chiefComplaint: [
@@ -258,7 +244,7 @@ const data = reactive({
         trigger: "blur",
       },
     ],
-    field106: [
+    physicalExamination: [
       {
         required: true,
         message: "请输入体感检查",
@@ -344,27 +330,6 @@ function handleUpdate(row) {
   });
 }
 
-// /** 提交按钮 */
-// function submitForm() {
-//   proxy.$refs["recordsRef"].validate(valid => {
-//     if (valid) {
-//       if (form.value.medicalRecordId != null) {
-//         updateRecords(form.value).then(response => {
-//           proxy.$modal.msgSuccess("修改成功");
-//           open.value = false;
-//           getList();
-//         });
-//       } else {
-//         addRecords(form.value).then(response => {
-//           proxy.$modal.msgSuccess("新增成功");
-//           open.value = false;
-//           getList();
-//         });
-//       }
-//     }
-//   });
-// }
-
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _medicalRecordIds = row.medicalRecordId || ids.value;
@@ -412,4 +377,13 @@ function resetForm() {
   formRef.value.resetFields();
 }
 </script>
-<style></style>
+<style>
+.zhenduan {
+  padding-top: 30px;
+}
+.base {
+  margin: 50px;
+  padding-left: 100px;
+  padding-right: 600px;
+}
+</style>
