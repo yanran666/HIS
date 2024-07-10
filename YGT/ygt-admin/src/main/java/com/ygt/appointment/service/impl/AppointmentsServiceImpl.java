@@ -56,7 +56,7 @@ public class AppointmentsServiceImpl implements IAppointmentsService
         return AppointmentsMapper.insertAppointments(Appointments);
     }
     /**
-     * 新增挂号
+     * 新增收费
      *
      * @param Appointments 挂号
      * @return 结果
@@ -65,6 +65,17 @@ public class AppointmentsServiceImpl implements IAppointmentsService
     public int insertCharges(Appointments Appointments)
     {
         return AppointmentsMapper.insertCharges(Appointments);
+    }
+    /**
+     * 新增收费
+     *
+     * @param Appointments 挂号
+     * @return 结果
+     */
+    @Override
+    public int insertRefund(Appointments Appointments)
+    {
+        return AppointmentsMapper.insertRefund(Appointments);
     }
     /**
      * 修改挂号
