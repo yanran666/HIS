@@ -5,7 +5,7 @@ import java.util.List;
 import com.ygt.appointment.domain.Appointments;
 
 /**
- * 退号Service接口
+ * 挂号Service接口
  *
  * @author yhp
  * @date 2024-07-08
@@ -13,49 +13,55 @@ import com.ygt.appointment.domain.Appointments;
 public interface IAppointmentsService
 {
     /**
-     * 查询退号
+     * 查询挂号
      *
-     * @param appointmentId 退号主键
-     * @return 退号
+     * @param appointmentId 挂号主键
+     * @return 挂号
      */
     public Appointments selectAppointmentsByAppointmentId(Long appointmentId);
 
     /**
-     * 查询退号列表
+     * 查询挂号列表
      *
-     * @param Appointments 退号
-     * @return 退号集合
+     * @param Appointments 挂号
+     * @return 挂号集合
      */
     public List<Appointments> selectAppointmentsList(Appointments Appointments);
 
     /**
-     * 新增退号
+     * 新增挂号
      *
-     * @param Appointments 退号
+     * @param Appointments 挂号
      * @return 结果
      */
     public int insertAppointments(Appointments Appointments);
-
     /**
-     * 修改退号
+     * 新增挂号
      *
-     * @param Appointments 退号
+     * @param Appointments 挂号
+     * @return 结果
+     */
+    public int insertCharges(Appointments Appointments);
+    /**
+     * 修改挂号
+     *
+     * @param Appointments 挂号
      * @return 结果
      */
     public int updateAppointments(Appointments Appointments);
 
     /**
-     * 批量删除退号
+     * 批量删除挂号
      *
-     * @param appointmentIds 需要删除的退号主键集合
+     * @param appointmentIds 需要删除的挂号主键集合
      * @return 结果
      */
     public int deleteAppointmentsByAppointmentIds(Long[] appointmentIds);
 
     /**
-     * 删除退号信息
+     * 删除挂号信息
      *
-     * @param appointmentId 退号主键
+     * @param appointmentId 挂号主键
      * @return 结果
      */
     public int deleteAppointmentsByAppointmentId(Long appointmentId);
