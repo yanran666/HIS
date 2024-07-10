@@ -151,7 +151,7 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询收费列表 */
 function getList() {
   loading.value = true;
-  listrefund(queryParams.value).then((response) => {
+  listRefund(queryParams.value).then((response) => {
     refundList.value = response.rows;
     total.value = response.total;
     loading.value = false;
@@ -212,7 +212,7 @@ function handleAdd() {
 function handleUpdate(row) {
   reset();
   const _chargeId = row.chargeId || ids.value;
-  getrefund(_chargeId).then((response) => {
+  getRefund(_chargeId).then((response) => {
     form.value = response.data;
     open.value = true;
     title.value = "修改收费";
@@ -224,13 +224,13 @@ function submitForm() {
   proxy.$refs["refundRef"].validate((valid) => {
     if (valid) {
       if (form.value.chargeId != null) {
-        updaterefund(form.value).then((response) => {
+        updateRefund(form.value).then((response) => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addrefund(form.value).then((response) => {
+        addRefund(form.value).then((response) => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -246,7 +246,7 @@ function handleDelete(row) {
   proxy.$modal
     .confirm('是否确认删除收费编号为"' + _chargeIds + '"的数据项？')
     .then(function () {
-      return delrefund(_chargeIds);
+      return delRefund(_chargeIds);
     })
     .then(() => {
       getList();

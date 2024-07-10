@@ -1,7 +1,7 @@
 <template>
   <div class="block text-center" m="t-4">
     <span class="demonstration">Switch when indicator is clicked</span>
-    <el-carousel trigger="click" height="950px">
+    <el-carousel trigger="click" height="650px">
       <el-carousel-item v-for="item in 4" :key="item">
         <h3 class="small justify-center" text="2xl">{{ item }}</h3>
       </el-carousel-item>
