@@ -1,40 +1,32 @@
 <template>
-  <div class="patient-info">
-    <el-form :model="patientInfo" label-width="120px">
-      <el-form-item label="患者姓名">
-        <el-input v-model="patientInfo.name" disabled></el-input>
-      </el-form-item>
-      <el-form-item label="身份证号">
-        <el-input v-model="patientInfo.idNumber" disabled></el-input>
-      </el-form-item>
-      <el-form-item label="年龄">
-        <el-input v-model="patientInfo.age" disabled></el-input>
-      </el-form-item>
-      <el-form-item label="性别">
-        <el-input v-model="patientInfo.gender" disabled></el-input>
-      </el-form-item>
-    </el-form>
+  <div class="block text-center" m="t-4">
+    <span class="demonstration">Switch when indicator is clicked</span>
+    <el-carousel trigger="click" height="950px">
+      <el-carousel-item v-for="item in 4" :key="item">
+        <h3 class="small justify-center" text="2xl">{{ item }}</h3>
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'PatientInfo',
-  data() {
-    return {
-      patientInfo: {
-        name: '李华',
-        idNumber: '210200200002021234',
-        age: 23,
-        gender: '女'
-      }
-    };
-  }
-};
-</script>
-
 <style scoped>
-.patient-info {
-  padding: 20px;
+.demonstration {
+  color: var(--el-text-color-secondary);
+}
+
+.el-carousel__item h3 {
+  color: #475669;
+  opacity: 0.75;
+  line-height: 150px;
+  margin: 0;
+  text-align: center;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 </style>
