@@ -301,7 +301,7 @@ const data = reactive({
   formData: {
     medicalRecordNumber: undefined,
     name: undefined,
-    gender: 2,
+    gender: "女",
     age: undefined,
     dob: null,
     idNumber: undefined,
@@ -316,7 +316,7 @@ const data = reactive({
     usedQuota: 0,
     medicalRecordStatus: true,
     receivableAmount: 50,
-    paymentMethod: 1,
+    paymentMethod: "医保卡",
   },
   rules: {
     medicalRecordNumber: [
@@ -402,11 +402,11 @@ const { formData, rules } = toRefs(data);
 const genderOptions = ref([
   {
     label: "男",
-    value: 1,
+    value: "男",
   },
   {
     label: "女",
-    value: 2,
+    value: "女",
   },
 ]);
 const settlementTypeOptions = ref([
@@ -462,11 +462,11 @@ const attendingDoctorOptions = ref([
 const paymentMethodOptions = ref([
   {
     label: "医保卡",
-    value: 1,
+    value: "医保卡",
   },
   {
     label: "现金",
-    value: 2,
+    value: "现金",
   },
 ]);
 /**
