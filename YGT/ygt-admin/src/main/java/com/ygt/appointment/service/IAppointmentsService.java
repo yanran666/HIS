@@ -43,7 +43,7 @@ public interface IAppointmentsService
      */
     public int insertCharges(Appointments Appointments);
     /**
-     * 新增收费
+     * 新增退费
      *
      * @param Appointments 挂号
      * @return 结果

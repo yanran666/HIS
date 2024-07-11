@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.ygt.appointment.mapper.AppointmentsMapper;
 import com.ygt.appointment.domain.Appointments;
 import com.ygt.appointment.service.IAppointmentsService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 挂号Service业务层处理
@@ -51,6 +52,7 @@ public class AppointmentsServiceImpl implements IAppointmentsService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertAppointments(Appointments Appointments)
     {
         return AppointmentsMapper.insertAppointments(Appointments);
@@ -62,17 +64,19 @@ public class AppointmentsServiceImpl implements IAppointmentsService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertCharges(Appointments Appointments)
     {
         return AppointmentsMapper.insertCharges(Appointments);
     }
     /**
-     * 新增收费
+     * 新增退费
      *
      * @param Appointments 挂号
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertRefund(Appointments Appointments)
     {
         return AppointmentsMapper.insertRefund(Appointments);
