@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -75,6 +76,7 @@ public class AppointmentsController extends BaseController
     /**
      * 新增挂号
      */
+    @Transactional
     @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:add')")
     @Log(title = "挂号", businessType = BusinessType.INSERT)
     @PostMapping
