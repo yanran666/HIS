@@ -67,7 +67,7 @@ public class AppointmentsServiceImpl implements IAppointmentsService
         return AppointmentsMapper.insertCharges(Appointments);
     }
     /**
-     * 新增收费
+     * 新增退费
      *
      * @param Appointments 挂号
      * @return 结果
