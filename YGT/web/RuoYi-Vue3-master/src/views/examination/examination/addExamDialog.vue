@@ -38,7 +38,7 @@
       <el-table-column label="检查编码" align="center" prop="examCode" />
       <el-table-column label="检查名称" align="center" prop="examName" />
       <el-table-column label="单价" align="center" prop="unitPrice" />
-      <el-table-column label="类型" align="center" prop="category" />
+      <el-table-column label="类型" align="center" prop="feeCategory" />
     </el-table>
     <el-row :gutter="10" class="mb8 bottom-center">
       <el-col>

@@ -6,7 +6,7 @@ import com.ygt.examination.domain.Examination;
 /**
  * 检查Mapper接口
  * 
- * @author ruoyi
+ * @author yhp
  * @date 2024-07-11
  */
 public interface ExaminationMapper 

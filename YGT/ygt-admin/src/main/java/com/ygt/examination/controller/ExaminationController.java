@@ -24,7 +24,7 @@ import com.ygt.common.core.page.TableDataInfo;
 /**
  * 检查Controller
  * 
- * @author ruoyi
+ * @author yhp
  * @date 2024-07-11
  */
 @RestController

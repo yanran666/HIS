@@ -9,7 +9,7 @@ import com.ygt.common.core.domain.BaseEntity;
 /**
  * 检查对象 examination
  * 
- * @author ruoyi
+ * @author yhp
  * @date 2024-07-11
  */
 public class Examination extends BaseEntity
@@ -33,7 +33,7 @@ public class Examination extends BaseEntity
 
     /** 类型 */
     @Excel(name = "类型")
-    private String category;
+    private String feeCategory;
 
     public void setExamId(Long examId) 
     {
@@ -71,14 +71,14 @@ public class Examination extends BaseEntity
     {
         return unitPrice;
     }
-    public void setCategory(String category) 
+    public void setFeeCategory(String feeCategory) 
     {
-        this.category = category;
+        this.feeCategory = feeCategory;
     }
 
-    public String getCategory() 
+    public String getFeeCategory() 
     {
-        return category;
+        return feeCategory;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class Examination extends BaseEntity
             .append("examCode", getExamCode())
             .append("examName", getExamName())
             .append("unitPrice", getUnitPrice())
-            .append("category", getCategory())
+            .append("feeCategory", getFeeCategory())
             .toString();
     }
 }

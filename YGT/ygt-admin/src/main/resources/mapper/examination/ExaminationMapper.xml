@@ -9,11 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="examCode"    column="exam_code"    />
         <result property="examName"    column="exam_name"    />
         <result property="unitPrice"    column="unit_price"    />
-        <result property="feeCategory"    column="fee-category"    />
+        <result property="feeCategory"    column="fee_category"    />
     </resultMap>
 
     <sql id="selectExaminationVo">
-        select exam_id, exam_code, exam_name, unit_price, fee-category from examination
+        select exam_id, exam_code, exam_name, unit_price, fee_category from examination
     </sql>
 
     <select id="selectExaminationList" parameterType="Examination" resultMap="ExaminationResult">
@@ -36,14 +36,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="examCode != null">exam_code,</if>
             <if test="examName != null">exam_name,</if>
             <if test="unitPrice != null">unit_price,</if>
-            <if test="feeCategory != null">fee-category,</if>
+            <if test="feeCategory != null">fee_category,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="examId != null">#{examId},</if>
             <if test="examCode != null">#{examCode},</if>
             <if test="examName != null">#{examName},</if>
             <if test="unitPrice != null">#{unitPrice},</if>
-            <if test="feeCategory != null">#{fee-category},</if>
+            <if test="feeCategory != null">#{feeCategory},</if>
          </trim>
     </insert>
 
@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="examCode != null">exam_code = #{examCode},</if>
             <if test="examName != null">exam_name = #{examName},</if>
             <if test="unitPrice != null">unit_price = #{unitPrice},</if>
-            <if test="feeCategory != null">fee-category = #{category},</if>
+            <if test="feeCategory != null">fee_category = #{feeCategory},</if>
         </trim>
         where exam_id = #{examId}
     </update>
