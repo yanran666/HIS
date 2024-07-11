@@ -46,50 +46,50 @@ public class ChargesController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出收费列表
-     */
-    @PreAuthorize("@ss.hasPermi('charges:charges:export')")
-    @Log(title = "收费", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, Charges charges)
-    {
-        List<Charges> list = chargesService.selectChargesList(charges);
-        ExcelUtil<Charges> util = new ExcelUtil<Charges>(Charges.class);
-        util.exportExcel(response, list, "收费数据");
-    }
+//    /**
+//     * 导出收费列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('charges:charges:export')")
+//    @Log(title = "收费", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, Charges charges)
+//    {
+//        List<Charges> list = chargesService.selectChargesList(charges);
+//        ExcelUtil<Charges> util = new ExcelUtil<Charges>(Charges.class);
+//        util.exportExcel(response, list, "收费数据");
+//    }
 
-    /**
-     * 获取收费详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('charges:charges:query')")
-    @GetMapping(value = "/{chargeId}")
-    public AjaxResult getInfo(@PathVariable("chargeId") Long chargeId)
-    {
-        return success(chargesService.selectChargesByChargeId(chargeId));
-    }
+//    /**
+//     * 获取收费详细信息
+//     */
+//    @PreAuthorize("@ss.hasPermi('charges:charges:query')")
+//    @GetMapping(value = "/{chargeId}")
+//    public AjaxResult getInfo(@PathVariable("chargeId") Long chargeId)
+//    {
+//        return success(chargesService.selectChargesByChargeId(chargeId));
+//    }
 
-    /**
-     * 新增收费
-     */
-    @PreAuthorize("@ss.hasPermi('charges:charges:add')")
-    @Log(title = "收费", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody Charges charges)
-    {
-        return toAjax(chargesService.insertCharges(charges));
-    }
-
-    /**
-     * 修改收费
-     */
-    @PreAuthorize("@ss.hasPermi('charges:charges:edit')")
-    @Log(title = "收费", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody Charges charges)
-    {
-        return toAjax(chargesService.updateCharges(charges));
-    }
+//    /**
+//     * 新增收费
+//     */
+//    @PreAuthorize("@ss.hasPermi('charges:charges:add')")
+//    @Log(title = "收费", businessType = BusinessType.INSERT)
+//    @PostMapping
+//    public AjaxResult add(@RequestBody Charges charges)
+//    {
+//        return toAjax(chargesService.insertCharges(charges));
+//    }
+//
+//    /**
+//     * 修改收费
+//     */
+//    @PreAuthorize("@ss.hasPermi('charges:charges:edit')")
+//    @Log(title = "收费", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody Charges charges)
+//    {
+//        return toAjax(chargesService.updateCharges(charges));
+//    }
 
     /**
      * 删除收费

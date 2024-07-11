@@ -46,28 +46,28 @@ public class MedicalRecordsController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出病历列表
-     */
-    @PreAuthorize("@ss.hasPermi('records:records:export')")
-    @Log(title = "病历", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, MedicalRecords medicalRecords)
-    {
-        List<MedicalRecords> list = medicalRecordsService.selectMedicalRecordsList(medicalRecords);
-        ExcelUtil<MedicalRecords> util = new ExcelUtil<MedicalRecords>(MedicalRecords.class);
-        util.exportExcel(response, list, "病历数据");
-    }
+//    /**
+//     * 导出病历列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('records:records:export')")
+//    @Log(title = "病历", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, MedicalRecords medicalRecords)
+//    {
+//        List<MedicalRecords> list = medicalRecordsService.selectMedicalRecordsList(medicalRecords);
+//        ExcelUtil<MedicalRecords> util = new ExcelUtil<MedicalRecords>(MedicalRecords.class);
+//        util.exportExcel(response, list, "病历数据");
+//    }
 
-    /**
-     * 获取病历详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('records:records:query')")
-    @GetMapping(value = "/{medicalRecordId}")
-    public AjaxResult getInfo(@PathVariable("medicalRecordId") Long medicalRecordId)
-    {
-        return success(medicalRecordsService.selectMedicalRecordsByMedicalRecordId(medicalRecordId));
-    }
+//    /**
+//     * 获取病历详细信息
+//     */
+//    @PreAuthorize("@ss.hasPermi('records:records:query')")
+//    @GetMapping(value = "/{medicalRecordId}")
+//    public AjaxResult getInfo(@PathVariable("medicalRecordId") Long medicalRecordId)
+//    {
+//        return success(medicalRecordsService.selectMedicalRecordsByMedicalRecordId(medicalRecordId));
+//    }
 
     /**
      * 新增病历
@@ -80,25 +80,25 @@ public class MedicalRecordsController extends BaseController
         return toAjax(medicalRecordsService.insertMedicalRecords(medicalRecords));
     }
 
-    /**
-     * 修改病历
-     */
-    @PreAuthorize("@ss.hasPermi('records:records:edit')")
-    @Log(title = "病历", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody MedicalRecords medicalRecords)
-    {
-        return toAjax(medicalRecordsService.updateMedicalRecords(medicalRecords));
-    }
+//    /**
+//     * 修改病历
+//     */
+//    @PreAuthorize("@ss.hasPermi('records:records:edit')")
+//    @Log(title = "病历", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody MedicalRecords medicalRecords)
+//    {
+//        return toAjax(medicalRecordsService.updateMedicalRecords(medicalRecords));
+//    }
 
-    /**
-     * 删除病历
-     */
-    @PreAuthorize("@ss.hasPermi('records:records:remove')")
-    @Log(title = "病历", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{medicalRecordIds}")
-    public AjaxResult remove(@PathVariable Long[] medicalRecordIds)
-    {
-        return toAjax(medicalRecordsService.deleteMedicalRecordsByMedicalRecordIds(medicalRecordIds));
-    }
+//    /**
+//     * 删除病历
+//     */
+//    @PreAuthorize("@ss.hasPermi('records:records:remove')")
+//    @Log(title = "病历", businessType = BusinessType.DELETE)
+//	@DeleteMapping("/{medicalRecordIds}")
+//    public AjaxResult remove(@PathVariable Long[] medicalRecordIds)
+//    {
+//        return toAjax(medicalRecordsService.deleteMedicalRecordsByMedicalRecordIds(medicalRecordIds));
+//    }
 }

@@ -22,7 +22,7 @@ import com.ygt.common.utils.poi.ExcelUtil;
 import com.ygt.common.core.page.TableDataInfo;
 
 /**
- * 收费Controller
+ * 退费Controller
  * 
  * @author ruoyi
  * @date 2024-07-10
@@ -35,7 +35,7 @@ public class RefundController extends BaseController
     private IRefundService refundService;
 
     /**
-     * 查询收费列表
+     * 查询退费列表
      */
     @PreAuthorize("@ss.hasPermi('refund:refund:list')")
     @GetMapping("/list")
@@ -46,56 +46,56 @@ public class RefundController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出收费列表
-     */
-    @PreAuthorize("@ss.hasPermi('refund:refund:export')")
-    @Log(title = "收费", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, Refund refund)
-    {
-        List<Refund> list = refundService.selectRefundList(refund);
-        ExcelUtil<Refund> util = new ExcelUtil<Refund>(Refund.class);
-        util.exportExcel(response, list, "收费数据");
-    }
+//    /**
+//     * 导出退费列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('refund:refund:export')")
+//    @Log(title = "退费", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, Refund refund)
+//    {
+//        List<Refund> list = refundService.selectRefundList(refund);
+//        ExcelUtil<Refund> util = new ExcelUtil<Refund>(Refund.class);
+//        util.exportExcel(response, list, "退费数据");
+//    }
+//
+//    /**
+//     * 获取退费详细信息
+//     */
+//    @PreAuthorize("@ss.hasPermi('refund:refund:query')")
+//    @GetMapping(value = "/{chargeId}")
+//    public AjaxResult getInfo(@PathVariable("chargeId") Long chargeId)
+//    {
+//        return success(refundService.selectRefundByChargeId(chargeId));
+//    }
+//
+//    /**
+//     * 新增退费
+//     */
+//    @PreAuthorize("@ss.hasPermi('refund:refund:add')")
+//    @Log(title = "退费", businessType = BusinessType.INSERT)
+//    @PostMapping
+//    public AjaxResult add(@RequestBody Refund refund)
+//    {
+//        return toAjax(refundService.insertRefund(refund));
+//    }
+//
+//    /**
+//     * 修改退费
+//     */
+//    @PreAuthorize("@ss.hasPermi('refund:refund:edit')")
+//    @Log(title = "退费", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody Refund refund)
+//    {
+//        return toAjax(refundService.updateRefund(refund));
+//    }
 
     /**
-     * 获取收费详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('refund:refund:query')")
-    @GetMapping(value = "/{chargeId}")
-    public AjaxResult getInfo(@PathVariable("chargeId") Long chargeId)
-    {
-        return success(refundService.selectRefundByChargeId(chargeId));
-    }
-
-    /**
-     * 新增收费
-     */
-    @PreAuthorize("@ss.hasPermi('refund:refund:add')")
-    @Log(title = "收费", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody Refund refund)
-    {
-        return toAjax(refundService.insertRefund(refund));
-    }
-
-    /**
-     * 修改收费
-     */
-    @PreAuthorize("@ss.hasPermi('refund:refund:edit')")
-    @Log(title = "收费", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody Refund refund)
-    {
-        return toAjax(refundService.updateRefund(refund));
-    }
-
-    /**
-     * 删除收费
+     * 删除退费
      */
     @PreAuthorize("@ss.hasPermi('refund:refund:remove')")
-    @Log(title = "收费", businessType = BusinessType.DELETE)
+    @Log(title = "退费", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{chargeIds}")
     public AjaxResult remove(@PathVariable Long[] chargeIds)
     {
