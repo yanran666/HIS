@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/HIS.iml" filepath="$PROJECT_DIR$/.idea/HIS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YGT/ygt.iml" filepath="$PROJECT_DIR$/YGT/ygt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YGT/ygt-admin/ygt-admin.iml" filepath="$PROJECT_DIR$/YGT/ygt-admin/ygt-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YGT/ygt-common/ygt-common.iml" filepath="$PROJECT_DIR$/YGT/ygt-common/ygt-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YGT/ygt-framework/ygt-framework.iml" filepath="$PROJECT_DIR$/YGT/ygt-framework/ygt-framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YGT/ygt-generator/ygt-generator.iml" filepath="$PROJECT_DIR$/YGT/ygt-generator/ygt-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YGT/ygt-quartz/ygt-quartz.iml" filepath="$PROJECT_DIR$/YGT/ygt-quartz/ygt-quartz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YGT/ygt-system/ygt-system.iml" filepath="$PROJECT_DIR$/YGT/ygt-system/ygt-system.iml" />
+    </modules>
+  </component>
+</project>
