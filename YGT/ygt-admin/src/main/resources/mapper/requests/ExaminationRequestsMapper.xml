@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygt.requests.mapper.ExaminationRequestsMapper">
+    
+    <resultMap type="ExaminationRequests" id="ExaminationRequestsResult">
+        <result property="requestId"    column="request_id"    />
+        <result property="appointmentId"    column="appointment_id"    />
+        <result property="examCode"    column="exam_code"    />
+        <result property="examName"    column="exam_name"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="feeCategory"    column="fee_category"    />
+        <result property="purposeRequirements"    column="purpose_requirements"    />
+        <result property="examLocation"    column="exam_location"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectExaminationRequestsVo">
+        select request_id, appointment_id, exam_code, exam_name, unit_price, fee_category, purpose_requirements, exam_location, notes from examination_requests
+    </sql>
+
+    <select id="selectExaminationRequestsList" parameterType="ExaminationRequests" resultMap="ExaminationRequestsResult">
+        <include refid="selectExaminationRequestsVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectExaminationRequestsByRequestId" parameterType="Long" resultMap="ExaminationRequestsResult">
+        <include refid="selectExaminationRequestsVo"/>
+        where request_id = #{requestId}
+    </select>
+
+    <insert id="insertExaminationRequests" parameterType="ExaminationRequests" useGeneratedKeys="true" keyProperty="requestId">
+        insert into examination_requests
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appointmentId != null">appointment_id,</if>
+            <if test="examCode != null">exam_code,</if>
+            <if test="examName != null">exam_name,</if>
+            <if test="unitPrice != null">unit_price,</if>
+            <if test="feeCategory != null">fee_category,</if>
+            <if test="purposeRequirements != null">purpose_requirements,</if>
+            <if test="examLocation != null">exam_location,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appointmentId != null">#{appointmentId},</if>
+            <if test="examCode != null">#{examCode},</if>
+            <if test="examName != null">#{examName},</if>
+            <if test="unitPrice != null">#{unitPrice},</if>
+            <if test="feeCategory != null">#{feeCategory},</if>
+            <if test="purposeRequirements != null">#{purposeRequirements},</if>
+            <if test="examLocation != null">#{examLocation},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExaminationRequests" parameterType="ExaminationRequests">
+        update examination_requests
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appointmentId != null">appointment_id = #{appointmentId},</if>
+            <if test="examCode != null">exam_code = #{examCode},</if>
+            <if test="examName != null">exam_name = #{examName},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="feeCategory != null">fee_category = #{feeCategory},</if>
+            <if test="purposeRequirements != null">purpose_requirements = #{purposeRequirements},</if>
+            <if test="examLocation != null">exam_location = #{examLocation},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where request_id = #{requestId}
+    </update>
+
+    <delete id="deleteExaminationRequestsByRequestId" parameterType="Long">
+        delete from examination_requests where request_id = #{requestId}
+    </delete>
+
+    <delete id="deleteExaminationRequestsByRequestIds" parameterType="String">
+        delete from examination_requests where request_id in 
+        <foreach item="requestId" collection="array" open="(" separator="," close=")">
+            #{requestId}
+        </foreach>
+    </delete>
+</mapper>

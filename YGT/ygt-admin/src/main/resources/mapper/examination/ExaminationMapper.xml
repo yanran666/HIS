@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygt.examination.mapper.ExaminationMapper">
+    
+    <resultMap type="Examination" id="ExaminationResult">
+        <result property="examId"    column="exam_id"    />
+        <result property="examCode"    column="exam_code"    />
+        <result property="examName"    column="exam_name"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="feeCategory"    column="fee-category"    />
+    </resultMap>
+
+    <sql id="selectExaminationVo">
+        select exam_id, exam_code, exam_name, unit_price, fee-category from examination
+    </sql>
+
+    <select id="selectExaminationList" parameterType="Examination" resultMap="ExaminationResult">
+        <include refid="selectExaminationVo"/>
+        <where>  
+            <if test="examCode != null  and examCode != ''"> and exam_code = #{examCode}</if>
+            <if test="examName != null  and examName != ''"> and exam_name like concat('%', #{examName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectExaminationByExamId" parameterType="Long" resultMap="ExaminationResult">
+        <include refid="selectExaminationVo"/>
+        where exam_id = #{examId}
+    </select>
+
+    <insert id="insertExamination" parameterType="Examination">
+        insert into examination
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="examId != null">exam_id,</if>
+            <if test="examCode != null">exam_code,</if>
+            <if test="examName != null">exam_name,</if>
+            <if test="unitPrice != null">unit_price,</if>
+            <if test="feeCategory != null">fee-category,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="examId != null">#{examId},</if>
+            <if test="examCode != null">#{examCode},</if>
+            <if test="examName != null">#{examName},</if>
+            <if test="unitPrice != null">#{unitPrice},</if>
+            <if test="feeCategory != null">#{fee-category},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExamination" parameterType="Examination">
+        update examination
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="examCode != null">exam_code = #{examCode},</if>
+            <if test="examName != null">exam_name = #{examName},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="feeCategory != null">fee-category = #{category},</if>
+        </trim>
+        where exam_id = #{examId}
+    </update>
+
+    <delete id="deleteExaminationByExamId" parameterType="Long">
+        delete from examination where exam_id = #{examId}
+    </delete>
+
+    <delete id="deleteExaminationByExamIds" parameterType="String">
+        delete from examination where exam_id in 
+        <foreach item="examId" collection="array" open="(" separator="," close=")">
+            #{examId}
+        </foreach>
+    </delete>
+</mapper>

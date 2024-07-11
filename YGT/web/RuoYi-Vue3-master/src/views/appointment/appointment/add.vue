@@ -301,7 +301,7 @@ const data = reactive({
   formData: {
     medicalRecordNumber: undefined,
     name: undefined,
-    gender: 2,
+    gender: "男",
     age: undefined,
     dob: null,
     idNumber: undefined,
@@ -402,11 +402,11 @@ const { formData, rules } = toRefs(data);
 const genderOptions = ref([
   {
     label: "男",
-    value: 1,
+    value: "男",
   },
   {
     label: "女",
-    value: 2,
+    value: "女",
   },
 ]);
 const settlementTypeOptions = ref([
