@@ -88,10 +88,19 @@ const { formData, rules } = toRefs(data);
  * @description: 表单提交方法
  * @return {*}
  */
-function submitForm() {
+ function submitForm() {
   formRef.value.validate((valid) => {
     if (!valid) return;
-    // TODO 提交表单
+    // 提交表单
+    console.log(formData); // 检查输出的数据格式
+    addRecords(formData)
+      .then((response) => {
+        ElMessage.success("添加成功");
+        resetForm();
+      })
+      .catch((error) => {
+        ElMessage.error("添加失败: " + error.message);
+      });
   });
 }
 /**
