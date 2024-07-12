@@ -1,6 +1,10 @@
 package com.ygt.requests.domain;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.ygt.diseases.domain.Diseases;
+import com.ygt.examination.domain.Examination;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ygt.common.annotation.Excel;
@@ -37,6 +41,9 @@ public class ExaminationRequests extends BaseEntity
     /** 费用分类 */
     @Excel(name = "费用分类")
     private String feeCategory;
+
+    /**检查列表*/
+    private List<Examination> requestsList;
 
     /** 目的和要求 */
     private String purposeRequirements;
@@ -129,6 +136,14 @@ public class ExaminationRequests extends BaseEntity
         return notes;
     }
 
+    public List<Examination> getRequestsList() {
+        return requestsList;
+    }
+
+    public void setRequestsList(List<Examination> requestsList) {
+        this.requestsList = requestsList;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -141,6 +156,7 @@ public class ExaminationRequests extends BaseEntity
             .append("purposeRequirements", getPurposeRequirements())
             .append("examLocation", getExamLocation())
             .append("notes", getNotes())
+            .append("requestList",getRequestsList())
             .toString();
     }
 }

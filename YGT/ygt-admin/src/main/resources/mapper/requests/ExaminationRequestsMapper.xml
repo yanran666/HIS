@@ -35,20 +35,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into examination_requests
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="appointmentId != null">appointment_id,</if>
-            <if test="examCode != null">exam_code,</if>
-            <if test="examName != null">exam_name,</if>
-            <if test="unitPrice != null">unit_price,</if>
-            <if test="feeCategory != null">fee_category,</if>
+            <if test="requestsList != null">exam_code,</if>
+            <if test="requestsList != null">exam_name,</if>
+            <if test="requestsList != null">unit_price,</if>
+            <if test="requestsList != null">fee_category,</if>
             <if test="purposeRequirements != null">purpose_requirements,</if>
             <if test="examLocation != null">exam_location,</if>
             <if test="notes != null">notes,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="appointmentId != null">#{appointmentId},</if>
-            <if test="examCode != null">#{examCode},</if>
-            <if test="examName != null">#{examName},</if>
-            <if test="unitPrice != null">#{unitPrice},</if>
-            <if test="feeCategory != null">#{feeCategory},</if>
+            <foreach collection="requestsList" item="request" separator=",">
+                #{request.examCode}, #{request.examName}, #{request.unitPrice}, #{request.feeCategory}
+            </foreach>
             <if test="purposeRequirements != null">#{purposeRequirements},</if>
             <if test="examLocation != null">#{examLocation},</if>
             <if test="notes != null">#{notes},</if>
