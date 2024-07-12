@@ -412,61 +412,61 @@ const genderOptions = ref([
 const settlementTypeOptions = ref([
   {
     label: "自费",
-    value: 1,
+    value: "自费",
   },
   {
     label: "市医保",
-    value: 2,
+    value: "市医保",
   },
 ]);
 const sessionOptions = ref([
   {
     label: "上午",
-    value: 1,
+    value: "上午",
   },
   {
     label: "下午",
-    value: 2,
+    value: "下午",
   },
 ]);
 const departmentOptions = ref([
   {
-    label: "选项一",
-    value: 1,
+    label: "科室一",
+    value: 101,
   },
   {
-    label: "选项二",
-    value: 2,
+    label: "科室二",
+    value: 102,
   },
 ]);
 const registrationTypeOptions = ref([
   {
     label: "普通号",
-    value: 1,
+    value: "普通号",
   },
   {
     label: "专家号",
-    value: 2,
+    value: "专家号",
   },
 ]);
 const attendingDoctorOptions = ref([
   {
     label: "101",
-    value: 1,
+    value: 101,
   },
   {
     label: "102",
-    value: 2,
+    value: 102,
   },
 ]);
 const paymentMethodOptions = ref([
   {
     label: "医保卡",
-    value: 1,
+    value: "医保卡",
   },
   {
     label: "现金",
-    value: 2,
+    value: "现金",
   },
 ]);
 /**

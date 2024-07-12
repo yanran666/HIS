@@ -175,9 +175,25 @@ function submitForm() {
       });
   });
 }
+function handleDelete() {
+  if (ids.value.length === 0) {
+    ElMessage.warning("请选择要删除的记录");
+    return;
+  }
+  // 删除选中的记录
+  requestsList.value = requestsList.value.filter(
+    (item) => !ids.value.includes(item.medicalRecordId)
+  );
+  formData.requestsList = formData.requestsList.filter(
+    (item) => !ids.value.includes(item.medicalRecordId)
+  );
+  ids.value = []; // 清空选中的记录
+  ElMessage.success("删除成功");
+}
 
 function resetForm() {
   formRef.value.resetFields();
+  requestsList.value = [];
   formData.requestsList = [];
 }
 
@@ -203,20 +219,6 @@ function addExam(examination) {
   requestsList.value.push(...examination);
   formData.requestsList.push(...examination);
   dialogVisible.value = false;
-}
-
-function handleDelete(row) {
-  const _requestIds = row.requestId || ids.value;
-  $modal
-    .confirm('是否确认删除检查申请编号为"' + _requestIds + '"的数据项？')
-    .then(() => {
-      return delRequests(_requestIds);
-    })
-    .then(() => {
-      getList();
-      $modal.msgSuccess("删除成功");
-    })
-    .catch(() => {});
 }
 
 getList();

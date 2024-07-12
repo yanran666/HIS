@@ -43,7 +43,7 @@
     <el-row :gutter="10" class="mb8 bottom-center">
       <el-col>
         <el-button primary @click="handleAdd">增加</el-button>
-        <el-button plain @click="closeDialog">取消</el-button>
+        <el-button plain @click="cancel">取消</el-button>
       </el-col>
     </el-row>
   </div>
@@ -94,16 +94,10 @@ function getList() {
   });
 }
 
-function closeDialog() {
-  visible.value = false; // 关闭对话框
-}
-
 // 取消按钮
 function cancel() {
-  open.value = false;
-  reset();
+  emit('update:visible', false);
 }
-
 // 表单重置
 function reset() {
   form.value = {
@@ -122,12 +116,6 @@ function handleQuery() {
   getList();
 }
 
-/** 重置按钮操作 */
-function resetQuery() {
-  proxy.resetForm("queryRef");
-  handleQuery();
-}
-
 // 多选框选中数据
 function handleSelectionChange(selection) {
   ids.value = selection.map((item) => item.examId);
@@ -143,7 +131,7 @@ function handleAdd() {
   // 向父组件发送选中的数据
   emit("add-exam", selectedExams);
   // 关闭对话框
-  visible.value = false; // 确保关闭对话框
+  
 }
 getList();
 </script>

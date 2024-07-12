@@ -96,7 +96,7 @@
             />
             <el-table-column width="120px">
               <template #header>
-                <el-button link type="primary">删除</el-button>
+                <el-button link type="primary" @click="handleDelete">删除</el-button>
                 <el-button link type="primary" @click="dialogVisible = true"
                   >增加</el-button
                 >
@@ -205,6 +205,22 @@ function addDiseases(diseases) {
   formData.recordsList.push(...diseases);
   dialogVisible.value = false;
 }
+function handleDelete() {
+  if (ids.value.length === 0) {
+    ElMessage.warning("请选择要删除的记录");
+    return;
+  }
+  // 删除选中的记录
+  recordsList.value = recordsList.value.filter(
+    (item) => !ids.value.includes(item.medicalRecordId)
+  );
+  formData.recordsList = formData.recordsList.filter(
+    (item) => !ids.value.includes(item.medicalRecordId)
+  );
+  ids.value = []; // 清空选中的记录
+  ElMessage.success("删除成功");
+}
+
 
 getList();
 </script>
