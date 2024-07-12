@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="appointmentId != null">#{appointmentId},</if>
             <foreach collection="requestsList" item="request" separator=",">
-                #{request.examCode}, #{request.examName}, #{request.unitPrice}, #{request.feeCategory}
+                #{request.examCode}, #{request.examName}, #{request.unitPrice}, #{request.feeCategory},
             </foreach>
             <if test="purposeRequirements != null">#{purposeRequirements},</if>
             <if test="examLocation != null">#{examLocation},</if>
