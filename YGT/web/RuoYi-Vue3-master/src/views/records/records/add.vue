@@ -132,9 +132,10 @@
 
 <script setup>
 import { ElMessage } from "element-plus";
-import { listRecords, getRecords, delRecords } from "@/api/records/records";
-import { addRecords } from "@/api/records/records";
+import { listRecords, addRecords } from "@/api/records/records";
 import AddRecordDialog from "@/views/diseases/diseases/AddRecordDialog.vue";
+import { ref, reactive, toRefs, getCurrentInstance } from "vue";
+
 const dialogVisible = ref(false);
 const formRef = ref();
 const { proxy } = getCurrentInstance();
@@ -142,44 +143,34 @@ const recordsList = ref([]);
 const loading = ref(true);
 const ids = ref([]);
 const total = ref(0);
-const data = reactive({
-  form: {},
-  queryParams: {
-    pageNum: 1,
-    pageSize: 10,
-  },
-  formData: {
-    chiefComplaint: undefined,
-    presentIllnessHistory: undefined,
-    treatmentHistory: undefined,
-    pastHistory: undefined,
-    allergyHistory: undefined,
-    physicalExamination: undefined,
-  },
-  rules: {
-    chiefComplaint: [
-      { required: true, message: "请输入主诉", trigger: "blur" },
-    ],
-    presentIllnessHistory: [
-      { required: true, message: "请输入现病史", trigger: "blur" },
-    ],
-    treatmentHistory: [
-      { required: true, message: "请输入现病治疗情况", trigger: "blur" },
-    ],
-    pastHistory: [{ required: true, message: "请输入既往史", trigger: "blur" }],
-    allergyHistory: [
-      { required: true, message: "请输入过敏史", trigger: "blur" },
-    ],
-    physicalExamination: [
-      { required: true, message: "请输入体感检查", trigger: "blur" },
-    ],
-  },
+
+const formData = reactive({
+  chiefComplaint: '',
+  presentIllnessHistory: '',
+  treatmentHistory: '',
+  pastHistory: '',
+  allergyHistory: '',
+  physicalExamination: '',
+  recordsList: [],
 });
-const { queryParams, formData, rules } = toRefs(data);
+
+const queryParams = reactive({
+  pageNum: 1,
+  pageSize: 10,
+});
+
+const rules = reactive({
+  chiefComplaint: [{ required: true, message: "请输入主诉", trigger: "blur" }],
+  presentIllnessHistory: [{ required: true, message: "请输入现病史", trigger: "blur" }],
+  treatmentHistory: [{ required: true, message: "请输入现病治疗情况", trigger: "blur" }],
+  pastHistory: [{ required: true, message: "请输入既往史", trigger: "blur" }],
+  allergyHistory: [{ required: true, message: "请输入过敏史", trigger: "blur" }],
+  physicalExamination: [{ required: true, message: "请输入体感检查", trigger: "blur" }],
+});
 
 function getList() {
   loading.value = true;
-  listRecords(queryParams.value).then((response) => {
+  listRecords(queryParams).then((response) => {
     recordsList.value = response.rows;
     total.value = response.total;
     loading.value = false;
@@ -189,11 +180,13 @@ function getList() {
 function handleSelectionChange(selection) {
   ids.value = selection.map((item) => item.medicalRecordId);
 }
+
 function submitForm() {
   formRef.value.validate((valid) => {
     if (!valid) return;
     // 提交表单
-    addRecords(formData.value)
+    console.log(formData); // 检查输出的数据格式
+    addRecords(formData)
       .then((response) => {
         ElMessage.success("添加成功");
         resetForm();
@@ -204,12 +197,16 @@ function submitForm() {
   });
 }
 
+
 function resetForm() {
   formRef.value.resetFields();
+  recordsList.value = [];
+  formData.recordsList = [];
 }
 
 function addDiseases(diseases) {
   recordsList.value.push(...diseases);
+  formData.recordsList.push(...diseases);
 }
 
 getList();
