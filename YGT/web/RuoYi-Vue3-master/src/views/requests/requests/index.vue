@@ -164,7 +164,12 @@ const queryParams = reactive({
 function submitForm() {
   formRef.value.validate((valid) => {
     if (!valid) return;
-    addRequests(formData)
+    const payload = {
+      ...formData,
+      requestsList: requestsList.value,
+    };
+
+    addRequests(payload)
       .then((response) => {
         ElMessage.success("添加成功");
         resetForm();
@@ -175,6 +180,7 @@ function submitForm() {
       });
   });
 }
+
 function handleDelete() {
   if (ids.value.length === 0) {
     ElMessage.warning("请选择要删除的记录");
@@ -216,8 +222,15 @@ function handleSelectionChange(selection) {
 }
 
 function addExam(examination) {
-  requestsList.value.push(...examination);
-  formData.requestsList.push(...examination);
+  const uniqueExaminations = examination.filter(
+    (exam) =>
+      !requestsList.value.some(
+        (existingExam) => existingExam.examId === exam.examId
+      )
+  );
+
+  requestsList.value.push(...uniqueExaminations);
+  formData.requestsList.push(...uniqueExaminations);
   dialogVisible.value = false;
 }
 
