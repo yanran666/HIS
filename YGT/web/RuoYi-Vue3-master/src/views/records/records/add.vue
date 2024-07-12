@@ -103,18 +103,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <pagination
-            v-show="total > 0"
-            :total="total"
-            v-model:page="queryParams.pageNum"
-            v-model:limit="queryParams.pageSize"
-            @pagination="getList"
-          />
-          <el-dialog
-            v-model="dialogVisible"
-            title="添加疾病诊断"
-            width="1200"
-          >
+          <el-dialog v-model="dialogVisible" title="添加疾病诊断" width="1200">
             <AddRecordDialog
               v-model:visible="dialogVisible"
               @add-diseases="addDiseases"
@@ -145,12 +134,12 @@ const ids = ref([]);
 const total = ref(0);
 
 const formData = reactive({
-  chiefComplaint: '',
-  presentIllnessHistory: '',
-  treatmentHistory: '',
-  pastHistory: '',
-  allergyHistory: '',
-  physicalExamination: '',
+  chiefComplaint: "",
+  presentIllnessHistory: "",
+  treatmentHistory: "",
+  pastHistory: "",
+  allergyHistory: "",
+  physicalExamination: "",
   recordsList: [],
 });
 
@@ -161,11 +150,19 @@ const queryParams = reactive({
 
 const rules = reactive({
   chiefComplaint: [{ required: true, message: "请输入主诉", trigger: "blur" }],
-  presentIllnessHistory: [{ required: true, message: "请输入现病史", trigger: "blur" }],
-  treatmentHistory: [{ required: true, message: "请输入现病治疗情况", trigger: "blur" }],
+  presentIllnessHistory: [
+    { required: true, message: "请输入现病史", trigger: "blur" },
+  ],
+  treatmentHistory: [
+    { required: true, message: "请输入现病治疗情况", trigger: "blur" },
+  ],
   pastHistory: [{ required: true, message: "请输入既往史", trigger: "blur" }],
-  allergyHistory: [{ required: true, message: "请输入过敏史", trigger: "blur" }],
-  physicalExamination: [{ required: true, message: "请输入体感检查", trigger: "blur" }],
+  allergyHistory: [
+    { required: true, message: "请输入过敏史", trigger: "blur" },
+  ],
+  physicalExamination: [
+    { required: true, message: "请输入体感检查", trigger: "blur" },
+  ],
 });
 
 function getList() {
@@ -197,7 +194,6 @@ function submitForm() {
   });
 }
 
-
 function resetForm() {
   formRef.value.resetFields();
   recordsList.value = [];
@@ -207,6 +203,7 @@ function resetForm() {
 function addDiseases(diseases) {
   recordsList.value.push(...diseases);
   formData.recordsList.push(...diseases);
+  dialogVisible.value = false;
 }
 
 getList();

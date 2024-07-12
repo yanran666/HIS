@@ -44,7 +44,6 @@
       <el-col>
         <el-button primary @click="handleAdd">增加</el-button>
         <el-button plain @click="closeDialog">取消</el-button>
-
       </el-col>
     </el-row>
   </div>
@@ -70,7 +69,8 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
-const dialogVisible = ref(false);
+const visible = ref(false); // 使用 visible 替代 dialogVisible
+
 const data = reactive({
   form: {},
   queryParams: {
@@ -93,8 +93,9 @@ function getList() {
     loading.value = false;
   });
 }
+
 function closeDialog() {
-  dialogVisible.value = false;
+  visible.value = false; // 关闭对话框
 }
 
 // 取消按钮
@@ -141,41 +142,20 @@ function handleAdd() {
   );
   // 向父组件发送选中的数据
   emit("add-exam", selectedExams);
+  // 关闭对话框
+  visible.value = false; // 确保关闭对话框
 }
-
-
-/** 提交按钮 */
-function submitForm() {
-  proxy.$refs["examinationRef"].validate((valid) => {
-    if (valid) {
-      if (form.value.examId != null) {
-        updateExamination(form.value).then((response) => {
-          proxy.$modal.msgSuccess("修改成功");
-          open.value = false;
-          getList();
-        });
-      } else {
-        addExamination(form.value).then((response) => {
-          proxy.$modal.msgSuccess("新增成功");
-          open.value = false;
-          getList();
-        });
-      }
-    }
-  });
-}
-
 getList();
 </script>
 <style>
 .app-container {
   position: relative;
-  min-height: 600px; /* 让容器至少撑满一屏高度 */
+  min-height: 900px; /* 让容器至少撑满一屏高度 */
 }
 
 .app-container .bottom-center {
   position: absolute;
-  bottom: 20px; /* 调整按钮与底部的距离 */
+  bottom: 10px; /* 调整按钮与底部的距离 */
   left: 50%; /* 水平居中 */
   transform: translateX(-50%);
 }
