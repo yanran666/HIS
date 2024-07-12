@@ -1,10 +1,11 @@
 package com.ygt.records.domain;
 
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.List;
+
+import com.ygt.diseases.domain.Diseases;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ygt.common.annotation.Excel;
 import com.ygt.common.core.domain.BaseEntity;
 
 /**
@@ -52,6 +53,9 @@ public class MedicalRecords extends BaseEntity
 
     /** 注意事项 */
     private String notes;
+
+    /** 疾病列表 */
+    private List<Diseases> recordsList;
 
     /** 疾病编码 */
     private String diseaseCode;
@@ -210,6 +214,14 @@ public class MedicalRecords extends BaseEntity
         return diseaseType;
     }
 
+    public List<Diseases> getRecordsList() {
+        return recordsList;
+    }
+
+    public void setRecordsList(List<Diseases> recordsList) {
+        this.recordsList = recordsList;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -229,6 +241,7 @@ public class MedicalRecords extends BaseEntity
             .append("diseaseName", getDiseaseName())
             .append("icdCode", getIcdCode())
             .append("diseaseType", getDiseaseType())
+            .append("recordList",getRecordsList())
             .toString();
     }
 }
