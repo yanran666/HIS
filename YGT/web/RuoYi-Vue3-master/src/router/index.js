@@ -25,6 +25,9 @@ import Layout from '@/layout'
  */
 
 // 公共路由
+const key = computed(() => {
+  return router.path + Math.random();
+});
 export const constantRoutes = [
   // {
   //   path: '/records',

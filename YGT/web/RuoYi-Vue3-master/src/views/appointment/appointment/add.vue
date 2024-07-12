@@ -294,6 +294,7 @@
   </div>
 </template>
 <script setup>
+
 import { ElMessage } from "element-plus";
 const formRef = ref();
 import { addAppointment } from "@/api/appointment/appointment";
