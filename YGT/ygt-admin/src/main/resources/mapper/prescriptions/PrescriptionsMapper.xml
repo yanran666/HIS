@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygt.prescriptions.mapper.PrescriptionsMapper">
+    
+    <resultMap type="Prescriptions" id="PrescriptionsResult">
+        <result property="prescriptionId"    column="prescription_id"    />
+        <result property="appointmentId"    column="appointment_id"    />
+        <result property="drugName"    column="drug_name"    />
+        <result property="drugSpecification"    column="drug_specification"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="usage"    column="usage"    />
+        <result property="quantity"    column="quantity"    />
+    </resultMap>
+
+    <sql id="selectPrescriptionsVo">
+        select prescription_id, appointment_id, drug_name, drug_specification, unit_price, usage, quantity from prescriptions
+    </sql>
+
+    <select id="selectPrescriptionsList" parameterType="Prescriptions" resultMap="PrescriptionsResult">
+        <include refid="selectPrescriptionsVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectPrescriptionsByPrescriptionId" parameterType="Long" resultMap="PrescriptionsResult">
+        <include refid="selectPrescriptionsVo"/>
+        where prescription_id = #{prescriptionId}
+    </select>
+
+    <insert id="insertPrescriptions" parameterType="Prescriptions" useGeneratedKeys="true" keyProperty="prescriptionId">
+        insert into prescriptions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appointmentId != null">appointment_id,</if>
+            <if test="drugName != null">drug_name,</if>
+            <if test="drugSpecification != null">drug_specification,</if>
+            <if test="unitPrice != null">unit_price,</if>
+            <if test="usage != null">usage,</if>
+            <if test="quantity != null">quantity,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appointmentId != null">#{appointmentId},</if>
+            <if test="drugName != null">#{drugName},</if>
+            <if test="drugSpecification != null">#{drugSpecification},</if>
+            <if test="unitPrice != null">#{unitPrice},</if>
+            <if test="usage != null">#{usage},</if>
+            <if test="quantity != null">#{quantity},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePrescriptions" parameterType="Prescriptions">
+        update prescriptions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appointmentId != null">appointment_id = #{appointmentId},</if>
+            <if test="drugName != null">drug_name = #{drugName},</if>
+            <if test="drugSpecification != null">drug_specification = #{drugSpecification},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="usage != null">usage = #{usage},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+        </trim>
+        where prescription_id = #{prescriptionId}
+    </update>
+
+    <delete id="deletePrescriptionsByPrescriptionId" parameterType="Long">
+        delete from prescriptions where prescription_id = #{prescriptionId}
+    </delete>
+
+    <delete id="deletePrescriptionsByPrescriptionIds" parameterType="String">
+        delete from prescriptions where prescription_id in 
+        <foreach item="prescriptionId" collection="array" open="(" separator="," close=")">
+            #{prescriptionId}
+        </foreach>
+    </delete>
+</mapper>
