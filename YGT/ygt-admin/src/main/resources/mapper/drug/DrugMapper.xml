@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygt.drug.mapper.DrugMapper">
+    
+    <resultMap type="Drug" id="DrugResult">
+        <result property="drugId"    column="drug_id"    />
+        <result property="drugCode"    column="drug_code"    />
+        <result property="drugName"    column="drug_name"    />
+        <result property="drugSpecification"    column="drug_specification"    />
+        <result property="packagingUnit"    column="packaging_unit"    />
+        <result property="manufacturer"    column="manufacturer"    />
+    </resultMap>
+
+    <sql id="selectDrugVo">
+        select drug_id, drug_code, drug_name, drug_specification, packaging_unit, manufacturer from drug
+    </sql>
+
+    <select id="selectDrugList" parameterType="Drug" resultMap="DrugResult">
+        <include refid="selectDrugVo"/>
+        <where>  
+            <if test="drugCode != null  and drugCode != ''"> and drug_code = #{drugCode}</if>
+            <if test="drugName != null  and drugName != ''"> and drug_name like concat('%', #{drugName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDrugByDrugId" parameterType="Long" resultMap="DrugResult">
+        <include refid="selectDrugVo"/>
+        where drug_id = #{drugId}
+    </select>
+
+    <insert id="insertDrug" parameterType="Drug" useGeneratedKeys="true" keyProperty="drugId">
+        insert into drug
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="drugCode != null and drugCode != ''">drug_code,</if>
+            <if test="drugName != null and drugName != ''">drug_name,</if>
+            <if test="drugSpecification != null">drug_specification,</if>
+            <if test="packagingUnit != null">packaging_unit,</if>
+            <if test="manufacturer != null">manufacturer,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="drugCode != null and drugCode != ''">#{drugCode},</if>
+            <if test="drugName != null and drugName != ''">#{drugName},</if>
+            <if test="drugSpecification != null">#{drugSpecification},</if>
+            <if test="packagingUnit != null">#{packagingUnit},</if>
+            <if test="manufacturer != null">#{manufacturer},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDrug" parameterType="Drug">
+        update drug
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="drugCode != null and drugCode != ''">drug_code = #{drugCode},</if>
+            <if test="drugName != null and drugName != ''">drug_name = #{drugName},</if>
+            <if test="drugSpecification != null">drug_specification = #{drugSpecification},</if>
+            <if test="packagingUnit != null">packaging_unit = #{packagingUnit},</if>
+            <if test="manufacturer != null">manufacturer = #{manufacturer},</if>
+        </trim>
+        where drug_id = #{drugId}
+    </update>
+
+    <delete id="deleteDrugByDrugId" parameterType="Long">
+        delete from drug where drug_id = #{drugId}
+    </delete>
+
+    <delete id="deleteDrugByDrugIds" parameterType="String">
+        delete from drug where drug_id in 
+        <foreach item="drugId" collection="array" open="(" separator="," close=")">
+            #{drugId}
+        </foreach>
+    </delete>
+</mapper>

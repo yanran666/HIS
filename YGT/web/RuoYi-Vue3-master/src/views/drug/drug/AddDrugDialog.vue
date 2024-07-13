@@ -7,75 +7,91 @@
       v-show="showSearch"
       label-width="68px"
     >
+      <el-form-item label="药品编码" prop="drugCode">
+        <el-input
+          v-model="queryParams.drugCode"
+          placeholder="请输入药品编码"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="药品名称" prop="drugName">
+        <el-input
+          v-model="queryParams.drugName"
+          placeholder="请输入药品名称"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="post">开设处方</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery"
+          >搜索</el-button
+        >
+        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
     <el-table
       v-loading="loading"
-      :data="prescriptionsList"
+      :data="drugList"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="处方ID" align="center" prop="prescriptionId" />
+      <el-table-column label="药品ID" align="center" prop="drugId" />
+      <el-table-column label="药品编码" align="center" prop="drugCode" />
       <el-table-column label="药品名称" align="center" prop="drugName" />
       <el-table-column
         label="药品规格"
         align="center"
         prop="drugSpecification"
       />
-      <el-table-column label="单价" align="center" prop="unitPrice" />
-      <el-table-column label="用法" align="center" prop="usage" />
-      <el-table-column label="数量" align="center" prop="quantity" />
+      <el-table-column label="包装单位" align="center" prop="packagingUnit" />
+      <el-table-column label="生产厂家" align="center" prop="manufacturer" />
       <el-table-column
         label="操作"
         align="center"
         class-name="small-padding fixed-width"
       >
-        <template #header>
-          <el-button link type="primary" @click="handleDelete">删除</el-button>
-          <el-button link type="primary" @click="dialogVisible = true"
-            >增加</el-button
-          >
-        </template>
         <template #default="scope">
+          <el-button
+            link
+            type="primary"
+            icon="Edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['drug:drug:edit']"
+            >修改</el-button
+          >
           <el-button
             link
             type="primary"
             icon="Delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['prescriptions:prescriptions:remove']"
+            v-hasPermi="['drug:drug:remove']"
             >删除</el-button
           >
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog v-model="dialogVisible" title="添加检查申请" width="1200">
-      <AddDrugDialog v-model:visible="dialogVisible" @add-exam="addExam" />
-    </el-dialog>
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <el-row :gutter="10" class="mb8 bottom-center">
+      <el-col>
+        <el-button primary @click="handleAdd">增加</el-button>
+        <el-button plain @click="cancel">取消</el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
-<script setup name="Prescriptions">
+<script setup name="Drug">
 import {
-  listPrescriptions,
-  getPrescriptions,
-  delPrescriptions,
-  addPrescriptions,
-  updatePrescriptions,
-} from "@/api/prescriptions/prescriptions";
-import AddDrugDialog from "@/views/drug/drug/AddDrugDialog.vue";
+  listDrug,
+  getDrug,
+  delDrug,
+  addDrug,
+  updateDrug,
+} from "@/api/drug/drug";
+
 const { proxy } = getCurrentInstance();
-const dialogVisible = ref(false);
-const prescriptionsList = ref([]);
+
+const drugList = ref([]);
 const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -90,17 +106,26 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
+    drugCode: null,
+    drugName: null,
   },
-  rules: {},
+  rules: {
+    drugCode: [
+      { required: true, message: "药品编码不能为空", trigger: "blur" },
+    ],
+    drugName: [
+      { required: true, message: "药品名称不能为空", trigger: "blur" },
+    ],
+  },
 });
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询处方列表 */
+/** 查询药品列表 */
 function getList() {
   loading.value = true;
-  listPrescriptions(queryParams.value).then((response) => {
-    prescriptionsList.value = response.rows;
+  listDrug(queryParams.value).then((response) => {
+    drugList.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });
@@ -115,15 +140,14 @@ function cancel() {
 // 表单重置
 function reset() {
   form.value = {
-    prescriptionId: null,
-    appointmentId: null,
+    drugId: null,
+    drugCode: null,
     drugName: null,
     drugSpecification: null,
-    unitPrice: null,
-    usage: null,
-    quantity: null,
+    packagingUnit: null,
+    manufacturer: null,
   };
-  proxy.resetForm("prescriptionsRef");
+  proxy.resetForm("drugRef");
 }
 
 /** 搜索按钮操作 */
@@ -140,7 +164,7 @@ function resetQuery() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.prescriptionId);
+  ids.value = selection.map((item) => item.drugId);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -149,32 +173,32 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = "添加处方";
+  title.value = "添加药品";
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const _prescriptionId = row.prescriptionId || ids.value;
-  getPrescriptions(_prescriptionId).then((response) => {
+  const _drugId = row.drugId || ids.value;
+  getDrug(_drugId).then((response) => {
     form.value = response.data;
     open.value = true;
-    title.value = "修改处方";
+    title.value = "修改药品";
   });
 }
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["prescriptionsRef"].validate((valid) => {
+  proxy.$refs["drugRef"].validate((valid) => {
     if (valid) {
-      if (form.value.prescriptionId != null) {
-        updatePrescriptions(form.value).then((response) => {
+      if (form.value.drugId != null) {
+        updateDrug(form.value).then((response) => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addPrescriptions(form.value).then((response) => {
+        addDrug(form.value).then((response) => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -186,11 +210,11 @@ function submitForm() {
 
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const _prescriptionIds = row.prescriptionId || ids.value;
+  const _drugIds = row.drugId || ids.value;
   proxy.$modal
-    .confirm('是否确认删除处方编号为"' + _prescriptionIds + '"的数据项？')
+    .confirm('是否确认删除药品编号为"' + _drugIds + '"的数据项？')
     .then(function () {
-      return delPrescriptions(_prescriptionIds);
+      return delDrug(_drugIds);
     })
     .then(() => {
       getList();
@@ -202,11 +226,11 @@ function handleDelete(row) {
 /** 导出按钮操作 */
 function handleExport() {
   proxy.download(
-    "prescriptions/prescriptions/export",
+    "drug/drug/export",
     {
       ...queryParams.value,
     },
-    `prescriptions_${new Date().getTime()}.xlsx`
+    `drug_${new Date().getTime()}.xlsx`
   );
 }
 

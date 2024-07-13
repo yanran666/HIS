@@ -1,6 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form
+      :model="queryParams"
+      ref="queryRef"
+      :inline="true"
+      v-show="showSearch"
+      label-width="68px"
+    >
       <el-form-item label="申请ID" prop="requestId">
         <el-input
           v-model="queryParams.requestId"
@@ -42,7 +48,9 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery"
+          >搜索</el-button
+        >
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -55,7 +63,8 @@
           icon="Plus"
           @click="handleAdd"
           v-hasPermi="['requests:requests:add']"
-        >新增</el-button>
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -65,7 +74,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['requests:requests:edit']"
-        >修改</el-button>
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -75,7 +85,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['requests:requests:remove']"
-        >删除</el-button>
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -84,12 +95,20 @@
           icon="Download"
           @click="handleExport"
           v-hasPermi="['requests:requests:export']"
-        >导出</el-button>
+          >导出</el-button
+        >
       </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar
+        v-model:showSearch="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="requestsList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="requestsList"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="申请ID" align="center" prop="requestId" />
       <el-table-column label="挂号ID" align="center" prop="appointmentId" />
@@ -97,20 +116,42 @@
       <el-table-column label="检查名称" align="center" prop="examName" />
       <el-table-column label="单价" align="center" prop="unitPrice" />
       <el-table-column label="费用分类" align="center" prop="feeCategory" />
-      <el-table-column label="目的和要求" align="center" prop="purposeRequirements" />
+      <el-table-column
+        label="目的和要求"
+        align="center"
+        prop="purposeRequirements"
+      />
       <el-table-column label="检查地点" align="center" prop="examLocation" />
       <el-table-column label="备注" align="center" prop="notes" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['requests:requests:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['requests:requests:remove']">删除</el-button>
+          <el-button
+            link
+            type="primary"
+            icon="Edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['requests:requests:edit']"
+            >修改</el-button
+          >
+          <el-button
+            link
+            type="primary"
+            icon="Delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['requests:requests:remove']"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
-    style="background-color: rgb(150, 170, 199); /* 深灰色 */"
-      v-show="total>0"
+      style="background-color: #e7eef2; /* 深灰色 */"
+      v-show="total > 0"
       :total="total"
       v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize"
@@ -119,7 +160,12 @@
 
     <!-- 添加或修改检查申请对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="requestsRef" :model="form" :rules="rules" label-width="80px">
+      <el-form
+        ref="requestsRef"
+        :model="form"
+        :rules="rules"
+        label-width="80px"
+      >
         <el-form-item label="挂号ID" prop="appointmentId">
           <el-input v-model="form.appointmentId" placeholder="请输入挂号ID" />
         </el-form-item>
@@ -147,7 +193,13 @@
 </template>
 
 <script setup name="Requests">
-import { listRequests, getRequests, delRequests, addRequests, updateRequests } from "@/api/requests/requests";
+import {
+  listRequests,
+  getRequests,
+  delRequests,
+  addRequests,
+  updateRequests,
+} from "@/api/requests/requests";
 
 const { proxy } = getCurrentInstance();
 
@@ -172,8 +224,7 @@ const data = reactive({
     examName: null,
     unitPrice: null,
   },
-  rules: {
-  }
+  rules: {},
 });
 
 const { queryParams, form, rules } = toRefs(data);
@@ -181,7 +232,7 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询检查申请列表 */
 function getList() {
   loading.value = true;
-  listRequests(queryParams.value).then(response => {
+  listRequests(queryParams.value).then((response) => {
     requestsList.value = response.rows;
     total.value = response.total;
     loading.value = false;
@@ -205,7 +256,7 @@ function reset() {
     feeCategory: null,
     purposeRequirements: null,
     examLocation: null,
-    notes: null
+    notes: null,
   };
   proxy.resetForm("requestsRef");
 }
@@ -224,7 +275,7 @@ function resetQuery() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.requestId);
+  ids.value = selection.map((item) => item.requestId);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -239,8 +290,8 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const _requestId = row.requestId || ids.value
-  getRequests(_requestId).then(response => {
+  const _requestId = row.requestId || ids.value;
+  getRequests(_requestId).then((response) => {
     form.value = response.data;
     open.value = true;
     title.value = "修改检查申请";
@@ -249,16 +300,16 @@ function handleUpdate(row) {
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["requestsRef"].validate(valid => {
+  proxy.$refs["requestsRef"].validate((valid) => {
     if (valid) {
       if (form.value.requestId != null) {
-        updateRequests(form.value).then(response => {
+        updateRequests(form.value).then((response) => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addRequests(form.value).then(response => {
+        addRequests(form.value).then((response) => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -271,19 +322,27 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _requestIds = row.requestId || ids.value;
-  proxy.$modal.confirm('是否确认删除检查申请编号为"' + _requestIds + '"的数据项？').then(function() {
-    return delRequests(_requestIds);
-  }).then(() => {
-    getList();
-    proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
+  proxy.$modal
+    .confirm('是否确认删除检查申请编号为"' + _requestIds + '"的数据项？')
+    .then(function () {
+      return delRequests(_requestIds);
+    })
+    .then(() => {
+      getList();
+      proxy.$modal.msgSuccess("删除成功");
+    })
+    .catch(() => {});
 }
 
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download('requests/requests/export', {
-    ...queryParams.value
-  }, `requests_${new Date().getTime()}.xlsx`)
+  proxy.download(
+    "requests/requests/export",
+    {
+      ...queryParams.value,
+    },
+    `requests_${new Date().getTime()}.xlsx`
+  );
 }
 
 getList();
