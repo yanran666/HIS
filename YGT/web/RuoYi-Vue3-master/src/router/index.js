@@ -25,16 +25,19 @@ import Layout from '@/layout'
  */
 
 // 公共路由
+const key = computed(() => {
+  return router.path + Math.random();
+});
 export const constantRoutes = [
   // {
-  //   path: '/records',
+  //   path: '/diagnose',
   //   component: Layout,
   //   children: [
   //     {
-  //       path: 'add',
+  //       path: 'records',
   //       component: () => import('@/views/records/records/add.vue'),
   //       name: 'AddRecord',
-  //       meta: { title: '添加病历', icon: 'edit', permissions: ['patient:patientCheck:edit'] }
+  //       meta: { title: '病历首页', icon: 'edit', permissions: ['patient:patientCheck:edit'] }
   //     }
   //   ]
   // },
@@ -50,6 +53,9 @@ export const constantRoutes = [
       }
     ]
   },
+  //挂号
+
+
   {
     path: '/login',
     component: () => import('@/views/login'),

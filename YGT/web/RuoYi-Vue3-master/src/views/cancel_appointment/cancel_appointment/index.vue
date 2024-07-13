@@ -1,6 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form
+      :model="queryParams"
+      ref="queryRef"
+      :inline="true"
+      v-show="showSearch"
+      label-width="68px"
+    >
       <el-form-item label="病历号" prop="medicalRecordNumber">
         <el-input
           v-model="queryParams.medicalRecordNumber"
@@ -18,7 +24,9 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery"
+          >搜索</el-button
+        >
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -31,7 +39,8 @@
           icon="Plus"
           @click="handleAdd"
           v-hasPermi="['cancel_appointment:cancel_appointment:add']"
-        >新增</el-button>
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -41,7 +50,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['cancel_appointment:cancel_appointment:edit']"
-        >修改</el-button>
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -51,7 +61,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['cancel_appointment:cancel_appointment:remove']"
-        >删除</el-button>
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -60,29 +71,60 @@
           icon="Download"
           @click="handleExport"
           v-hasPermi="['cancel_appointment:cancel_appointment:export']"
-        >导出</el-button>
+          >导出</el-button
+        >
       </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar
+        v-model:showSearch="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="cancel_appointmentList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="cancel_appointmentList"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="挂号ID" align="center" prop="appointmentId" />
-      <el-table-column label="病历号" align="center" prop="medicalRecordNumber" />
+      <el-table-column
+        label="病历号"
+        align="center"
+        prop="medicalRecordNumber"
+      />
       <el-table-column label="姓名" align="center" prop="name" />
       <el-table-column label="性别" align="center" prop="gender" />
       <el-table-column label="身份证号码" align="center" prop="idNumber" />
       <el-table-column label="收费方式" align="center" prop="paymentMethod" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['cancel_appointment:cancel_appointment:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['cancel_appointment:cancel_appointment:remove']">删除</el-button>
+          <el-button
+            link
+            type="primary"
+            icon="Edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['cancel_appointment:cancel_appointment:edit']"
+            >修改</el-button
+          >
+          <el-button
+            link
+            type="primary"
+            icon="Delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['cancel_appointment:cancel_appointment:remove']"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
-      v-show="total>0"
+      style="background-color: rgb(150, 170, 199); /* 深灰色 */"
+      v-show="total > 0"
       :total="total"
       v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize"
@@ -91,12 +133,20 @@
 
     <!-- 添加或修改退号对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="cancel_appointmentRef" :model="form" :rules="rules" label-width="80px">
+      <el-form
+        ref="cancel_appointmentRef"
+        :model="form"
+        :rules="rules"
+        label-width="80px"
+      >
         <el-form-item label="医生ID" prop="doctorId">
           <el-input v-model="form.doctorId" placeholder="请输入医生ID" />
         </el-form-item>
         <el-form-item label="病历号" prop="medicalRecordNumber">
-          <el-input v-model="form.medicalRecordNumber" placeholder="请输入病历号" />
+          <el-input
+            v-model="form.medicalRecordNumber"
+            placeholder="请输入病历号"
+          />
         </el-form-item>
         <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name" placeholder="请输入姓名" />
@@ -105,32 +155,43 @@
           <el-input v-model="form.age" placeholder="请输入年龄" />
         </el-form-item>
         <el-form-item label="出生日期" prop="dob">
-          <el-date-picker clearable
+          <el-date-picker
+            clearable
             v-model="form.dob"
             type="date"
             value-format="YYYY-MM-DD"
-            placeholder="请选择出生日期">
+            placeholder="请选择出生日期"
+          >
           </el-date-picker>
         </el-form-item>
         <el-form-item label="身份证号码" prop="idNumber">
           <el-input v-model="form.idNumber" placeholder="请输入身份证号码" />
         </el-form-item>
         <el-form-item label="住址" prop="address">
-          <el-input v-model="form.address" type="textarea" placeholder="请输入内容" />
+          <el-input
+            v-model="form.address"
+            type="textarea"
+            placeholder="请输入内容"
+          />
         </el-form-item>
         <el-form-item label="就诊日期" prop="clinicDate">
-          <el-date-picker clearable
+          <el-date-picker
+            clearable
             v-model="form.clinicDate"
             type="date"
             value-format="YYYY-MM-DD"
-            placeholder="请选择就诊日期">
+            placeholder="请选择就诊日期"
+          >
           </el-date-picker>
         </el-form-item>
         <el-form-item label="就诊科室" prop="department">
           <el-input v-model="form.department" placeholder="请输入就诊科室" />
         </el-form-item>
         <el-form-item label="就诊医生" prop="attendingDoctor">
-          <el-input v-model="form.attendingDoctor" placeholder="请输入就诊医生" />
+          <el-input
+            v-model="form.attendingDoctor"
+            placeholder="请输入就诊医生"
+          />
         </el-form-item>
         <el-form-item label="初始号额" prop="initialQuota">
           <el-input v-model="form.initialQuota" placeholder="请输入初始号额" />
@@ -139,7 +200,10 @@
           <el-input v-model="form.usedQuota" placeholder="请输入已用号额" />
         </el-form-item>
         <el-form-item label="应收金额" prop="receivableAmount">
-          <el-input v-model="form.receivableAmount" placeholder="请输入应收金额" />
+          <el-input
+            v-model="form.receivableAmount"
+            placeholder="请输入应收金额"
+          />
         </el-form-item>
         <el-form-item label="收费方式" prop="paymentMethod">
           <el-input v-model="form.paymentMethod" placeholder="请输入收费方式" />
@@ -156,7 +220,13 @@
 </template>
 
 <script setup name="Cancel_appointment">
-import { listCancel_appointment, getCancel_appointment, delCancel_appointment, addCancel_appointment, updateCancel_appointment } from "@/api/cancel_appointment/cancel_appointment";
+import {
+  listCancel_appointment,
+  getCancel_appointment,
+  delCancel_appointment,
+  addCancel_appointment,
+  updateCancel_appointment,
+} from "@/api/cancel_appointment/cancel_appointment";
 
 const { proxy } = getCurrentInstance();
 
@@ -178,8 +248,7 @@ const data = reactive({
     medicalRecordNumber: null,
     name: null,
   },
-  rules: {
-  }
+  rules: {},
 });
 
 const { queryParams, form, rules } = toRefs(data);
@@ -187,7 +256,7 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询退号列表 */
 function getList() {
   loading.value = true;
-  listCancel_appointment(queryParams.value).then(response => {
+  listCancel_appointment(queryParams.value).then((response) => {
     cancel_appointmentList.value = response.rows;
     total.value = response.total;
     loading.value = false;
@@ -222,7 +291,7 @@ function reset() {
     usedQuota: null,
     medicalRecordStatus: null,
     receivableAmount: null,
-    paymentMethod: null
+    paymentMethod: null,
   };
   proxy.resetForm("cancel_appointmentRef");
 }
@@ -241,7 +310,7 @@ function resetQuery() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.appointmentId);
+  ids.value = selection.map((item) => item.appointmentId);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -256,8 +325,8 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const _appointmentId = row.appointmentId || ids.value
-  getCancel_appointment(_appointmentId).then(response => {
+  const _appointmentId = row.appointmentId || ids.value;
+  getCancel_appointment(_appointmentId).then((response) => {
     form.value = response.data;
     open.value = true;
     title.value = "修改退号";
@@ -266,16 +335,16 @@ function handleUpdate(row) {
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["cancel_appointmentRef"].validate(valid => {
+  proxy.$refs["cancel_appointmentRef"].validate((valid) => {
     if (valid) {
       if (form.value.appointmentId != null) {
-        updateCancel_appointment(form.value).then(response => {
+        updateCancel_appointment(form.value).then((response) => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addCancel_appointment(form.value).then(response => {
+        addCancel_appointment(form.value).then((response) => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -288,19 +357,27 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _appointmentIds = row.appointmentId || ids.value;
-  proxy.$modal.confirm('是否确认删除退号编号为"' + _appointmentIds + '"的数据项？').then(function() {
-    return delCancel_appointment(_appointmentIds);
-  }).then(() => {
-    getList();
-    proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
+  proxy.$modal
+    .confirm('是否确认删除退号编号为"' + _appointmentIds + '"的数据项？')
+    .then(function () {
+      return delCancel_appointment(_appointmentIds);
+    })
+    .then(() => {
+      getList();
+      proxy.$modal.msgSuccess("删除成功");
+    })
+    .catch(() => {});
 }
 
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download('cancel_appointment/cancel_appointment/export', {
-    ...queryParams.value
-  }, `cancel_appointment_${new Date().getTime()}.xlsx`)
+  proxy.download(
+    "cancel_appointment/cancel_appointment/export",
+    {
+      ...queryParams.value,
+    },
+    `cancel_appointment_${new Date().getTime()}.xlsx`
+  );
 }
 
 getList();

@@ -8,6 +8,8 @@
         size="large"
         label-width="79px"
         label-position="left"
+        style="background-color:whitesmoke"
+        
       >
         <el-col :span="24">
           <el-row gutter="10">
@@ -294,6 +296,7 @@
   </div>
 </template>
 <script setup>
+
 import { ElMessage } from "element-plus";
 const formRef = ref();
 import { addAppointment } from "@/api/appointment/appointment";

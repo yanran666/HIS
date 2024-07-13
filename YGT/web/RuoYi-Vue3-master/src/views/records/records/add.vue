@@ -5,8 +5,9 @@
       :model="formData"
       :rules="rules"
       size="large"
-      label-width="100px"
+      label-width="92px"
       label-position="left"
+      style="background-color: whitesmoke"
     >
       <el-form-item label="主诉" prop="chiefComplaint">
         <el-input
@@ -14,7 +15,7 @@
           type="text"
           placeholder="请输入主诉"
           clearable
-          :style="{ width: '100%' }"
+          :style="{ width: '600px' }"
         ></el-input>
       </el-form-item>
       <el-form-item label="现病史" prop="presentIllnessHistory">
@@ -23,7 +24,7 @@
           type="text"
           placeholder="请输入现病史"
           clearable
-          :style="{ width: '100%' }"
+          :style="{ width: '600px' }"
         ></el-input>
       </el-form-item>
       <el-form-item label="现病治疗情况" prop="treatmentHistory">
@@ -32,7 +33,7 @@
           type="text"
           placeholder="请输入现病治疗情况"
           clearable
-          :style="{ width: '100%' }"
+          :style="{ width: '600px' }"
         ></el-input>
       </el-form-item>
       <el-form-item label="既往史" prop="pastHistory">
@@ -41,7 +42,7 @@
           type="text"
           placeholder="请输入既往史"
           clearable
-          :style="{ width: '100%' }"
+          :style="{ width: '600px' }"
         ></el-input>
       </el-form-item>
       <el-form-item label="过敏史" prop="allergyHistory">
@@ -50,7 +51,7 @@
           type="text"
           placeholder="请输入过敏史"
           clearable
-          :style="{ width: '100%' }"
+          :style="{ width: '600px' }"
         ></el-input>
       </el-form-item>
       <el-form-item label="体格检查" prop="physicalExamination">
@@ -59,7 +60,7 @@
           type="text"
           placeholder="请输入体格检查"
           clearable
-          :style="{ width: '100%' }"
+          :style="{ width: '600px' }"
         ></el-input>
       </el-form-item>
       <el-form-item label="诊断">
@@ -96,7 +97,9 @@
             />
             <el-table-column width="120px">
               <template #header>
-                <el-button link type="primary" @click="handleDelete">删除</el-button>
+                <el-button link type="primary" @click="handleDelete"
+                  >删除</el-button
+                >
                 <el-button link type="primary" @click="dialogVisible = true"
                   >增加</el-button
                 >
@@ -120,10 +123,10 @@
 </template>
 
 <script setup>
+import { onMounted, ref, reactive, getCurrentInstance } from "vue";
 import { ElMessage } from "element-plus";
 import { listRecords, addRecords } from "@/api/records/records";
 import AddRecordDialog from "@/views/diseases/diseases/AddRecordDialog.vue";
-import { ref, reactive, toRefs, getCurrentInstance } from "vue";
 
 const dialogVisible = ref(false);
 const formRef = ref();
@@ -205,12 +208,13 @@ function addDiseases(diseases) {
   formData.recordsList.push(...diseases);
   dialogVisible.value = false;
 }
+
 function handleDelete() {
   if (ids.value.length === 0) {
     ElMessage.warning("请选择要删除的记录");
     return;
   }
-  // 删除选中的记录
+  // 过滤掉选中的记录
   recordsList.value = recordsList.value.filter(
     (item) => !ids.value.includes(item.medicalRecordId)
   );
@@ -221,14 +225,18 @@ function handleDelete() {
   ElMessage.success("删除成功");
 }
 
-
-getList();
+onMounted(() => {
+  recordsList.value = [];
+  formData.recordsList = [];
+  getList();
+});
 </script>
 
 <style>
 .base {
   margin: 50px;
+  display: block;
+  width: 900px;
   padding-left: 100px;
-  padding-right: 600px;
 }
 </style>
