@@ -16,6 +16,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="notes"    column="notes"    />
     </resultMap>
 
+    <resultMap type="Appointments" id="AppointmentsResult">
+        <result property="appointmentId"    column="appointment_id"    />
+        <result property="doctorId"    column="doctor_id"    />
+        <result property="medicalRecordNumber"    column="medical_record_number"    />
+        <result property="name"    column="name"    />
+        <result property="gender"    column="gender"    />
+        <result property="age"    column="age"    />
+        <result property="dob"    column="dob"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="address"    column="address"    />
+        <result property="settlementType"    column="settlement_type"    />
+        <result property="clinicDate"    column="clinic_date"    />
+        <result property="session"    column="session"    />
+        <result property="department"    column="department"    />
+        <result property="registrationType"    column="registration_type"    />
+        <result property="attendingDoctor"    column="attending_doctor"    />
+        <result property="initialQuota"    column="initial_quota"    />
+        <result property="usedQuota"    column="used_quota"    />
+        <result property="medicalRecordStatus"    column="medical_record_status"    />
+        <result property="receivableAmount"    column="receivable_amount"    />
+        <result property="paymentMethod"    column="payment_method"    />
+    </resultMap>
+
     <sql id="selectExaminationRequestsVo">
         select request_id, appointment_id, exam_code, exam_name, unit_price, fee_category, purpose_requirements, exam_location, notes from examination_requests
     </sql>
@@ -25,6 +48,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
         </where>
     </select>
+
+    <select id="selectDataFromAppointmentsByAppointmentId" parameterType="Appointments" resultMap="AppointmentsResult">
+        SELECT medical_record_number, name, id_number, age, gender
+        FROM appointments
+        WHERE appointment_id = #{appointment_id}
+    </select>
     
     <select id="selectExaminationRequestsByRequestId" parameterType="Long" resultMap="ExaminationRequestsResult">
         <include refid="selectExaminationRequestsVo"/>
@@ -32,6 +61,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <insert id="insertExaminationRequests" parameterType="ExaminationRequests" useGeneratedKeys="true" keyProperty="requestId">
+        <selectKey keyProperty="appointmentId" resultType="java.lang.Long" order="BEFORE">
+            SELECT MAX(appointment_id) FROM appointments
+        </selectKey>
         insert into examination_requests
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="appointmentId != null">appointment_id,</if>
@@ -45,13 +77,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="appointmentId != null">#{appointmentId},</if>
-            <foreach collection="requestsList" item="request" separator=",">
-                #{request.examCode}, #{request.examName}, #{request.unitPrice}, #{request.feeCategory},
-            </foreach>
+            <if test="requestsList != null">
+                <foreach collection="requestsList" item="request" separator=",">
+                    #{request.examCode}, #{request.examName}, #{request.unitPrice}, #{request.feeCategory},
+                </foreach>
+            </if>
             <if test="purposeRequirements != null">#{purposeRequirements},</if>
             <if test="examLocation != null">#{examLocation},</if>
             <if test="notes != null">#{notes},</if>
          </trim>
+    </insert>
+
+    <insert id="insertChargesFromExaminationAndAppointment" parameterType="ExaminationRequests">
+        insert into charges (
+            medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification, amount, issue_date
+        )
+        select
+            a.medical_record_number,
+            a.name as patient_name,
+            a.id_number,
+            a.age,
+            a.gender,
+            r.exam_name as item_name,
+            r.unit_price,
+            r.fee_category as category,
+            '无' as specifiaction,
+            1 as amount,
+            now() as issue_date
+        from appointments a
+                 join examination_requests r on a.appointment_id = r.appointment_id
+        where a.appointment_id = #{appointmentId};
     </insert>
 
     <update id="updateExaminationRequests" parameterType="ExaminationRequests">

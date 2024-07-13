@@ -1,11 +1,15 @@
 package com.ygt.requests.service.impl;
 
 import java.util.List;
+
+import com.ygt.appointment.domain.Appointments;
+import com.ygt.charges.domain.Charges;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ygt.requests.mapper.ExaminationRequestsMapper;
 import com.ygt.requests.domain.ExaminationRequests;
 import com.ygt.requests.service.IExaminationRequestsService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 检查申请Service业务层处理
@@ -32,6 +36,18 @@ public class ExaminationRequestsServiceImpl implements IExaminationRequestsServi
     }
 
     /**
+     * 查询挂号
+     *
+     * @param appointmentId 挂号主键
+     * @return 检查申请
+     */
+    @Override
+    public Appointments selectDataFromAppointmentsByAppointmentId(Long appointmentId)
+    {
+        return examinationRequestsMapper.selectDataFromAppointmentsByAppointmentId(appointmentId);
+    }
+
+    /**
      * 查询检查申请列表
      * 
      * @param examinationRequests 检查申请
@@ -50,11 +66,23 @@ public class ExaminationRequestsServiceImpl implements IExaminationRequestsServi
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertExaminationRequests(ExaminationRequests examinationRequests)
     {
         return examinationRequestsMapper.insertExaminationRequests(examinationRequests);
     }
-
+    /**
+     * 导入收费表
+     *
+     * @param examinationRequests 检查申请
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int insertChargesFromExaminationAndAppointment(ExaminationRequests examinationRequests)
+    {
+        return examinationRequestsMapper.insertChargesFromExaminationAndAppointment(examinationRequests);
+    }
     /**
      * 修改检查申请
      * 

@@ -3,7 +3,6 @@ package com.ygt.requests.domain;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.ygt.diseases.domain.Diseases;
 import com.ygt.examination.domain.Examination;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
