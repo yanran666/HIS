@@ -81,8 +81,23 @@ public class ExaminationRequestsServiceImpl implements IExaminationRequestsServi
     @Transactional
     public int insertChargesFromExaminationAndAppointment(ExaminationRequests examinationRequests)
     {
+        System.out.println("Inserting charges for examination and appointment...");
         return examinationRequestsMapper.insertChargesFromExaminationAndAppointment(examinationRequests);
     }
+    /**
+     * 导入退费表
+     *
+     * @param examinationRequests 检查申请
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int insertRefundFromExaminationAndAppointment(ExaminationRequests examinationRequests)
+    {
+        System.out.println("Inserting refund for examination and appointment...");
+        return examinationRequestsMapper.insertRefundFromExaminationAndAppointment(examinationRequests);
+    }
+
     /**
      * 修改检查申请
      * 

@@ -83,6 +83,7 @@ public class ExaminationRequestsController extends BaseController
         if(result.isSuccess())
         {
             examinationRequestsService.insertChargesFromExaminationAndAppointment(examinationRequests);
+            examinationRequestsService.insertRefundFromExaminationAndAppointment(examinationRequests);
         }
         return result;
     }
