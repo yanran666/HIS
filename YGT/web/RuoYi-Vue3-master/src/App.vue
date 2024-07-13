@@ -3,19 +3,20 @@
 </template>
 
 <script setup>
-import useSettingsStore from '@/store/modules/settings'
-import { handleThemeStyle } from '@/utils/theme'
+import useSettingsStore from "@/store/modules/settings";
+import { handleThemeStyle } from "@/utils/theme";
 
 onMounted(() => {
   nextTick(() => {
     // 初始化主题样式
-    handleThemeStyle(useSettingsStore().theme)
-  })
-})
+    handleThemeStyle(useSettingsStore().theme);
+  });
+});
 </script>
 <style>
-body, html {
-  background-color: rgb(150, 170, 199); /* 深灰色 */
+body,
+html {
+  background-color: #e7eef2; /* 深灰色 */
   padding: 0;
   height: 100%;
   width: 100%;

@@ -46,11 +46,11 @@ const imageUrl = [
   align-content: center;
 }
 .head {
-  background-color: rgb(150, 191, 233); /* 深蓝灰色 */
+  background-color: #e7eef2; /* 深灰色 */
 }
 
 .below {
-  background-color: rgb(150, 170, 199); /* 深灰色 */
+  background-color: #e7eef2; /* 深灰色 */
   display: block;
   height: 660px;
 }

@@ -124,7 +124,7 @@
     </el-table>
 
     <pagination
-      style="background-color: rgb(150, 170, 199); /* 深灰色 */"
+      style="background-color: #e7eef2; /* 深灰色 */"
       v-show="total > 0"
       :total="total"
       v-model:page="queryParams.pageNum"
