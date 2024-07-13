@@ -1,6 +1,9 @@
 package com.ygt.requests.service;
 
 import java.util.List;
+
+import com.ygt.appointment.domain.Appointments;
+import com.ygt.charges.domain.Charges;
 import com.ygt.requests.domain.ExaminationRequests;
 
 /**
@@ -20,6 +23,14 @@ public interface IExaminationRequestsService
     public ExaminationRequests selectExaminationRequestsByRequestId(Long requestId);
 
     /**
+     * 查询挂号
+     *
+     * @param appointmentId 检查申请主键
+     * @return 检查申请
+     */
+    public Appointments selectDataFromAppointmentsByAppointmentId(Long appointmentId);
+
+    /**
      * 查询检查申请列表
      * 
      * @param examinationRequests 检查申请
@@ -34,7 +45,13 @@ public interface IExaminationRequestsService
      * @return 结果
      */
     public int insertExaminationRequests(ExaminationRequests examinationRequests);
-
+    /**
+     * 新增收费
+     *
+     * @param examinationRequests 收费
+     * @return 结果
+     */
+    public int insertChargesFromExaminationAndAppointment(ExaminationRequests examinationRequests);
     /**
      * 修改检查申请
      * 

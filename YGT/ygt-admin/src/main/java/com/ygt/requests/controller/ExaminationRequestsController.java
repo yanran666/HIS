@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -72,12 +73,18 @@ public class ExaminationRequestsController extends BaseController
     /**
      * 新增检查申请
      */
+    @Transactional
     @PreAuthorize("@ss.hasPermi('requests:requests:add')")
     @Log(title = "检查申请", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ExaminationRequests examinationRequests)
     {
-        return toAjax(examinationRequestsService.insertExaminationRequests(examinationRequests));
+        AjaxResult result = toAjax(examinationRequestsService.insertExaminationRequests(examinationRequests));
+        if(result.isSuccess())
+        {
+            examinationRequestsService.insertChargesFromExaminationAndAppointment(examinationRequests);
+        }
+        return result;
     }
 
     /**
