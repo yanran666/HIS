@@ -46,59 +46,59 @@ public class ExaminationController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出检查列表
-     */
-    @PreAuthorize("@ss.hasPermi('examination:examination:export')")
-    @Log(title = "检查", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, Examination examination)
-    {
-        List<Examination> list = examinationService.selectExaminationList(examination);
-        ExcelUtil<Examination> util = new ExcelUtil<Examination>(Examination.class);
-        util.exportExcel(response, list, "检查数据");
-    }
+//    /**
+//     * 导出检查列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('examination:examination:export')")
+//    @Log(title = "检查", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, Examination examination)
+//    {
+//        List<Examination> list = examinationService.selectExaminationList(examination);
+//        ExcelUtil<Examination> util = new ExcelUtil<Examination>(Examination.class);
+//        util.exportExcel(response, list, "检查数据");
+//    }
 
-    /**
-     * 获取检查详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('examination:examination:query')")
-    @GetMapping(value = "/{examId}")
-    public AjaxResult getInfo(@PathVariable("examId") Long examId)
-    {
-        return success(examinationService.selectExaminationByExamId(examId));
-    }
+//    /**
+//     * 获取检查详细信息
+//     */
+//    @PreAuthorize("@ss.hasPermi('examination:examination:query')")
+//    @GetMapping(value = "/{examId}")
+//    public AjaxResult getInfo(@PathVariable("examId") Long examId)
+//    {
+//        return success(examinationService.selectExaminationByExamId(examId));
+//    }
 
-    /**
-     * 新增检查
-     */
-    @PreAuthorize("@ss.hasPermi('examination:examination:add')")
-    @Log(title = "检查", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody Examination examination)
-    {
-        return toAjax(examinationService.insertExamination(examination));
-    }
+//    /**
+//     * 新增检查
+//     */
+//    @PreAuthorize("@ss.hasPermi('examination:examination:add')")
+//    @Log(title = "检查", businessType = BusinessType.INSERT)
+//    @PostMapping
+//    public AjaxResult add(@RequestBody Examination examination)
+//    {
+//        return toAjax(examinationService.insertExamination(examination));
+//    }
 
-    /**
-     * 修改检查
-     */
-    @PreAuthorize("@ss.hasPermi('examination:examination:edit')")
-    @Log(title = "检查", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody Examination examination)
-    {
-        return toAjax(examinationService.updateExamination(examination));
-    }
+//    /**
+//     * 修改检查
+//     */
+//    @PreAuthorize("@ss.hasPermi('examination:examination:edit')")
+//    @Log(title = "检查", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody Examination examination)
+//    {
+//        return toAjax(examinationService.updateExamination(examination));
+//    }
 
-    /**
-     * 删除检查
-     */
-    @PreAuthorize("@ss.hasPermi('examination:examination:remove')")
-    @Log(title = "检查", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{examIds}")
-    public AjaxResult remove(@PathVariable Long[] examIds)
-    {
-        return toAjax(examinationService.deleteExaminationByExamIds(examIds));
-    }
+//    /**
+//     * 删除检查
+//     */
+//    @PreAuthorize("@ss.hasPermi('examination:examination:remove')")
+//    @Log(title = "检查", businessType = BusinessType.DELETE)
+//	@DeleteMapping("/{examIds}")
+//    public AjaxResult remove(@PathVariable Long[] examIds)
+//    {
+//        return toAjax(examinationService.deleteExaminationByExamIds(examIds));
+//    }
 }

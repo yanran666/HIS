@@ -50,28 +50,28 @@ public class AppointmentsController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出挂号列表
-     */
-    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:export')")
-    @Log(title = "挂号", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, Appointments Appointments)
-    {
-        List<Appointments> list = AppointmentsService.selectAppointmentsList(Appointments);
-        ExcelUtil<Appointments> util = new ExcelUtil<Appointments>(Appointments.class);
-        util.exportExcel(response, list, "挂号数据");
-    }
+//    /**
+//     * 导出挂号列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:export')")
+//    @Log(title = "挂号", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, Appointments Appointments)
+//    {
+//        List<Appointments> list = AppointmentsService.selectAppointmentsList(Appointments);
+//        ExcelUtil<Appointments> util = new ExcelUtil<Appointments>(Appointments.class);
+//        util.exportExcel(response, list, "挂号数据");
+//    }
 
-    /**
-     * 获取挂号详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:query')")
-    @GetMapping(value = "/{appointmentId}")
-    public AjaxResult getInfo(@PathVariable("appointmentId") Long appointmentId)
-    {
-        return success(AppointmentsService.selectAppointmentsByAppointmentId(appointmentId));
-    }
+//    /**
+//     * 获取挂号详细信息
+//     */
+//    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:query')")
+//    @GetMapping(value = "/{appointmentId}")
+//    public AjaxResult getInfo(@PathVariable("appointmentId") Long appointmentId)
+//    {
+//        return success(AppointmentsService.selectAppointmentsByAppointmentId(appointmentId));
+//    }
 
     /**
      * 新增挂号
@@ -90,25 +90,25 @@ public class AppointmentsController extends BaseController
         return result;
     }
 
-    /**
-     * 修改挂号
-     */
-    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:edit')")
-    @Log(title = "挂号", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody Appointments Appointments)
-    {
-        return toAjax(AppointmentsService.updateAppointments(Appointments));
-    }
+//    /**
+//     * 修改挂号
+//     */
+//    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:edit')")
+//    @Log(title = "挂号", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody Appointments Appointments)
+//    {
+//        return toAjax(AppointmentsService.updateAppointments(Appointments));
+//    }
 
-    /**
-     * 删除挂号
-     */
-    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:remove')")
-    @Log(title = "挂号", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{appointmentIds}")
-    public AjaxResult remove(@PathVariable Long[] appointmentIds)
-    {
-        return toAjax(AppointmentsService.deleteAppointmentsByAppointmentIds(appointmentIds));
-    }
+//    /**
+//     * 删除挂号
+//     */
+//    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:remove')")
+//    @Log(title = "挂号", businessType = BusinessType.DELETE)
+//    @DeleteMapping("/{appointmentIds}")
+//    public AjaxResult remove(@PathVariable Long[] appointmentIds)
+//    {
+//        return toAjax(AppointmentsService.deleteAppointmentsByAppointmentIds(appointmentIds));
+//    }
 }

@@ -46,18 +46,18 @@ public class PrescriptionsController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出处方列表
-     */
-    @PreAuthorize("@ss.hasPermi('prescriptions:prescriptions:export')")
-    @Log(title = "处方", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, Prescriptions prescriptions)
-    {
-        List<Prescriptions> list = prescriptionsService.selectPrescriptionsList(prescriptions);
-        ExcelUtil<Prescriptions> util = new ExcelUtil<Prescriptions>(Prescriptions.class);
-        util.exportExcel(response, list, "处方数据");
-    }
+//    /**
+//     * 导出处方列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('prescriptions:prescriptions:export')")
+//    @Log(title = "处方", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, Prescriptions prescriptions)
+//    {
+//        List<Prescriptions> list = prescriptionsService.selectPrescriptionsList(prescriptions);
+//        ExcelUtil<Prescriptions> util = new ExcelUtil<Prescriptions>(Prescriptions.class);
+//        util.exportExcel(response, list, "处方数据");
+//    }
 
     /**
      * 获取处方详细信息

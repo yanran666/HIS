@@ -48,50 +48,50 @@ public class CancelAppointmentsController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出退号列表
-     */
-    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:export')")
-    @Log(title = "退号", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, CancelAppointments cancelAppointments)
-    {
-        List<CancelAppointments> list = cancelAppointmentsService.selectCancelAppointmentsList(cancelAppointments);
-        ExcelUtil<CancelAppointments> util = new ExcelUtil<CancelAppointments>(CancelAppointments.class);
-        util.exportExcel(response, list, "退号数据");
-    }
+//    /**
+//     * 导出退号列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:export')")
+//    @Log(title = "退号", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, CancelAppointments cancelAppointments)
+//    {
+//        List<CancelAppointments> list = cancelAppointmentsService.selectCancelAppointmentsList(cancelAppointments);
+//        ExcelUtil<CancelAppointments> util = new ExcelUtil<CancelAppointments>(CancelAppointments.class);
+//        util.exportExcel(response, list, "退号数据");
+//    }
 
-    /**
-     * 获取退号详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:query')")
-    @GetMapping(value = "/{appointmentId}")
-    public AjaxResult getInfo(@PathVariable("appointmentId") Long appointmentId)
-    {
-        return success(cancelAppointmentsService.selectCancelAppointmentsByAppointmentId(appointmentId));
-    }
+//    /**
+//     * 获取退号详细信息
+//     */
+//    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:query')")
+//    @GetMapping(value = "/{appointmentId}")
+//    public AjaxResult getInfo(@PathVariable("appointmentId") Long appointmentId)
+//    {
+//        return success(cancelAppointmentsService.selectCancelAppointmentsByAppointmentId(appointmentId));
+//    }
 
-    /**
-     * 新增退号
-     */
-    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:add')")
-    @Log(title = "退号", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody CancelAppointments cancelAppointments)
-    {
-        return toAjax(cancelAppointmentsService.insertCancelAppointments(cancelAppointments));
-    }
+//    /**
+//     * 新增退号
+//     */
+//    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:add')")
+//    @Log(title = "退号", businessType = BusinessType.INSERT)
+//    @PostMapping
+//    public AjaxResult add(@RequestBody CancelAppointments cancelAppointments)
+//    {
+//        return toAjax(cancelAppointmentsService.insertCancelAppointments(cancelAppointments));
+//    }
 
-    /**
-     * 修改退号
-     */
-    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:edit')")
-    @Log(title = "退号", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody CancelAppointments cancelAppointments)
-    {
-        return toAjax(cancelAppointmentsService.updateCancelAppointments(cancelAppointments));
-    }
+//    /**
+//     * 修改退号
+//     */
+//    @PreAuthorize("@ss.hasPermi('cancel_appointment:cancel_appointment:edit')")
+//    @Log(title = "退号", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody CancelAppointments cancelAppointments)
+//    {
+//        return toAjax(cancelAppointmentsService.updateCancelAppointments(cancelAppointments));
+//    }
 
     /**
      * 删除退号

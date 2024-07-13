@@ -46,18 +46,18 @@ public class patientCheckController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出患者查看列表
-     */
-    @PreAuthorize("@ss.hasPermi('patient:patientCheck:export')")
-    @Log(title = "患者查看", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, patientCheck patientCheck)
-    {
-        List<patientCheck> list = patientCheckService.selectpatientCheckList(patientCheck);
-        ExcelUtil<patientCheck> util = new ExcelUtil<patientCheck>(patientCheck.class);
-        util.exportExcel(response, list, "患者查看数据");
-    }
+//    /**
+//     * 导出患者查看列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('patient:patientCheck:export')")
+//    @Log(title = "患者查看", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, patientCheck patientCheck)
+//    {
+//        List<patientCheck> list = patientCheckService.selectpatientCheckList(patientCheck);
+//        ExcelUtil<patientCheck> util = new ExcelUtil<patientCheck>(patientCheck.class);
+//        util.exportExcel(response, list, "患者查看数据");
+//    }
 
     /**
      * 获取患者查看详细信息
@@ -69,16 +69,16 @@ public class patientCheckController extends BaseController
         return success(patientCheckService.selectpatientCheckByAppointmentId(appointmentId));
     }
 
-    /**
-     * 新增患者查看
-     */
-    @PreAuthorize("@ss.hasPermi('patient:patientCheck:add')")
-    @Log(title = "患者查看", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody patientCheck patientCheck)
-    {
-        return toAjax(patientCheckService.insertpatientCheck(patientCheck));
-    }
+//    /**
+//     * 新增患者查看
+//     */
+//    @PreAuthorize("@ss.hasPermi('patient:patientCheck:add')")
+//    @Log(title = "患者查看", businessType = BusinessType.INSERT)
+//    @PostMapping
+//    public AjaxResult add(@RequestBody patientCheck patientCheck)
+//    {
+//        return toAjax(patientCheckService.insertpatientCheck(patientCheck));
+//    }
 
     /**
      * 修改患者查看

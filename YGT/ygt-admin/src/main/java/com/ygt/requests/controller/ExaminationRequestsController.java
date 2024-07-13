@@ -47,28 +47,28 @@ public class ExaminationRequestsController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出检查申请列表
-     */
-    @PreAuthorize("@ss.hasPermi('requests:requests:export')")
-    @Log(title = "检查申请", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, ExaminationRequests examinationRequests)
-    {
-        List<ExaminationRequests> list = examinationRequestsService.selectExaminationRequestsList(examinationRequests);
-        ExcelUtil<ExaminationRequests> util = new ExcelUtil<ExaminationRequests>(ExaminationRequests.class);
-        util.exportExcel(response, list, "检查申请数据");
-    }
+//    /**
+//     * 导出检查申请列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('requests:requests:export')")
+//    @Log(title = "检查申请", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, ExaminationRequests examinationRequests)
+//    {
+//        List<ExaminationRequests> list = examinationRequestsService.selectExaminationRequestsList(examinationRequests);
+//        ExcelUtil<ExaminationRequests> util = new ExcelUtil<ExaminationRequests>(ExaminationRequests.class);
+//        util.exportExcel(response, list, "检查申请数据");
+//    }
 
-    /**
-     * 获取检查申请详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('requests:requests:query')")
-    @GetMapping(value = "/{requestId}")
-    public AjaxResult getInfo(@PathVariable("requestId") Long requestId)
-    {
-        return success(examinationRequestsService.selectExaminationRequestsByRequestId(requestId));
-    }
+//    /**
+//     * 获取检查申请详细信息
+//     */
+//    @PreAuthorize("@ss.hasPermi('requests:requests:query')")
+//    @GetMapping(value = "/{requestId}")
+//    public AjaxResult getInfo(@PathVariable("requestId") Long requestId)
+//    {
+//        return success(examinationRequestsService.selectExaminationRequestsByRequestId(requestId));
+//    }
 
     /**
      * 新增检查申请
@@ -88,25 +88,25 @@ public class ExaminationRequestsController extends BaseController
         return result;
     }
 
-    /**
-     * 修改检查申请
-     */
-    @PreAuthorize("@ss.hasPermi('requests:requests:edit')")
-    @Log(title = "检查申请", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody ExaminationRequests examinationRequests)
-    {
-        return toAjax(examinationRequestsService.updateExaminationRequests(examinationRequests));
-    }
+//    /**
+//     * 修改检查申请
+//     */
+//    @PreAuthorize("@ss.hasPermi('requests:requests:edit')")
+//    @Log(title = "检查申请", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody ExaminationRequests examinationRequests)
+//    {
+//        return toAjax(examinationRequestsService.updateExaminationRequests(examinationRequests));
+//    }
 
-    /**
-     * 删除检查申请
-     */
-    @PreAuthorize("@ss.hasPermi('requests:requests:remove')")
-    @Log(title = "检查申请", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{requestIds}")
-    public AjaxResult remove(@PathVariable Long[] requestIds)
-    {
-        return toAjax(examinationRequestsService.deleteExaminationRequestsByRequestIds(requestIds));
-    }
+//    /**
+//     * 删除检查申请
+//     */
+//    @PreAuthorize("@ss.hasPermi('requests:requests:remove')")
+//    @Log(title = "检查申请", businessType = BusinessType.DELETE)
+//	@DeleteMapping("/{requestIds}")
+//    public AjaxResult remove(@PathVariable Long[] requestIds)
+//    {
+//        return toAjax(examinationRequestsService.deleteExaminationRequestsByRequestIds(requestIds));
+//    }
 }
