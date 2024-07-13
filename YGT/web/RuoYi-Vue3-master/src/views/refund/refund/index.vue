@@ -244,7 +244,7 @@ function submitForm() {
 function handleDelete(row) {
   const _chargeIds = row.chargeId || ids.value;
   proxy.$modal
-    .confirm('是否确认删除收费编号为"' + _chargeIds + '"的数据项？')
+    .confirm('是否确认退费编号为"' + _chargeIds + '"的项目？')
     .then(function () {
       return delRefund(_chargeIds);
     })

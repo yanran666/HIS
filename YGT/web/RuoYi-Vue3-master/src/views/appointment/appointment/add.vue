@@ -8,6 +8,8 @@
         size="large"
         label-width="79px"
         label-position="left"
+        style="background-color:whitesmoke"
+        
       >
         <el-col :span="24">
           <el-row gutter="10">
