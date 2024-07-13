@@ -77,7 +77,7 @@
             <if test="idNumber != null">#{idNumber},</if>
             <if test="address != null">#{address},</if>
             <if test="settlementType != null">#{settlementType},</if>
-            <if test="clinicDate != null">#{clinicDate},</if>
+            <if test="clinicDate != null">NOW(),</if>
             <if test="session != null">#{session},</if>
             <if test="department != null">#{department},</if>
             <if test="registrationType != null">#{registrationType},</if>
@@ -93,14 +93,14 @@
         insert into charges (
             medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification,amount, issue_date
         ) values (
-                     #{medicalRecordNumber}, #{name}, #{idNumber}, #{age}, #{gender}, '门诊挂号', '50', '挂号', '无', '1', #{clinicDate}
+                     #{medicalRecordNumber}, #{name}, #{idNumber}, #{age}, #{gender}, '门诊挂号', '50', '挂号', '无', '1', NOW()
                  );
     </insert>
     <insert id="insertRefund" parameterType="Appointments">
         insert into refund (
             medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification,amount, issue_date
         ) values (
-                     #{medicalRecordNumber}, #{name}, #{idNumber}, #{age}, #{gender}, '门诊挂号', '50', '挂号', '无', '1', #{clinicDate}
+                     #{medicalRecordNumber}, #{name}, #{idNumber}, #{age}, #{gender}, '门诊挂号', '50', '挂号', '无', '1', NOW()
                  );
     </insert>
 
