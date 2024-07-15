@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.ygt.prescriptions.mapper.PrescriptionsMapper;
 import com.ygt.prescriptions.domain.Prescriptions;
 import com.ygt.prescriptions.service.IPrescriptionsService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 处方Service业务层处理
@@ -50,9 +51,35 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertPrescriptions(Prescriptions prescriptions)
     {
         return prescriptionsMapper.insertPrescriptions(prescriptions);
+    }
+
+    /**
+     * 新增处方到收费
+     *
+     * @param prescriptions 处方
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int insertChargesFromPrescriptionAndAppointment(Prescriptions prescriptions)
+    {
+        return prescriptionsMapper.insertChargesFromPrescriptionAndAppointment(prescriptions);
+    }
+    /**
+     * 新增处方到收费
+     *
+     * @param prescriptions 处方
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int insertRefundFromPrescriptionAndAppointment(Prescriptions prescriptions)
+    {
+        return prescriptionsMapper.insertRefundFromPrescriptionAndAppointment(prescriptions);
     }
 
     /**

@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -75,9 +76,15 @@ public class PrescriptionsController extends BaseController
     @PreAuthorize("@ss.hasPermi('prescriptions:prescriptions:add')")
     @Log(title = "处方", businessType = BusinessType.INSERT)
     @PostMapping
+    @Transactional
     public AjaxResult add(@RequestBody Prescriptions prescriptions)
     {
-        return toAjax(prescriptionsService.insertPrescriptions(prescriptions));
+        AjaxResult result = toAjax(prescriptionsService.insertPrescriptions(prescriptions));
+        if(result.isSuccess()){
+            prescriptionsService.insertChargesFromPrescriptionAndAppointment(prescriptions);
+            prescriptionsService.insertRefundFromPrescriptionAndAppointment(prescriptions);
+        }
+        return result;
     }
 
     /**

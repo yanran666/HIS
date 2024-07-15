@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="packagingUnit != null  and packagingUnit != ''"> and packaging_unit = #{packagingUnit}</if>
             <if test="manufacturer != null  and manufacturer != ''"> and manufacturer = #{manufacturer}</if>
             <if test="unitPrice != null "> and unit_price = #{unitPrice}</if>
-            <if test="usage != null  and usage != ''"> and usage = #{usage}</if>
+            <if test="usage != null  and usage != ''"> and `usage`` = #{usage}</if>
         </where>
     </select>
     
@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="packagingUnit != null">packaging_unit,</if>
             <if test="manufacturer != null">manufacturer,</if>
             <if test="unitPrice != null">unit_price,</if>
-            <if test="usage != null">usage,</if>
+            <if test="usage != null">`usage`,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="drugCode != null and drugCode != ''">#{drugCode},</if>
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="packagingUnit != null">packaging_unit = #{packagingUnit},</if>
             <if test="manufacturer != null">manufacturer = #{manufacturer},</if>
             <if test="unitPrice != null">unit_price = #{unitPrice},</if>
-            <if test="usage != null">usage = #{usage},</if>
+            <if test="usage != null">`usage` = #{usage},</if>
         </trim>
         where drug_id = #{drugId}
     </update>

@@ -36,6 +36,21 @@ public interface IPrescriptionsService
     public int insertPrescriptions(Prescriptions prescriptions);
 
     /**
+     * 新增处方到收费
+     *
+     * @param prescriptions 处方
+     * @return 结果
+     */
+    public int insertChargesFromPrescriptionAndAppointment(Prescriptions prescriptions);
+
+    /**
+     * 新增处方到退费
+     *
+     * @param prescriptions 处方
+     * @return 结果
+     */
+    public int insertRefundFromPrescriptionAndAppointment(Prescriptions prescriptions);
+    /**
      * 修改处方
      * 
      * @param prescriptions 处方

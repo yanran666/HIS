@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectPrescriptionsVo">
-        select prescription_id, appointment_id, drug_name, drug_specification, unit_price, usage, quantity from prescriptions
+        select prescription_id, appointment_id, drug_name, drug_specification, unit_price, `usage`, quantity from prescriptions
     </sql>
 
     <select id="selectPrescriptionsList" parameterType="Prescriptions" resultMap="PrescriptionsResult">
@@ -30,23 +30,70 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <insert id="insertPrescriptions" parameterType="Prescriptions" useGeneratedKeys="true" keyProperty="prescriptionId">
+        <selectKey keyProperty="appointmentId" resultType="java.lang.Long" order="BEFORE">
+            SELECT MAX(appointment_id) FROM appointments
+        </selectKey>
         insert into prescriptions
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="appointmentId != null">appointment_id,</if>
-            <if test="drugName != null">drug_name,</if>
-            <if test="drugSpecification != null">drug_specification,</if>
-            <if test="unitPrice != null">unit_price,</if>
-            <if test="usage != null">usage,</if>
-            <if test="quantity != null">quantity,</if>
+            <if test="prescriptionsList != null">drug_name,</if>
+            <if test="prescriptionsList != null">drug_specification,</if>
+            <if test="prescriptionsList != null">unit_price,</if>
+            <if test="prescriptionsList != null">`usage`,</if>
          </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="appointmentId != null">#{appointmentId},</if>
-            <if test="drugName != null">#{drugName},</if>
-            <if test="drugSpecification != null">#{drugSpecification},</if>
-            <if test="unitPrice != null">#{unitPrice},</if>
-            <if test="usage != null">#{usage},</if>
-            <if test="quantity != null">#{quantity},</if>
+        <trim prefix="values">
+            <foreach collection="prescriptionsList" item="prescription" separator=",">
+                (
+                <if test="appointmentId != null">#{appointmentId},</if>
+                <if test="prescriptionsList != null">#{prescription.drugName},</if>
+                <if test="prescriptionsList != null">#{prescription.drugSpecification},</if>
+                <if test="prescriptionsList != null">#{prescription.unitPrice},</if>
+                <if test="prescriptionsList != null">#{prescription.usage}</if>
+                )
+            </foreach>
          </trim>
+    </insert>
+
+    <insert id="insertChargesFromPrescriptionAndAppointment" parameterType="Prescriptions">
+        insert into charges (
+            medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification, amount, issue_date
+        )
+        select
+            a.medical_record_number,
+            a.name as patient_name,
+            a.id_number,
+            a.age,
+            a.gender,
+            p.drug_name as item_name,
+            p.unit_price,
+            '药品' as category,
+            p.drug_specification as specifiaction,
+            1 as amount,
+            now() as issue_date
+        from appointments a
+                 join prescriptions p on a.appointment_id = p.appointment_id
+        where a.appointment_id = #{appointmentId};
+    </insert>
+
+    <insert id="insertRefundFromPrescriptionAndAppointment" parameterType="Prescriptions">
+        insert into refund (
+            medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification, amount, issue_date
+        )
+        select
+            a.medical_record_number,
+            a.name as patient_name,
+            a.id_number,
+            a.age,
+            a.gender,
+            p.drug_name as item_name,
+            p.unit_price,
+            '药品' as category,
+            p.drug_specification as specifiaction,
+            1 as amount,
+            now() as issue_date
+        from appointments a
+                 join prescriptions p on a.appointment_id = p.appointment_id
+        where a.appointment_id = #{appointmentId};
     </insert>
 
     <update id="updatePrescriptions" parameterType="Prescriptions">
@@ -56,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="drugName != null">drug_name = #{drugName},</if>
             <if test="drugSpecification != null">drug_specification = #{drugSpecification},</if>
             <if test="unitPrice != null">unit_price = #{unitPrice},</if>
-            <if test="usage != null">usage = #{usage},</if>
+            <if test="usage != null">`usage` = #{usage},</if>
             <if test="quantity != null">quantity = #{quantity},</if>
         </trim>
         where prescription_id = #{prescriptionId}

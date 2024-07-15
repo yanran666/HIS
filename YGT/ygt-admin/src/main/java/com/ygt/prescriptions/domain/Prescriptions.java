@@ -1,6 +1,9 @@
 package com.ygt.prescriptions.domain;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.ygt.drug.domain.Drug;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ygt.common.annotation.Excel;
@@ -41,6 +44,7 @@ public class Prescriptions extends BaseEntity
     /** 数量 */
     @Excel(name = "数量")
     private Long quantity;
+    private List<Drug>prescriptionsList;
 
     public void setPrescriptionId(Long prescriptionId) 
     {
@@ -106,6 +110,14 @@ public class Prescriptions extends BaseEntity
         return quantity;
     }
 
+    public List<Drug> getPrescriptionsList() {
+        return prescriptionsList;
+    }
+
+    public void setPrescriptionsList(List<Drug> prescriptionsList) {
+        this.prescriptionsList = prescriptionsList;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -116,6 +128,7 @@ public class Prescriptions extends BaseEntity
             .append("unitPrice", getUnitPrice())
             .append("usage", getUsage())
             .append("quantity", getQuantity())
+            .append("prescriptionsList",getPrescriptionsList())
             .toString();
     }
 }
