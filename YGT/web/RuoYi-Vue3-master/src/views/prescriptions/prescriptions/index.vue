@@ -65,6 +65,7 @@
             />
           </el-dialog>
           <pagination
+            style="background-color: #e7eef2"
             v-show="total > 0"
             :total="total"
             v-model:page="queryParams.pageNum"
