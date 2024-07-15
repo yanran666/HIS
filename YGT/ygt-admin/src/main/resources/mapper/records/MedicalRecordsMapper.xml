@@ -53,29 +53,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="allergyHistory != null">allergy_history,</if>
             <if test="physicalExamination != null">physical_examination,</if>
             <if test="notes != null">notes,</if>
-            <if test="recordsList != null">disease_code,</if>
-            <if test="recordsList != null">disease_name,</if>
-            <if test="recordsList != null">icd_code,</if>
-            <if test="recordsList != null">disease_type,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="medicalRecordId != null">#{medicalRecordId},</if>
-            <if test="appointmentId != null">#{appointmentId},</if>
-            <if test="doctorId != null">#{doctorId},</if>
-            <if test="diseaseId != null">#{diseaseId},</if>
-            <if test="clinicDate != null">#{clinicDate},</if>
-            <if test="chiefComplaint != null">#{chiefComplaint},</if>
-            <if test="presentIllnessHistory != null">#{presentIllnessHistory},</if>
-            <if test="treatmentHistory != null">#{treatmentHistory},</if>
-            <if test="pastHistory != null">#{pastHistory},</if>
-            <if test="allergyHistory != null">#{allergyHistory},</if>
-            <if test="physicalExamination != null">#{physicalExamination},</if>
-            <if test="notes != null">#{notes},</if>
+            <if test="recordsList != null">
+                disease_code, disease_name, icd_code, disease_type,
+            </if>
+        </trim>
+        <trim prefix="values">
             <foreach collection="recordsList" item="record" separator=",">
-                #{record.diseaseCode}, #{record.diseaseName}, #{record.icdCode}, #{record.diseaseType}
+                (
+                <if test="medicalRecordId != null">#{medicalRecordId},</if>
+                <if test="appointmentId != null">#{appointmentId},</if>
+                <if test="doctorId != null">#{doctorId},</if>
+                <if test="diseaseId != null">#{diseaseId},</if>
+                <if test="clinicDate != null">#{clinicDate},</if>
+                <if test="chiefComplaint != null">#{chiefComplaint},</if>
+                <if test="presentIllnessHistory != null">#{presentIllnessHistory},</if>
+                <if test="treatmentHistory != null">#{treatmentHistory},</if>
+                <if test="pastHistory != null">#{pastHistory},</if>
+                <if test="allergyHistory != null">#{allergyHistory},</if>
+                <if test="physicalExamination != null">#{physicalExamination},</if>
+                <if test="notes != null">#{notes},</if>
+                <if test="record != null">
+                    #{record.diseaseCode}, #{record.diseaseName}, #{record.icdCode}, #{record.diseaseType}
+                </if>
+                )
             </foreach>
-         </trim>
+        </trim>
     </insert>
+
 
     <update id="updateMedicalRecords" parameterType="MedicalRecords">
         update medical_records

@@ -67,26 +67,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into examination_requests
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="appointmentId != null">appointment_id,</if>
-            <if test="requestsList != null">exam_code,</if>
-            <if test="requestsList != null">exam_name,</if>
-            <if test="requestsList != null">unit_price,</if>
-            <if test="requestsList != null">fee_category,</if>
+            <if test="requestsList != null">exam_code, exam_name, unit_price, fee_category,</if>
             <if test="purposeRequirements != null">purpose_requirements,</if>
             <if test="examLocation != null">exam_location,</if>
             <if test="notes != null">notes,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="appointmentId != null">#{appointmentId},</if>
-            <if test="requestsList != null">
-                <foreach collection="requestsList" item="request" separator=",">
-                    #{request.examCode}, #{request.examName}, #{request.unitPrice}, #{request.feeCategory},
-                </foreach>
-            </if>
-            <if test="purposeRequirements != null">#{purposeRequirements},</if>
-            <if test="examLocation != null">#{examLocation},</if>
-            <if test="notes != null">#{notes},</if>
-         </trim>
+        </trim>
+        <trim prefix="values">
+            <foreach collection="requestsList" item="request" separator=",">
+                (
+                <if test="appointmentId != null">#{appointmentId},</if>
+                <if test="requestsList != null">#{request.examCode}, #{request.examName}, #{request.unitPrice}, #{request.feeCategory},</if>
+                <if test="purposeRequirements != null">#{purposeRequirements},</if>
+                <if test="examLocation != null">#{examLocation},</if>
+                <if test="notes != null">#{notes}</if>
+                )
+            </foreach>
+        </trim>
     </insert>
+
 
     <insert id="insertChargesFromExaminationAndAppointment" parameterType="ExaminationRequests">
         insert into charges (
