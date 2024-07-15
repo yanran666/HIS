@@ -25,7 +25,7 @@ import com.ygt.common.core.page.TableDataInfo;
  * 药品Controller
  * 
  * @author jzy
- * @date 2024-07-13
+ * @date 2024-07-15
  */
 @RestController
 @RequestMapping("/drug/drug")

@@ -11,10 +11,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="drugSpecification"    column="drug_specification"    />
         <result property="packagingUnit"    column="packaging_unit"    />
         <result property="manufacturer"    column="manufacturer"    />
+        <result property="unitPrice"    column="unit_price"    />
+        <result property="usage"    column="usage"    />
     </resultMap>
 
     <sql id="selectDrugVo">
-        select drug_id, drug_code, drug_name, drug_specification, packaging_unit, manufacturer from drug
+        select drug_id, drug_code, drug_name, drug_specification, packaging_unit, manufacturer, unit_price, `usage` from drug
     </sql>
 
     <select id="selectDrugList" parameterType="Drug" resultMap="DrugResult">
@@ -22,6 +24,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="drugCode != null  and drugCode != ''"> and drug_code = #{drugCode}</if>
             <if test="drugName != null  and drugName != ''"> and drug_name like concat('%', #{drugName}, '%')</if>
+            <if test="drugSpecification != null  and drugSpecification != ''"> and drug_specification = #{drugSpecification}</if>
+            <if test="packagingUnit != null  and packagingUnit != ''"> and packaging_unit = #{packagingUnit}</if>
+            <if test="manufacturer != null  and manufacturer != ''"> and manufacturer = #{manufacturer}</if>
+            <if test="unitPrice != null "> and unit_price = #{unitPrice}</if>
+            <if test="usage != null  and usage != ''"> and usage = #{usage}</if>
         </where>
     </select>
     
@@ -38,6 +45,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="drugSpecification != null">drug_specification,</if>
             <if test="packagingUnit != null">packaging_unit,</if>
             <if test="manufacturer != null">manufacturer,</if>
+            <if test="unitPrice != null">unit_price,</if>
+            <if test="usage != null">usage,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="drugCode != null and drugCode != ''">#{drugCode},</if>
@@ -45,6 +54,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="drugSpecification != null">#{drugSpecification},</if>
             <if test="packagingUnit != null">#{packagingUnit},</if>
             <if test="manufacturer != null">#{manufacturer},</if>
+            <if test="unitPrice != null">#{unitPrice},</if>
+            <if test="usage != null">#{usage},</if>
          </trim>
     </insert>
 
@@ -56,6 +67,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="drugSpecification != null">drug_specification = #{drugSpecification},</if>
             <if test="packagingUnit != null">packaging_unit = #{packagingUnit},</if>
             <if test="manufacturer != null">manufacturer = #{manufacturer},</if>
+            <if test="unitPrice != null">unit_price = #{unitPrice},</if>
+            <if test="usage != null">usage = #{usage},</if>
         </trim>
         where drug_id = #{drugId}
     </update>

@@ -46,34 +46,12 @@
       />
       <el-table-column label="包装单位" align="center" prop="packagingUnit" />
       <el-table-column label="生产厂家" align="center" prop="manufacturer" />
-      <el-table-column
-        label="操作"
-        align="center"
-        class-name="small-padding fixed-width"
-      >
-        <template #default="scope">
-          <el-button
-            link
-            type="primary"
-            icon="Edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['drug:drug:edit']"
-            >修改</el-button
-          >
-          <el-button
-            link
-            type="primary"
-            icon="Delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['drug:drug:remove']"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
+      <el-table-column label="单价" align="center" prop="unitPrice" />
+      <el-table-column label="用量" align="center" prop="usage" />
     </el-table>
     <el-row :gutter="10" class="mb8 bottom-center">
       <el-col>
-        <el-button primary @click="handleAdd">增加</el-button>
+        <el-button primary @click="confirmAdd">增加</el-button>
         <el-button plain @click="cancel">取消</el-button>
       </el-col>
     </el-row>
@@ -88,6 +66,7 @@ import {
   addDrug,
   updateDrug,
 } from "@/api/drug/drug";
+import { until } from "@vueuse/core";
 
 const { proxy } = getCurrentInstance();
 
@@ -96,11 +75,13 @@ const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
 const ids = ref([]);
+const prescriptionsList = ref([]);
 const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
-
+const emit = defineEmits(["add-drug"]);
+const selectedDrugs = ref([]);
 const data = reactive({
   form: {},
   queryParams: {
@@ -146,6 +127,8 @@ function reset() {
     drugSpecification: null,
     packagingUnit: null,
     manufacturer: null,
+    usage: null,
+    unitPrice: null,
   };
   proxy.resetForm("drugRef");
 }
@@ -162,18 +145,19 @@ function resetQuery() {
   handleQuery();
 }
 
-// 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.drugId);
-  single.value = selection.length != 1;
-  multiple.value = !selection.length;
+  selectedDrugs.value = selection;
 }
-
-/** 新增按钮操作 */
+function confirmAdd() {
+  emit("add-drug", selectedDrugs.value);
+  dialogVisible.value = false;
+}
 function handleAdd() {
-  reset();
-  open.value = true;
-  title.value = "添加药品";
+  // 向父组件发送选中的疾病记录
+  emit(
+    "add-drug",
+    prescriptionsList.value.filter((drug) => ids.value.includes(drug.drugCode))
+  );
 }
 
 /** 修改按钮操作 */

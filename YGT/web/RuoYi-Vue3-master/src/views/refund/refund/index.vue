@@ -33,7 +33,7 @@
           <el-col :span="24">
             <el-row gutter="10">
               <el-col :span="3">
-                <el-form-item label="患者姓名" label-width="69" >
+                <el-form-item label="患者姓名" label-width="69">
                   <el-input
                     v-model="patientName"
                     disabled
@@ -82,9 +82,13 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['cancel_appointment:cancel_appointment:remove']"
-        >退费结算</el-button>
+          >退费结算</el-button
+        >
       </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar
+        v-model:showSearch="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
     </el-row>
 
     <el-table :data="refundList" @selection-change="handleSelectionChange">
@@ -250,7 +254,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess("删除成功");
+      proxy.$modal.msgSuccess("退费成功");
     })
     .catch(() => {});
 }
@@ -266,6 +270,4 @@ function handleExport() {
   );
 }
 </script>
-<style >
-
-</style>
+<style></style>

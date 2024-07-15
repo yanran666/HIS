@@ -70,7 +70,7 @@ const imageUrl = [
   background-color: rgb(174, 214, 241); /* 浅蓝灰色 */
   margin: 40px;
   width: 1000px;
-  height: auto;
+  height: 600px;
   float: left;
 }
 </style>

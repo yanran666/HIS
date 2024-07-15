@@ -1,66 +1,79 @@
 <template>
   <div class="app-container">
     <el-form
-      :model="queryParams"
-      ref="queryRef"
-      :inline="true"
-      v-show="showSearch"
-      label-width="68px"
+      ref="formRef"
+      :model="formData"
+      :rules="rules"
+      size="large"
+      label-width="92px"
+      label-position="left"
+      style="background-color: whitesmoke"
     >
-      <el-form-item>
-        <el-button type="primary" icon="post">开设处方</el-button>
-      </el-form-item>
-    </el-form>
+      <el-form-item style="">
+        <div style="width: 1000px">
+          <el-button type="primary" icon="post">开设处方</el-button>
+          <el-table
+            v-loading="loading"
+            :data="prescriptionsList"
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column type="selection" width="55" align="center" />
+            <el-table-column
+              label="处方ID"
+              align="center"
+              prop="prescriptionId"
+            />
+            <el-table-column label="药品名称" align="center" prop="drugName" />
+            <el-table-column
+              label="药品规格"
+              align="center"
+              prop="drugSpecification"
+            />
+            <el-table-column label="单价" align="center" prop="unitPrice" />
+            <el-table-column label="用法" align="center" prop="usage" />
 
-    <el-table
-      v-loading="loading"
-      :data="prescriptionsList"
-      @selection-change="handleSelectionChange"
-    >
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="处方ID" align="center" prop="prescriptionId" />
-      <el-table-column label="药品名称" align="center" prop="drugName" />
-      <el-table-column
-        label="药品规格"
-        align="center"
-        prop="drugSpecification"
-      />
-      <el-table-column label="单价" align="center" prop="unitPrice" />
-      <el-table-column label="用法" align="center" prop="usage" />
-      <el-table-column label="数量" align="center" prop="quantity" />
-      <el-table-column
-        label="操作"
-        align="center"
-        class-name="small-padding fixed-width"
-      >
-        <template #header>
-          <el-button link type="primary" @click="handleDelete">删除</el-button>
-          <el-button link type="primary" @click="dialogVisible = true"
-            >增加</el-button
-          >
-        </template>
-        <template #default="scope">
-          <el-button
-            link
-            type="primary"
-            icon="Delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['prescriptions:prescriptions:remove']"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-dialog v-model="dialogVisible" title="添加检查申请" width="1200">
-      <AddDrugDialog v-model:visible="dialogVisible" @add-exam="addExam" />
-    </el-dialog>
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
-    />
+            <el-table-column
+              label="操作"
+              align="center"
+              class-name="small-padding fixed-width"
+            >
+              <template #header>
+                <el-button link type="primary" @click="handleDelete"
+                  >删除</el-button
+                >
+                <el-button link type="primary" @click="dialogVisible = true"
+                  >增加</el-button
+                >
+              </template>
+              <template #default="scope">
+                <el-button
+                  link
+                  type="primary"
+                  icon="Delete"
+                  @click="handleDelete(scope.row)"
+                  v-hasPermi="['prescriptions:prescriptions:remove']"
+                  >删除</el-button
+                >
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-dialog v-model="dialogVisible" title="添加药品" width="1200">
+            <AddDrugDialog
+              v-model:visible="dialogVisible"
+              @add-drug="addDrug"
+            />
+          </el-dialog>
+          <pagination
+            v-show="total > 0"
+            :total="total"
+            v-model:page="queryParams.pageNum"
+            v-model:limit="queryParams.pageSize"
+            @pagination="getList"
+          />
+        </div>
+      </el-form-item>
+      <el-row><el-button @click="submitForm"> 提交 </el-button></el-row>
+    </el-form>
   </div>
 </template>
 
@@ -73,6 +86,7 @@ import {
   updatePrescriptions,
 } from "@/api/prescriptions/prescriptions";
 import AddDrugDialog from "@/views/drug/drug/AddDrugDialog.vue";
+import { reactive } from "vue";
 const { proxy } = getCurrentInstance();
 const dialogVisible = ref(false);
 const prescriptionsList = ref([]);
@@ -93,9 +107,20 @@ const data = reactive({
   },
   rules: {},
 });
-
+const formData = reactive({
+  prescriptionsList: [],
+});
+function addDrug(drug) {
+  if (!Array.isArray(drug)) {
+    console.error('drug is not an array:', drug);
+    return;
+  }
+  prescriptionsList.value.push(...drug);
+  formData.prescriptionsList.push(...drug);
+  dialogVisible.value = false;
+}
 const { queryParams, form, rules } = toRefs(data);
-
+const formRef = ref();
 /** 查询处方列表 */
 function getList() {
   loading.value = true;
@@ -163,24 +188,23 @@ function handleUpdate(row) {
   });
 }
 
-/** 提交按钮 */
 function submitForm() {
-  proxy.$refs["prescriptionsRef"].validate((valid) => {
-    if (valid) {
-      if (form.value.prescriptionId != null) {
-        updatePrescriptions(form.value).then((response) => {
-          proxy.$modal.msgSuccess("修改成功");
-          open.value = false;
-          getList();
-        });
-      } else {
-        addPrescriptions(form.value).then((response) => {
-          proxy.$modal.msgSuccess("新增成功");
-          open.value = false;
-          getList();
-        });
-      }
-    }
+  formRef.value.validate((valid) => {
+    if (!valid) return;
+    const payload = {
+      ...formData,
+      prescriptionsList: prescriptionsList.value,
+    };
+
+    addDrug(payload)
+      .then((response) => {
+        ElMessage.success("添加成功");
+        resetForm();
+        getList();
+      })
+      .catch((error) => {
+        ElMessage.error("添加失败: " + error.message);
+      });
   });
 }
 
@@ -197,17 +221,6 @@ function handleDelete(row) {
       proxy.$modal.msgSuccess("删除成功");
     })
     .catch(() => {});
-}
-
-/** 导出按钮操作 */
-function handleExport() {
-  proxy.download(
-    "prescriptions/prescriptions/export",
-    {
-      ...queryParams.value,
-    },
-    `prescriptions_${new Date().getTime()}.xlsx`
-  );
 }
 
 getList();

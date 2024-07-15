@@ -1,5 +1,6 @@
 package com.ygt.drug.domain;
 
+import java.math.BigDecimal;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ygt.common.annotation.Excel;
@@ -9,7 +10,7 @@ import com.ygt.common.core.domain.BaseEntity;
  * 药品对象 drug
  * 
  * @author jzy
- * @date 2024-07-13
+ * @date 2024-07-15
  */
 public class Drug extends BaseEntity
 {
@@ -37,6 +38,14 @@ public class Drug extends BaseEntity
     /** 生产厂家 */
     @Excel(name = "生产厂家")
     private String manufacturer;
+
+    /** 单价 */
+    @Excel(name = "单价")
+    private BigDecimal unitPrice;
+
+    /** 用法 */
+    @Excel(name = "用法")
+    private String usage;
 
     public void setDrugId(Long drugId) 
     {
@@ -92,6 +101,24 @@ public class Drug extends BaseEntity
     {
         return manufacturer;
     }
+    public void setUnitPrice(BigDecimal unitPrice) 
+    {
+        this.unitPrice = unitPrice;
+    }
+
+    public BigDecimal getUnitPrice() 
+    {
+        return unitPrice;
+    }
+    public void setUsage(String usage) 
+    {
+        this.usage = usage;
+    }
+
+    public String getUsage() 
+    {
+        return usage;
+    }
 
     @Override
     public String toString() {
@@ -102,6 +129,8 @@ public class Drug extends BaseEntity
             .append("drugSpecification", getDrugSpecification())
             .append("packagingUnit", getPackagingUnit())
             .append("manufacturer", getManufacturer())
+            .append("unitPrice", getUnitPrice())
+            .append("usage", getUsage())
             .toString();
     }
 }
