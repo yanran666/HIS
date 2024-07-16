@@ -1,6 +1,7 @@
 <template>
-  <div class="app-container">
+  <div class="app-cpreontainer" style="height: 1000px">
     <el-form
+      class="form1"
       ref="formRef"
       :model="formData"
       :rules="rules"
@@ -10,7 +11,7 @@
       style="background-color: whitesmoke"
     >
       <el-form-item>
-        <div style="width: 1000px">
+        <div style="padding: 30px">
           <el-button type="primary" icon="post" @click="submitForm"
             >开设处方</el-button
           >
@@ -74,9 +75,9 @@
           />
         </div>
       </el-form-item>
-      <el-row>
+      <el-form-item style="padding: 30px">
         <el-button @click="submitForm">提交</el-button>
-      </el-row>
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -148,3 +149,9 @@ function addDrug(drugs) {
 
 getList();
 </script>
+<style>
+.form1 {
+  width: 1200px;
+  height: auto;
+}
+</style>

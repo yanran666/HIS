@@ -174,6 +174,7 @@ function getList() {
     recordsList.value = response.rows;
     total.value = response.total;
     loading.value = false;
+    resetForm();
   });
 }
 
@@ -198,6 +199,7 @@ function submitForm() {
 }
 
 function resetForm() {
+  console.log("已经重置");
   formRef.value.resetFields();
   recordsList.value = [];
   formData.recordsList = [];

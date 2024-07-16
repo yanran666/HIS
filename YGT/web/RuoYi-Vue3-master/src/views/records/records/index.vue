@@ -31,56 +31,6 @@
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleAdd"
-          v-hasPermi="['records:records:add']"
-          >新增</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['records:records:edit']"
-          >修改</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['records:records:remove']"
-          >删除</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['records:records:export']"
-          >导出</el-button
-        >
-      </el-col>
-      <right-toolbar
-        v-model:showSearch="showSearch"
-        @queryTable="getList"
-      ></right-toolbar>
-    </el-row>
-
     <el-table
       v-loading="loading"
       :data="recordsList"
@@ -231,7 +181,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script setup name="Records">
 import {
   listRecords,
@@ -240,6 +189,7 @@ import {
   addRecords,
   updateRecords,
 } from "@/api/records/records";
+import { ref, reactive, toRefs, getCurrentInstance } from "vue";
 
 const { proxy } = getCurrentInstance();
 
@@ -279,24 +229,9 @@ const data = reactive({
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询病历列表 */
-function getList() {
-  loading.value = true;
-  listRecords(queryParams.value).then((response) => {
-    recordsList.value = response.rows;
-    total.value = response.total;
-    loading.value = false;
-  });
-}
-
-// 取消按钮
-function cancel() {
-  open.value = false;
-  reset();
-}
-
-// 表单重置
+/** 表单重置 */
 function reset() {
+  console.log("已经重置");
   form.value = {
     medicalRecordId: null,
     appointmentId: null,
@@ -318,6 +253,26 @@ function reset() {
   proxy.resetForm("recordsRef");
 }
 
+/** 查询病历列表 */
+function getList() {
+  loading.value = true;
+  listRecords(queryParams.value).then((response) => {
+    recordsList.value = response.rows;
+    total.value = response.total;
+    loading.value = false;
+  });
+}
+
+// 调用 reset 方法，确保在组件初始化时立即执行
+reset();
+getList();
+
+// 取消按钮
+function cancel() {
+  open.value = false;
+  reset();
+}
+
 /** 搜索按钮操作 */
 function handleQuery() {
   queryParams.value.pageNum = 1;
@@ -335,13 +290,6 @@ function handleSelectionChange(selection) {
   ids.value = selection.map((item) => item.medicalRecordId);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
-}
-
-/** 新增按钮操作 */
-function handleAdd() {
-  reset();
-  open.value = true;
-  title.value = "添加病历";
 }
 
 /** 修改按钮操作 */
@@ -378,6 +326,7 @@ function submitForm() {
 
 /** 删除按钮操作 */
 function handleDelete(row) {
+  console.log(1);
   const _medicalRecordIds = row.medicalRecordId || ids.value;
   proxy.$modal
     .confirm('是否确认删除病历编号为"' + _medicalRecordIds + '"的数据项？')
@@ -390,17 +339,4 @@ function handleDelete(row) {
     })
     .catch(() => {});
 }
-
-/** 导出按钮操作 */
-function handleExport() {
-  proxy.download(
-    "records/records/export",
-    {
-      ...queryParams.value,
-    },
-    `records_${new Date().getTime()}.xlsx`
-  );
-}
-
-getList();
 </script>

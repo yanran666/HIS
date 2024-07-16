@@ -1,6 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form
+      :model="queryParams"
+      ref="queryRef"
+      :inline="true"
+      v-show="showSearch"
+      label-width="68px"
+    >
       <el-form-item label="病历号" prop="medicalRecordNumber">
         <el-input
           v-model="queryParams.medicalRecordNumber"
@@ -18,7 +24,9 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery"
+          >搜索</el-button
+        >
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -31,7 +39,8 @@
           icon="Plus"
           @click="handleAdd"
           v-hasPermi="['feeRecords:feeRecords:add']"
-        >新增</el-button>
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -41,7 +50,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['feeRecords:feeRecords:edit']"
-        >修改</el-button>
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -51,7 +61,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['feeRecords:feeRecords:remove']"
-        >删除</el-button>
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -60,57 +71,83 @@
           icon="Download"
           @click="handleExport"
           v-hasPermi="['feeRecords:feeRecords:export']"
-        >导出</el-button>
+          >导出</el-button
+        >
       </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar
+        v-model:showSearch="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="feeRecordsList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="feeRecordsList"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="收费ID" align="center" prop="chargeId" />
       <el-table-column label="项目名称" align="center" prop="itemName" />
       <el-table-column label="单价" align="center" prop="unitPrice" />
       <el-table-column label="类型" align="center" prop="category" />
       <el-table-column label="规格" align="center" prop="specification" />
-      <el-table-column label="开立时间" align="center" prop="issueDate" width="180">
+      <el-table-column
+        label="开立时间"
+        align="center"
+        prop="issueDate"
+        width="180"
+      >
         <template #default="scope">
-          <span>{{ parseTime(scope.row.issueDate, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.issueDate, "{y}-{m}-{d}") }}</span>
         </template>
       </el-table-column>
       <el-table-column label="数量" align="center" prop="amount" />
       <el-table-column label="状态" align="center" prop="status" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['feeRecords:feeRecords:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['feeRecords:feeRecords:remove']">删除</el-button>
+          <el-button
+            link
+            type="primary"
+            icon="Edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['feeRecords:feeRecords:edit']"
+            >修改</el-button
+          >
+          <el-button
+            link
+            type="primary"
+            icon="Delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['feeRecords:feeRecords:remove']"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
-      v-show="total>0"
+      style="background-color: #e8eef2"
+      v-show="total > 0"
       :total="total"
       v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize"
       @pagination="getList"
     />
-
-    <!-- 添加或修改收费对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="feeRecordsRef" :model="form" :rules="rules" label-width="80px">
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
-        </div>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
 <script setup name="FeeRecords">
-import { listFeeRecords, getFeeRecords, delFeeRecords, addFeeRecords, updateFeeRecords } from "@/api/feeRecords/feeRecords";
+import {
+  listFeeRecords,
+  getFeeRecords,
+  delFeeRecords,
+  addFeeRecords,
+  updateFeeRecords,
+} from "@/api/feeRecords/feeRecords";
 
 const { proxy } = getCurrentInstance();
 
@@ -132,8 +169,7 @@ const data = reactive({
     medicalRecordNumber: null,
     patientName: null,
   },
-  rules: {
-  }
+  rules: {},
 });
 
 const { queryParams, form, rules } = toRefs(data);
@@ -141,7 +177,7 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询收费列表 */
 function getList() {
   loading.value = true;
-  listFeeRecords(queryParams.value).then(response => {
+  listFeeRecords(queryParams.value).then((response) => {
     feeRecordsList.value = response.rows;
     total.value = response.total;
     loading.value = false;
@@ -170,7 +206,7 @@ function reset() {
     specification: null,
     issueDate: null,
     amount: null,
-    status: null
+    status: null,
   };
   proxy.resetForm("feeRecordsRef");
 }
@@ -189,7 +225,7 @@ function resetQuery() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.chargeId);
+  ids.value = selection.map((item) => item.chargeId);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -204,8 +240,8 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const _chargeId = row.chargeId || ids.value
-  getFeeRecords(_chargeId).then(response => {
+  const _chargeId = row.chargeId || ids.value;
+  getFeeRecords(_chargeId).then((response) => {
     form.value = response.data;
     open.value = true;
     title.value = "修改收费";
@@ -214,16 +250,16 @@ function handleUpdate(row) {
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["feeRecordsRef"].validate(valid => {
+  proxy.$refs["feeRecordsRef"].validate((valid) => {
     if (valid) {
       if (form.value.chargeId != null) {
-        updateFeeRecords(form.value).then(response => {
+        updateFeeRecords(form.value).then((response) => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addFeeRecords(form.value).then(response => {
+        addFeeRecords(form.value).then((response) => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -236,19 +272,27 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _chargeIds = row.chargeId || ids.value;
-  proxy.$modal.confirm('是否确认删除收费编号为"' + _chargeIds + '"的数据项？').then(function() {
-    return delFeeRecords(_chargeIds);
-  }).then(() => {
-    getList();
-    proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
+  proxy.$modal
+    .confirm('是否确认删除收费编号为"' + _chargeIds + '"的数据项？')
+    .then(function () {
+      return delFeeRecords(_chargeIds);
+    })
+    .then(() => {
+      getList();
+      proxy.$modal.msgSuccess("删除成功");
+    })
+    .catch(() => {});
 }
 
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download('feeRecords/feeRecords/export', {
-    ...queryParams.value
-  }, `feeRecords_${new Date().getTime()}.xlsx`)
+  proxy.download(
+    "feeRecords/feeRecords/export",
+    {
+      ...queryParams.value,
+    },
+    `feeRecords_${new Date().getTime()}.xlsx`
+  );
 }
 
 getList();
