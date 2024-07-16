@@ -16,6 +16,7 @@
             >开设处方</el-button
           >
           <el-table
+            style="width: 1000px"
             v-loading="loading"
             :data="formData.prescriptionsList"
             @selection-change="handleSelectionChange"
@@ -66,7 +67,7 @@
             />
           </el-dialog>
           <pagination
-            style="background-color: #e7eef2"
+            style="background-color: #f5f5f5"
             v-show="total > 0"
             :total="total"
             v-model:page="queryParams.pageNum"
