@@ -60,15 +60,15 @@ public class ExaminationRequestsController extends BaseController
 //        util.exportExcel(response, list, "检查申请数据");
 //    }
 
-//    /**
-//     * 获取检查申请详细信息
-//     */
-//    @PreAuthorize("@ss.hasPermi('requests:requests:query')")
-//    @GetMapping(value = "/{requestId}")
-//    public AjaxResult getInfo(@PathVariable("requestId") Long requestId)
-//    {
-//        return success(examinationRequestsService.selectExaminationRequestsByRequestId(requestId));
-//    }
+    /**
+     * 获取检查申请详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('requests:requests:query')")
+    @GetMapping(value = "/{requestId}")
+    public AjaxResult getInfo(@PathVariable("requestId") Long requestId)
+    {
+        return success(examinationRequestsService.selectExaminationRequestsByRequestId(requestId));
+    }
 
     /**
      * 新增检查申请
