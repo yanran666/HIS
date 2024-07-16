@@ -82,6 +82,18 @@ public class AppointmentsServiceImpl implements IAppointmentsService
         return AppointmentsMapper.insertRefund(Appointments);
     }
     /**
+     * 新增退费
+     *
+     * @param Appointments 挂号
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int insertFeeRecords(Appointments Appointments)
+    {
+        return AppointmentsMapper.insertFeeRecords(Appointments);
+    }
+    /**
      * 修改挂号
      *
      * @param Appointments 挂号

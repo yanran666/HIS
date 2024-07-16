@@ -50,6 +50,14 @@ public interface IPrescriptionsService
      * @return 结果
      */
     public int insertRefundFromPrescriptionAndAppointment(Prescriptions prescriptions);
+
+    /**
+     * 新增处方到收费记录
+     *
+     * @param prescriptions 处方
+     * @return 结果
+     */
+    public int insertFeeRecordsFromPrescriptionAndAppointment(Prescriptions prescriptions);
     /**
      * 修改处方
      * 

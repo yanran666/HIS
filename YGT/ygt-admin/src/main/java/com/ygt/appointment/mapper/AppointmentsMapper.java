@@ -53,6 +53,14 @@ public interface AppointmentsMapper
     public int insertRefund(Appointments Appointments);
 
     /**
+     * 插入收费记录
+     *
+     * @param Appointments 挂号
+     * @return 结果
+     */
+    public int insertFeeRecords(Appointments Appointments);
+
+    /**
      * 修改挂号
      * 
      * @param Appointments 挂号
