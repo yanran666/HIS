@@ -5,7 +5,7 @@
       ref="queryRef"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
+      label-width="60px"
     >
       <el-form-item label="申请ID" prop="requestId">
         <el-input
@@ -54,56 +54,6 @@
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleAdd"
-          v-hasPermi="['requests:requests:add']"
-          >新增</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['requests:requests:edit']"
-          >修改</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['requests:requests:remove']"
-          >删除</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['requests:requests:export']"
-          >导出</el-button
-        >
-      </el-col>
-      <right-toolbar
-        v-model:showSearch="showSearch"
-        @queryTable="getList"
-      ></right-toolbar>
-    </el-row>
-
     <el-table
       v-loading="loading"
       :data="requestsList"
@@ -157,38 +107,6 @@
       v-model:limit="queryParams.pageSize"
       @pagination="getList"
     />
-
-    <!-- 添加或修改检查申请对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form
-        ref="requestsRef"
-        :model="form"
-        :rules="rules"
-        label-width="80px"
-      >
-        <el-form-item label="挂号ID" prop="appointmentId">
-          <el-input v-model="form.appointmentId" placeholder="请输入挂号ID" />
-        </el-form-item>
-        <el-form-item label="检查编码" prop="examCode">
-          <el-input v-model="form.examCode" placeholder="请输入检查编码" />
-        </el-form-item>
-        <el-form-item label="检查名称" prop="examName">
-          <el-input v-model="form.examName" placeholder="请输入检查名称" />
-        </el-form-item>
-        <el-form-item label="单价" prop="unitPrice">
-          <el-input v-model="form.unitPrice" placeholder="请输入单价" />
-        </el-form-item>
-        <el-form-item label="费用分类" prop="feeCategory">
-          <el-input v-model="form.feeCategory" placeholder="请输入费用分类" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
-        </div>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
