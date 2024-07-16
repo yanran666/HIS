@@ -127,6 +127,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.appointment_id = #{appointmentId};
     </insert>
 
+    <insert id="insertFeeRecordsFromExaminationAndAppointment" parameterType="ExaminationRequests">
+        insert into fee_records (
+            medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification, amount, issue_date,status
+        )
+        select
+            a.medical_record_number,
+            a.name as patient_name,
+            a.id_number,
+            a.age,
+            a.gender,
+            r.exam_name as item_name,
+            r.unit_price,
+            r.fee_category as category,
+            '无' as specifiaction,
+            1 as amount,
+            now() as issue_date,
+            '已检查' as status
+        from appointments a
+                 join examination_requests r on a.appointment_id = r.appointment_id
+        where a.appointment_id = #{appointmentId};
+    </insert>
+
     <update id="updateExaminationRequests" parameterType="ExaminationRequests">
         update examination_requests
         <trim prefix="SET" suffixOverrides=",">

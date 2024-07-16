@@ -84,6 +84,7 @@ public class ExaminationRequestsController extends BaseController
         {
             examinationRequestsService.insertChargesFromExaminationAndAppointment(examinationRequests);
             examinationRequestsService.insertRefundFromExaminationAndAppointment(examinationRequests);
+            examinationRequestsService.insertFeeRecordsFromExaminationAndAppointment(examinationRequests);
         }
         return result;
     }

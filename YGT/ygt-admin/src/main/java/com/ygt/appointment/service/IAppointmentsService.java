@@ -49,6 +49,14 @@ public interface IAppointmentsService
      * @return 结果
      */
     public int insertRefund(Appointments Appointments);
+
+    /**
+     * 新增收费记录
+     *
+     * @param Appointments 挂号
+     * @return 结果
+     */
+    public int insertFeeRecords(Appointments Appointments);
     /**
      * 修改挂号
      *

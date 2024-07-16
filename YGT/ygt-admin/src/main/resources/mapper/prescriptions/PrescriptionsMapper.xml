@@ -96,6 +96,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.appointment_id = #{appointmentId};
     </insert>
 
+    <insert id="insertFeeRecordsFromPrescriptionAndAppointment" parameterType="Prescriptions">
+        insert into fee_records (
+            medical_record_number, patient_name, id_number, age, gender, item_name, unit_price, category, specification, amount, issue_date,status
+        )
+        select
+            a.medical_record_number,
+            a.name as patient_name,
+            a.id_number,
+            a.age,
+            a.gender,
+            p.drug_name as item_name,
+            p.unit_price,
+            '药品' as category,
+            p.drug_specification as specifiaction,
+            1 as amount,
+            now() as issue_date,
+            '已开药' as status
+        from appointments a
+                 join prescriptions p on a.appointment_id = p.appointment_id
+        where a.appointment_id = #{appointmentId};
+    </insert>
+
     <update id="updatePrescriptions" parameterType="Prescriptions">
         update prescriptions
         <trim prefix="SET" suffixOverrides=",">

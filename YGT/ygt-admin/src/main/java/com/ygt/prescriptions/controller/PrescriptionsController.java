@@ -83,6 +83,7 @@ public class PrescriptionsController extends BaseController
         if(result.isSuccess()){
             prescriptionsService.insertChargesFromPrescriptionAndAppointment(prescriptions);
             prescriptionsService.insertRefundFromPrescriptionAndAppointment(prescriptions);
+            prescriptionsService.insertFeeRecordsFromPrescriptionAndAppointment(prescriptions);
         }
         return result;
     }

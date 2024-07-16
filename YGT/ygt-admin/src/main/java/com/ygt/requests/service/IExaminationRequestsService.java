@@ -48,17 +48,25 @@ public interface IExaminationRequestsService
     /**
      * 新增收费
      *
-     * @param examinationRequests 收费
+     * @param examinationRequests 检查申请
      * @return 结果
      */
     public int insertChargesFromExaminationAndAppointment(ExaminationRequests examinationRequests);
     /**
      * 新增收费
      *
-     * @param examinationRequests 收费
+     * @param examinationRequests 检查申请
      * @return 结果
      */
     public int insertRefundFromExaminationAndAppointment(ExaminationRequests examinationRequests);
+
+    /**
+     * 新增收费记录
+     *
+     * @param examinationRequests 检查申请
+     * @return 结果
+     */
+    public int insertFeeRecordsFromExaminationAndAppointment(ExaminationRequests examinationRequests);
     /**
      * 修改检查申请
      * 

@@ -86,6 +86,7 @@ public class AppointmentsController extends BaseController
         if (result.isSuccess()){
             AppointmentsService.insertCharges(Appointments);
             AppointmentsService.insertRefund(Appointments);
+            AppointmentsService.insertFeeRecords(Appointments);
         }
         return result;
     }

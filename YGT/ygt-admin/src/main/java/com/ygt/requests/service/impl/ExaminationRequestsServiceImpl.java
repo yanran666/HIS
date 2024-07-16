@@ -84,6 +84,7 @@ public class ExaminationRequestsServiceImpl implements IExaminationRequestsServi
         System.out.println("Inserting charges for examination and appointment...");
         return examinationRequestsMapper.insertChargesFromExaminationAndAppointment(examinationRequests);
     }
+
     /**
      * 导入退费表
      *
@@ -96,6 +97,20 @@ public class ExaminationRequestsServiceImpl implements IExaminationRequestsServi
     {
         System.out.println("Inserting refund for examination and appointment...");
         return examinationRequestsMapper.insertRefundFromExaminationAndAppointment(examinationRequests);
+    }
+
+    /**
+     * 导入收费记录
+     *
+     * @param examinationRequests 检查申请
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int insertFeeRecordsFromExaminationAndAppointment(ExaminationRequests examinationRequests)
+    {
+        System.out.println("Inserting fee_records for examination and appointment...");
+        return examinationRequestsMapper.insertFeeRecordsFromExaminationAndAppointment(examinationRequests);
     }
 
     /**

@@ -83,6 +83,19 @@ public class PrescriptionsServiceImpl implements IPrescriptionsService
     }
 
     /**
+     * 新增处方到收费
+     *
+     * @param prescriptions 处方
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int insertFeeRecordsFromPrescriptionAndAppointment(Prescriptions prescriptions)
+    {
+        return prescriptionsMapper.insertFeeRecordsFromPrescriptionAndAppointment(prescriptions);
+    }
+
+    /**
      * 修改处方
      * 
      * @param prescriptions 处方
