@@ -100,14 +100,14 @@ public class ExaminationRequestsController extends BaseController
 //        return toAjax(examinationRequestsService.updateExaminationRequests(examinationRequests));
 //    }
 
-//    /**
-//     * 删除检查申请
-//     */
-//    @PreAuthorize("@ss.hasPermi('requests:requests:remove')")
-//    @Log(title = "检查申请", businessType = BusinessType.DELETE)
-//	@DeleteMapping("/{requestIds}")
-//    public AjaxResult remove(@PathVariable Long[] requestIds)
-//    {
-//        return toAjax(examinationRequestsService.deleteExaminationRequestsByRequestIds(requestIds));
-//    }
+    /**
+     * 删除检查申请
+     */
+    @PreAuthorize("@ss.hasPermi('requests:requests:remove')")
+    @Log(title = "检查申请", businessType = BusinessType.DELETE)
+	@DeleteMapping("/{requestIds}")
+    public AjaxResult remove(@PathVariable Long[] requestIds)
+    {
+        return toAjax(examinationRequestsService.deleteExaminationRequestsByRequestIds(requestIds));
+    }
 }

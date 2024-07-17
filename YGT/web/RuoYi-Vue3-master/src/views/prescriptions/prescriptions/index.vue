@@ -1,5 +1,5 @@
 <template>
-  <div class="app-cpreontainer" style="height: 1000px">
+  <div class="app-container" style="height: 1000px">
     <el-form
       class="form1"
       ref="formRef"
@@ -92,14 +92,14 @@ import {
   updatePrescriptions,
 } from "@/api/prescriptions/prescriptions";
 import AddDrugDialog from "@/views/drug/drug/AddDrugDialog.vue";
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
+
 const dialogVisible = ref(false);
 const prescriptionsList = ref([]);
 const loading = ref(true);
 const ids = ref([]);
 const total = ref(0);
-
 const formRef = ref();
 const formData = reactive({
   prescriptionsList: [],
@@ -109,15 +109,31 @@ const queryParams = reactive({
   pageSize: 10,
 });
 
+function resetForm() {
+  if (formRef.value) {
+    formRef.value.resetFields();
+  }
+  formData.prescriptionsList = [];
+}
+
 function handleSelectionChange(selection) {
   ids.value = selection.map((item) => item.prescriptionId);
 }
 
-function handleDelete(row) {
-  const _prescriptionIds = row ? [row.prescriptionId] : ids.value;
-  delPrescriptions(_prescriptionIds).then(() => {
-    getList();
-  });
+function handleDelete() {
+  if (ids.value.length === 0) {
+    ElMessage.warning("请选择要删除的记录");
+    return;
+  }
+  // 删除选中的记录
+  prescriptionsList.value = prescriptionsList.value.filter(
+    (item) => !ids.value.includes(item.prescriptionId)
+  );
+  formData.prescriptionsList = formData.prescriptionsList.filter(
+    (item) => !ids.value.includes(item.prescriptionId)
+  );
+  ids.value = []; // 清空选中的记录
+  ElMessage.success("删除成功");
 }
 
 function getList() {
@@ -136,6 +152,7 @@ function submitForm() {
       .then(() => {
         ElMessage.success("提交成功");
         getList();
+        resetForm();
       })
       .catch((error) => {
         ElMessage.error("提交失败: " + error.message);
@@ -148,8 +165,13 @@ function addDrug(drugs) {
   dialogVisible.value = false;
 }
 
-getList();
+onMounted(() => {
+  resetForm(); // 页面加载时重置表单和表格
+  getList();
+});
+
 </script>
+
 <style>
 .form1 {
   width: 1200px;
