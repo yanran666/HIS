@@ -31,55 +31,6 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleAdd"
-          v-hasPermi="['medicalCheck:medicalCheck:add']"
-          >新增</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['medicalCheck:medicalCheck:edit']"
-          >修改</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['medicalCheck:medicalCheck:remove']"
-          >删除</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['medicalCheck:medicalCheck:export']"
-          >导出</el-button
-        >
-      </el-col>
-      <right-toolbar
-        v-model:showSearch="showSearch"
-        @queryTable="getList"
-      ></right-toolbar>
-    </el-row>
-
     <el-table
       v-loading="loading"
       :data="medicalCheckList"
@@ -108,7 +59,7 @@
         align="center"
         prop="physicalExamination"
       />
-      <el-table-column label="注意事项" align="center" prop="notes" />
+
       <el-table-column label="疾病编码" align="center" prop="diseaseCode" />
       <el-table-column label="疾病名称" align="center" prop="diseaseName" />
       <el-table-column label="国际ICD编码" align="center" prop="icdCode" />
