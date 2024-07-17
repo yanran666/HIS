@@ -7,68 +7,18 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="挂号ID" prop="appointmentId">
+      <el-form-item label="病历ID" prop="medicalRecordId">
         <el-input
-          v-model="queryParams.appointmentId"
-          placeholder="请输入挂号ID"
+          v-model="queryParams.medicalRecordId"
+          placeholder="请输入病历ID"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="医生ID" prop="doctorId">
+      <el-form-item label="姓名" prop="name">
         <el-input
-          v-model="queryParams.doctorId"
-          placeholder="请输入医生ID"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="疾病ID" prop="diseaseId">
-        <el-input
-          v-model="queryParams.diseaseId"
-          placeholder="请输入疾病ID"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="就诊日期" prop="clinicDate">
-        <el-date-picker
-          clearable
-          v-model="queryParams.clinicDate"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择就诊日期"
-        >
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="主诉" prop="chiefComplaint">
-        <el-input
-          v-model="queryParams.chiefComplaint"
-          placeholder="请输入主诉"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="疾病编码" prop="diseaseCode">
-        <el-input
-          v-model="queryParams.diseaseCode"
-          placeholder="请输入疾病编码"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="疾病名称" prop="diseaseName">
-        <el-input
-          v-model="queryParams.diseaseName"
-          placeholder="请输入疾病名称"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="国际ICD编码" prop="icdCode">
-        <el-input
-          v-model="queryParams.icdCode"
-          placeholder="请输入国际ICD编码"
+          v-model="queryParams.name"
+          placeholder="请输入姓名"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -137,6 +87,8 @@
     >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="病历ID" align="center" prop="medicalRecordId" />
+      <el-table-column label="姓名" align="center" prop="name" />
+      <el-table-column label="挂号ID" align="center" prop="appointmentId" />
 
       <el-table-column label="主诉" align="center" prop="chiefComplaint" />
       <el-table-column
@@ -156,6 +108,7 @@
         align="center"
         prop="physicalExamination"
       />
+      <el-table-column label="注意事项" align="center" prop="notes" />
       <el-table-column label="疾病编码" align="center" prop="diseaseCode" />
       <el-table-column label="疾病名称" align="center" prop="diseaseName" />
       <el-table-column label="国际ICD编码" align="center" prop="icdCode" />
@@ -311,6 +264,7 @@ const title = ref("");
 const data = reactive({
   form: {},
   queryParams: {
+    name: null,
     pageNum: 1,
     pageSize: 10,
     appointmentId: null,
@@ -354,6 +308,7 @@ function cancel() {
 function reset() {
   form.value = {
     medicalRecordId: null,
+    name: null,
     appointmentId: null,
     doctorId: null,
     diseaseId: null,
