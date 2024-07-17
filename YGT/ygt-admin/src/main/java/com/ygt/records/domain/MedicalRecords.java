@@ -69,6 +69,8 @@ public class MedicalRecords extends BaseEntity
     /** 疾病类型 */
     private String diseaseType;
 
+    private String name;
+
     public void setMedicalRecordId(Long medicalRecordId) 
     {
         this.medicalRecordId = medicalRecordId;
@@ -222,6 +224,14 @@ public class MedicalRecords extends BaseEntity
         this.recordsList = recordsList;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -242,6 +252,7 @@ public class MedicalRecords extends BaseEntity
             .append("icdCode", getIcdCode())
             .append("diseaseType", getDiseaseType())
             .append("recordList",getRecordsList())
+            .append("name",getName())
             .toString();
     }
 }

@@ -24,12 +24,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectMedicalRecordsVo">
-        select medical_record_id, appointment_id, doctor_id, disease_id, clinic_date, chief_complaint, present_illness_history, treatment_history, past_history, allergy_history, physical_examination, notes, disease_code, disease_name, icd_code, disease_type from medical_records
+        select medical_record_id, appointment_id, doctor_id, disease_id, clinic_date, chief_complaint, present_illness_history, treatment_history, past_history, allergy_history, physical_examination, notes, disease_code, disease_name, icd_code, disease_type,name from medical_records
     </sql>
 
     <select id="selectMedicalRecordsList" parameterType="MedicalRecords" resultMap="MedicalRecordsResult">
         <include refid="selectMedicalRecordsVo"/>
-        <where>  
+        <where>
+            <if test="medicalRecordId != null  and medicalRecordId != ''"> and medical_record_id = #{medicalRecordId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
         </where>
     </select>
     
@@ -39,6 +41,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <insert id="insertMedicalRecords" parameterType="MedicalRecords">
+        <selectKey keyProperty="appointmentId" resultType="java.lang.Long" order="BEFORE">
+            SELECT MAX(appointment_id) FROM appointments
+        </selectKey>
         insert into medical_records
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="medicalRecordId != null">medical_record_id,</if>
@@ -56,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="recordsList != null">
                 disease_code, disease_name, icd_code, disease_type,
             </if>
+            <if test="appointmentId != null"> name,</if>
         </trim>
         <trim prefix="values">
             <foreach collection="recordsList" item="record" separator=",">
@@ -75,8 +81,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <if test="record != null">
                     #{record.diseaseCode}, #{record.diseaseName}, #{record.icdCode}, #{record.diseaseType}
                 </if>
-                )
             </foreach>
+            <if test="appointmentId != null">
+                , (SELECT name FROM appointments WHERE appointment_id = #{appointmentId})
+            </if>
+                )
         </trim>
     </insert>
 
