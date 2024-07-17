@@ -46,18 +46,18 @@ public class DrugController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出药品列表
-     */
-    @PreAuthorize("@ss.hasPermi('drug:drug:export')")
-    @Log(title = "药品", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, Drug drug)
-    {
-        List<Drug> list = drugService.selectDrugList(drug);
-        ExcelUtil<Drug> util = new ExcelUtil<Drug>(Drug.class);
-        util.exportExcel(response, list, "药品数据");
-    }
+//    /**
+//     * 导出药品列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('drug:drug:export')")
+//    @Log(title = "药品", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, Drug drug)
+//    {
+//        List<Drug> list = drugService.selectDrugList(drug);
+//        ExcelUtil<Drug> util = new ExcelUtil<Drug>(Drug.class);
+//        util.exportExcel(response, list, "药品数据");
+//    }
 
     /**
      * 获取药品详细信息
