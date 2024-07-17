@@ -60,15 +60,15 @@ public class PrescriptionsController extends BaseController
 //        util.exportExcel(response, list, "处方数据");
 //    }
 
-    /**
-     * 获取处方详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('prescriptions:prescriptions:query')")
-    @GetMapping(value = "/{prescriptionId}")
-    public AjaxResult getInfo(@PathVariable("prescriptionId") Long prescriptionId)
-    {
-        return success(prescriptionsService.selectPrescriptionsByPrescriptionId(prescriptionId));
-    }
+//    /**
+//     * 获取处方详细信息
+//     */
+//    @PreAuthorize("@ss.hasPermi('prescriptions:prescriptions:query')")
+//    @GetMapping(value = "/{prescriptionId}")
+//    public AjaxResult getInfo(@PathVariable("prescriptionId") Long prescriptionId)
+//    {
+//        return success(prescriptionsService.selectPrescriptionsByPrescriptionId(prescriptionId));
+//    }
 
     /**
      * 新增处方
