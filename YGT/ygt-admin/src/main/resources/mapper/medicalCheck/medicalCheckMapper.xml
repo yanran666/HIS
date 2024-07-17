@@ -30,22 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectmedicalCheckList" parameterType="medicalCheck" resultMap="medicalCheckResult">
         <include refid="selectmedicalCheckVo"/>
-        <where>  
-            <if test="appointmentId != null "> and appointment_id = #{appointmentId}</if>
-            <if test="doctorId != null "> and doctor_id = #{doctorId}</if>
-            <if test="diseaseId != null "> and disease_id = #{diseaseId}</if>
-            <if test="clinicDate != null "> and clinic_date = #{clinicDate}</if>
-            <if test="chiefComplaint != null  and chiefComplaint != ''"> and chief_complaint = #{chiefComplaint}</if>
-            <if test="presentIllnessHistory != null  and presentIllnessHistory != ''"> and present_illness_history = #{presentIllnessHistory}</if>
-            <if test="treatmentHistory != null  and treatmentHistory != ''"> and treatment_history = #{treatmentHistory}</if>
-            <if test="pastHistory != null  and pastHistory != ''"> and past_history = #{pastHistory}</if>
-            <if test="allergyHistory != null  and allergyHistory != ''"> and allergy_history = #{allergyHistory}</if>
-            <if test="physicalExamination != null  and physicalExamination != ''"> and physical_examination = #{physicalExamination}</if>
-            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
-            <if test="diseaseCode != null  and diseaseCode != ''"> and disease_code = #{diseaseCode}</if>
-            <if test="diseaseName != null  and diseaseName != ''"> and disease_name like concat('%', #{diseaseName}, '%')</if>
-            <if test="icdCode != null  and icdCode != ''"> and icd_code = #{icdCode}</if>
-            <if test="diseaseType != null  and diseaseType != ''"> and disease_type = #{diseaseType}</if>
+        <where>
+            <if test="medicalRecordId != null  and medicalRecordId != ''"> and medical_record_id = #{medicalRecordId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
         </where>
     </select>
     
