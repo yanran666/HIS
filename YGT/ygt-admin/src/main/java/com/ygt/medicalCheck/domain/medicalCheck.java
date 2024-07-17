@@ -80,6 +80,8 @@ public class medicalCheck extends BaseEntity
     /** 疾病类型 */
     @Excel(name = "疾病类型")
     private String diseaseType;
+    @Excel(name = "姓名")
+    private String name;
 
     public void setMedicalRecordId(Long medicalRecordId) 
     {
@@ -226,6 +228,14 @@ public class medicalCheck extends BaseEntity
         return diseaseType;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -245,6 +255,7 @@ public class medicalCheck extends BaseEntity
             .append("diseaseName", getDiseaseName())
             .append("icdCode", getIcdCode())
             .append("diseaseType", getDiseaseType())
+            .append("name",getName())
             .toString();
     }
 }

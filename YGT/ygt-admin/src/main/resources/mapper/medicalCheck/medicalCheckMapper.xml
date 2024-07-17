@@ -21,10 +21,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="diseaseName"    column="disease_name"    />
         <result property="icdCode"    column="icd_code"    />
         <result property="diseaseType"    column="disease_type"    />
+        <result property="name"    column="name"    />
     </resultMap>
 
     <sql id="selectmedicalCheckVo">
-        select medical_record_id, appointment_id, doctor_id, disease_id, clinic_date, chief_complaint, present_illness_history, treatment_history, past_history, allergy_history, physical_examination, notes, disease_code, disease_name, icd_code, disease_type from medical_records
+        select medical_record_id, appointment_id, doctor_id, disease_id, clinic_date, chief_complaint, present_illness_history, treatment_history, past_history, allergy_history, physical_examination, notes, disease_code, disease_name, icd_code, disease_type,name from medical_records
     </sql>
 
     <select id="selectmedicalCheckList" parameterType="medicalCheck" resultMap="medicalCheckResult">

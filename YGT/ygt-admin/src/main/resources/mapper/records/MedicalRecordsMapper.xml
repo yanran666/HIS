@@ -21,6 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="diseaseName"    column="disease_name"    />
         <result property="icdCode"    column="icd_code"    />
         <result property="diseaseType"    column="disease_type"    />
+        <result property="name"    column="name"    />
     </resultMap>
 
     <sql id="selectMedicalRecordsVo">
