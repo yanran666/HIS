@@ -82,8 +82,7 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['cancel_appointment:cancel_appointment:remove']"
-          >收费结算</el-button
-        >
+          >收费结算</el-button>
       </el-col>
       <right-toolbar
         v-model:showSearch="showSearch"
@@ -257,17 +256,6 @@ function handleDelete(row) {
       proxy.$modal.msgSuccess("收费成功");
     })
     .catch(() => {});
-}
-
-/** 导出按钮操作 */
-function handleExport() {
-  proxy.download(
-    "charges/charges/export",
-    {
-      ...queryParams.value,
-    },
-    `charges_${new Date().getTime()}.xlsx`
-  );
 }
 </script>
 <style></style>

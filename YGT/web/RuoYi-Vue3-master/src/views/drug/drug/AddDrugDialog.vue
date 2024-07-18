@@ -8,28 +8,48 @@
       label-width="68px"
     >
       <el-form-item label="药品编码" prop="drugCode">
-        <el-input v-model="queryParams.drugCode" placeholder="请输入药品编码" clearable @keyup.enter="handleQuery" />
+        <el-input
+          v-model="queryParams.drugCode"
+          placeholder="请输入药品编码"
+          clearable
+          @keyup.enter="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="药品名称" prop="drugName">
-        <el-input v-model="queryParams.drugName" placeholder="请输入药品名称" clearable @keyup.enter="handleQuery" />
+        <el-input
+          v-model="queryParams.drugName"
+          placeholder="请输入药品名称"
+          clearable
+          @keyup.enter="handleQuery"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery"
+          >搜索</el-button
+        >
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-table v-loading="loading" :data="drugList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="drugList"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="药品ID" align="center" prop="drugId" />
       <el-table-column label="药品编码" align="center" prop="drugCode" />
       <el-table-column label="药品名称" align="center" prop="drugName" />
-      <el-table-column label="药品规格" align="center" prop="drugSpecification" />
+      <el-table-column
+        label="药品规格"
+        align="center"
+        prop="drugSpecification"
+      />
       <el-table-column label="包装单位" align="center" prop="packagingUnit" />
       <el-table-column label="生产厂家" align="center" prop="manufacturer" />
       <el-table-column label="单价" align="center" prop="unitPrice" />
       <el-table-column label="用量" align="center" prop="usage" />
     </el-table>
-    <el-row :gutter="10" class="mb8 bottom-center">
+    <el-row :gutter="10" class="row">
       <el-col>
         <el-button type="primary" @click="confirmAdd">增加</el-button>
         <el-button plain @click="cancel">取消</el-button>
@@ -39,9 +59,7 @@
 </template>
 
 <script setup name="Drug">
-import {
-  listDrug,
-} from "@/api/drug/drug";
+import { listDrug } from "@/api/drug/drug";
 import { getCurrentInstance, reactive, ref, toRefs } from "vue";
 
 const { proxy } = getCurrentInstance();
@@ -102,3 +120,8 @@ function cancel() {
 
 handleQuery();
 </script>
+<style>
+.row {
+  margin: 60px;
+}
+</style>

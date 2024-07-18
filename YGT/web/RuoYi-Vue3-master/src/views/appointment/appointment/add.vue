@@ -8,8 +8,7 @@
         size="large"
         label-width="79px"
         label-position="left"
-        style="background-color:whitesmoke"
-        
+        style="background-color: whitesmoke"
       >
         <el-col :span="24">
           <el-row gutter="10">
@@ -296,7 +295,6 @@
   </div>
 </template>
 <script setup>
-
 import { ElMessage } from "element-plus";
 const formRef = ref();
 import { addAppointment } from "@/api/appointment/appointment";
@@ -311,7 +309,7 @@ const data = reactive({
     address: undefined,
     settlementType: undefined,
     clinicDate: "2024-07-20",
-    session: 1,
+    session: "上午",
     department: undefined,
     registrationType: 1,
     attendingDoctor: undefined,
@@ -319,7 +317,7 @@ const data = reactive({
     usedQuota: 0,
     medicalRecordStatus: true,
     receivableAmount: 50,
-    paymentMethod: 1,
+    paymentMethod: "医保卡",
   },
   rules: {
     medicalRecordNumber: [

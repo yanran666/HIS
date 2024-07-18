@@ -307,7 +307,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList();
-      proxy.$modal.msgSuccess("删除成功");
+      proxy.$modal.msgSuccess("退号成功");
     })
     .catch(() => {});
 }
