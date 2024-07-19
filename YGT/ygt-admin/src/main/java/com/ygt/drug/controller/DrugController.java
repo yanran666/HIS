@@ -37,7 +37,7 @@ public class DrugController extends BaseController
     /**
      * 查询药品列表
      */
-    @PreAuthorize("@ss.hasPermi('drug:drug:list')")
+//    @PreAuthorize("@ss.hasPermi('drug:drug:list')")
     @GetMapping("/list")
     public TableDataInfo list(Drug drug)
     {

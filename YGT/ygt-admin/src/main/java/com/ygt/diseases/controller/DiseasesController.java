@@ -46,59 +46,59 @@ public class DiseasesController extends BaseController
         return getDataTable(list);
     }
 
-//    /**
-//     * 导出疾病列表
-//     */
-//    @PreAuthorize("@ss.hasPermi('diseases:diseases:export')")
-//    @Log(title = "疾病", businessType = BusinessType.EXPORT)
-//    @PostMapping("/export")
-//    public void export(HttpServletResponse response, Diseases diseases)
-//    {
-//        List<Diseases> list = diseasesService.selectDiseasesList(diseases);
-//        ExcelUtil<Diseases> util = new ExcelUtil<Diseases>(Diseases.class);
-//        util.exportExcel(response, list, "疾病数据");
-//    }
-//
-//    /**
-//     * 获取疾病详细信息
-//     */
-//    @PreAuthorize("@ss.hasPermi('diseases:diseases:query')")
-//    @GetMapping(value = "/{diseaseId}")
-//    public AjaxResult getInfo(@PathVariable("diseaseId") Long diseaseId)
-//    {
-//        return success(diseasesService.selectDiseasesByDiseaseId(diseaseId));
-//    }
-//
-//    /**
-//     * 新增疾病
-//     */
-//    @PreAuthorize("@ss.hasPermi('diseases:diseases:add')")
-//    @Log(title = "疾病", businessType = BusinessType.INSERT)
-//    @PostMapping
-//    public AjaxResult add(@RequestBody Diseases diseases)
-//    {
-//        return toAjax(diseasesService.insertDiseases(diseases));
-//    }
-//
-//    /**
-//     * 修改疾病
-//     */
-//    @PreAuthorize("@ss.hasPermi('diseases:diseases:edit')")
-//    @Log(title = "疾病", businessType = BusinessType.UPDATE)
-//    @PutMapping
-//    public AjaxResult edit(@RequestBody Diseases diseases)
-//    {
-//        return toAjax(diseasesService.updateDiseases(diseases));
-//    }
-//
-//    /**
-//     * 删除疾病
-//     */
-//    @PreAuthorize("@ss.hasPermi('diseases:diseases:remove')")
-//    @Log(title = "疾病", businessType = BusinessType.DELETE)
-//	@DeleteMapping("/{diseaseIds}")
-//    public AjaxResult remove(@PathVariable Long[] diseaseIds)
-//    {
-//        return toAjax(diseasesService.deleteDiseasesByDiseaseIds(diseaseIds));
-//    }
+    /**
+     * 导出疾病列表
+     */
+    @PreAuthorize("@ss.hasPermi('diseases:diseases:export')")
+    @Log(title = "疾病", businessType = BusinessType.EXPORT)
+    @PostMapping("/export")
+    public void export(HttpServletResponse response, Diseases diseases)
+    {
+        List<Diseases> list = diseasesService.selectDiseasesList(diseases);
+        ExcelUtil<Diseases> util = new ExcelUtil<Diseases>(Diseases.class);
+        util.exportExcel(response, list, "疾病数据");
+    }
+
+    /**
+     * 获取疾病详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('diseases:diseases:query')")
+    @GetMapping(value = "/{diseaseId}")
+    public AjaxResult getInfo(@PathVariable("diseaseId") Long diseaseId)
+    {
+        return success(diseasesService.selectDiseasesByDiseaseId(diseaseId));
+    }
+
+    /**
+     * 新增疾病
+     */
+    @PreAuthorize("@ss.hasPermi('diseases:diseases:add')")
+    @Log(title = "疾病", businessType = BusinessType.INSERT)
+    @PostMapping
+    public AjaxResult add(@RequestBody Diseases diseases)
+    {
+        return toAjax(diseasesService.insertDiseases(diseases));
+    }
+
+    /**
+     * 修改疾病
+     */
+    @PreAuthorize("@ss.hasPermi('diseases:diseases:edit')")
+    @Log(title = "疾病", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public AjaxResult edit(@RequestBody Diseases diseases)
+    {
+        return toAjax(diseasesService.updateDiseases(diseases));
+    }
+
+    /**
+     * 删除疾病
+     */
+    @PreAuthorize("@ss.hasPermi('diseases:diseases:remove')")
+    @Log(title = "疾病", businessType = BusinessType.DELETE)
+	@DeleteMapping("/{diseaseIds}")
+    public AjaxResult remove(@PathVariable Long[] diseaseIds)
+    {
+        return toAjax(diseasesService.deleteDiseasesByDiseaseIds(diseaseIds));
+    }
 }

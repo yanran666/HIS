@@ -66,7 +66,7 @@
       <el-form-item label="诊断">
         <div>
           <el-table
-            v-loading="loading"
+            
             :data="recordsList"
             @selection-change="handleSelectionChange"
           >
